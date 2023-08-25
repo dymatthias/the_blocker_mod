@@ -1,0 +1,79 @@
+
+has_ruling_class = {
+	exists = owner
+	owner = {
+		OR = {
+			has_authority = auth_corporate
+			has_authority = auth_oligarchic
+			has_authority = auth_dictatorial
+			has_civic = civic_aristocratic_elite
+			has_civic = civic_merchant_guilds
+			has_civic = civic_mining_guilds
+			has_civic = civic_barbaric_despoilers
+			has_civic = civic_distinguished_admiralty
+			has_civic = civic_exalted_priesthood
+			has_civic = civic_feudal_realm
+			has_civic = civic_pleasure_seekers
+			has_civic = civic_police_state
+			has_civic = civic_shared_burden
+			has_civic = civic_technocracy
+		}
+	}
+}
+
+is_colonist = {
+	has_job = colonist
+}
+
+has_dyson_sphere = {
+	any_owned_megastructure = {
+		OR = {
+			is_megastructure_type = dyson_sphere_1
+			is_megastructure_type = dyson_sphere_2
+			is_megastructure_type = dyson_sphere_3
+			is_megastructure_type = dyson_sphere_4
+			is_megastructure_type = dyson_sphere_5
+			is_megastructure_type = dyson_sphere_5
+			is_megastructure_type = dyson_sphere_permanently_ruined
+			is_megastructure_type = dyson_sphere_ruined
+			is_megastructure_type = dyson_sphere_restored
+		}
+	}
+}
+
+num_miners = {
+	has_job = miner
+}
+
+num_mines = {
+	has_district = district_mining
+}
+
+tree_feature = {
+	OR = {
+			is_deposit_type = d_dense_jungle
+			is_deposit_type = d_rugged_woods
+			is_deposit_type = d_lush_jungle
+			is_deposit_type = d_taiga
+			is_deposit_type = d_mountain_jungle
+			is_deposit_type = d_scrubland
+	}
+}
+
+num_trees = {
+	
+}
+
+can_collapse = {
+	OR = {
+		is_deposit_type = d_ore_rich_caverns
+		is_deposit_type = d_fungal_caves
+	}
+}
+
+has_mine_shafts = {
+	OR = {
+		has_deposit = d_ore_rich_caverns
+		has_deposit = d_fungal_caves		
+	}
+}
