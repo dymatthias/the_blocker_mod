@@ -1,0 +1,3034 @@
+### The Blocker Mod - Custom Features
+
+@high = 16
+@med = 8
+@low = 4
+@very_low = 2	# Added by TBM to help with some spawning
+@none = 0.01	# Needs small amount of weight or will cause problems.
+
+@high_rare = 0.5
+@mid_rare = 0.25
+@low_rare = 0.1
+
+@planet_type_bonus = 1.5
+
+@blocker_high = 10
+@blocker_low = 5
+
+### TBM Custom Features - Natural (these can spawn)
+
+d_fjordland = {
+	time = 1200
+	
+	is_for_colonizable = yes
+	should_swap_deposit_on_terraforming = yes
+	category = deposit_cat_minerals
+	icon = d_fjordland
+
+	use_for_min_max_adjustments = yes
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 2500
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -3
+		district_mining_max = 1
+		planet_amenities_mult = 0.05
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 1000
+			}
+		}
+	}
+
+	prerequisites = { "tech_terrestrial_sculpting"	}
+
+	drop_weight = {
+		weight = @very_low
+
+		modifier = {
+			factor = 2
+			planet_size < 15
+			NOT = {
+				is_moon = yes
+			}
+		}
+
+		modifier = {
+			factor = 4
+			OR = {
+				is_planet_class = pc_alpine
+				is_planet_class = pc_tundra
+				is_planet_class = pc_arctic
+				is_planet_class = pc_gaia	
+			}		
+		}
+		modifier = {
+			factor = 1.5
+			OR = {
+				is_planet_class = pc_continental
+				is_planet_class = pc_ocean
+			}
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_dry = yes
+				is_planet_class = pc_tropical
+			}
+		}
+
+		modifier = {
+			factor = 2
+			has_planet_modifier = pm_low_gravity
+		}
+
+		modifier = {
+			factor = 2
+			has_planet_modifier = pm_mineral_rich
+		}
+		modifier = {
+			factor = 0.5
+			OR = {
+				has_planet_modifier = pm_mineral_poor
+				has_planet_modifier = pm_asteroid_impacts
+			}
+		}
+		modifier = {
+			factor = 0
+			has_planet_modifier = pm_high_gravity
+		}
+	}
+}
+
+d_mire = {
+	time = 360
+	
+	is_for_colonizable = yes
+	should_swap_deposit_on_terraforming = yes
+	category = deposit_cat_food
+
+	use_for_min_max_adjustments = yes
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 600
+		}
+	}
+	
+	planet_modifier = {
+		planet_max_districts_add = -1
+		planet_jobs_food_produces_mult = 0.05
+		pop_amenities_usage_mult = 0.1
+	}
+
+	drop_weight = {
+		weight = @blocker_low
+
+		modifier = {
+			factor = 4
+			planet_size > 20
+		}
+		modifier = {
+			factor = 2
+			planet_size > 15
+		}
+		modifier = {
+			factor = 0.5
+			planet_size < 13
+		}
+
+		modifier = {
+			factor = 2
+			OR = {
+				is_planet_class = pc_tundra
+				is_planet_class = pc_alpine
+				is_planet_class = pc_continental
+				is_planet_class = pc_ocean
+				is_planet_class = pc_tropical
+			}
+		}
+		modifier = {
+			factor = 0.5
+			is_planet_class = pc_savannah
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = pc_desert
+				is_planet_class = pc_arctic
+				is_planet_class = pc_gaia
+			}
+		}
+
+		modifier = {
+			factor = 2
+			OR = {
+				has_deposit = d_highlands
+				has_deposit = d_steppe_uplands
+				has_deposit = d_boggy_fens
+				has_deposit = d_dense_jungle
+				has_deposit = d_taiga
+				has_deposit = d_rugged_woods
+			}
+		}
+
+		modifier = {
+			factor = 2
+			is_planet_class = pc_nuked
+		}
+
+
+	}
+}
+
+d_sandstone_spires = {
+	time = 450
+	
+	is_for_colonizable = yes
+	should_swap_deposit_on_terraforming = yes
+	category = deposit_cat_minerals_rare
+
+	use_for_min_max_adjustments = yes
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 1000
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		planet_jobs_minerals_produces_mult = 0.05
+		planet_amenities_mult = 0.1
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		planet_colonist_minerals_produces_add = 1
+		planet_colonist_engineering_research_produces_add = 4
+	}
+
+	on_cleared = {
+		#Jawas
+		owner = {
+			add_resource = {
+				minerals = 1000
+			}
+		}
+	}
+
+	drop_weight = {
+		weight = @low
+
+		modifier = {
+			factor = 4
+			is_dry = yes
+		}
+
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = pc_tropical
+				is_planet_class = pc_arctic
+			}
+		}
+
+		modifier = {
+			factor = 2
+			has_planet_modifier = pm_low_gravity
+		}
+	}
+}
+
+# Currently disabled.
+# d_gas_vents = {
+# 	# Currently not finished, entirely an event feature, will not spawn at present.
+
+# 	potential = { always = no }
+# }
+
+d_natural_gardens = {
+	
+	is_for_colonizable = yes
+	should_swap_deposit_on_terraforming = yes
+	category = deposit_cat_food_rare
+
+	use_for_min_max_adjustments = yes
+
+	planet_modifier = {
+		planet_jobs_food_produces_mult = 0.05
+		planet_amenities_mult = 0.1
+		planet_clerks_unity_produces_add = 1
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_food_produces_add = 4
+			planet_colonist_unity_produces_add = 2
+		}
+	}
+
+	potential = { is_planet_class = pc_gaia }
+
+	drop_weight = {
+		weight = @med
+	}
+}
+
+d_steppe_uplands = {
+	time = 2200
+	
+	is_for_colonizable = yes
+	should_swap_deposit_on_terraforming = yes
+	category = deposit_cat_food
+
+	use_for_min_max_adjustments = yes
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 1500
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -2
+		district_mining_max = 1
+		district_generator_max = 1
+		planet_jobs_produces_mult = 0.05
+	}
+
+	prerequisites = { "tech_terrestrial_sculpting" }
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 1000
+			}
+		}
+	}
+
+	drop_weight = {
+		weight = @med
+
+		modifier = {
+			factor = 2
+			OR = {
+				is_planet_class = pc_savannah
+				is_planet_class = pc_arid
+			}
+		}
+		modifier = {
+			factor = 0.5
+			OR = {
+				is_planet_class = pc_arctic
+				is_planet_class = pc_tropical
+			}
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = pc_ocean
+				is_planet_class = pc_desert
+				is_planet_class = pc_nuked
+			}
+		}
+
+		modifier = {
+			factor = 2
+			has_deposit = d_mineral_fields
+		}
+	}
+}
+
+d_glacier_lake = {
+	time = 480
+	
+	is_for_colonizable = yes
+	should_swap_deposit_on_terraforming = yes
+	category = deposit_cat_food
+
+	use_for_min_max_adjustments = yes
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 1500
+			minerals = 250
+		}
+	}
+
+	prerequisites = {
+		"tech_terrestrial_sculpting"
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -2
+		district_farming_max = 1
+		planet_amenities_add = 5
+	}
+
+	triggered_planet_modifier = {
+		potential = { owner = { has_civic = civic_anglers }}
+		modifier = {
+			planet_farmers_food_produces_mult = 0.1		# This is slightly easier than adding _produces modifiers to anglers, mainly for compatibility reasons. In effect, you can catch fish here.
+		}
+	}
+
+	drop_weight = {
+		weight = @low
+
+		modifier = {
+			factor = 2
+			is_cold = yes
+		}
+		modifier = {
+			factor = 0.5
+			is_planet_class = pc_ocean
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_dry = yes
+				is_planet_class = pc_tropical
+			}
+		}
+
+		modifier = {
+			factor = 4
+			has_deposit = d_massive_glacier
+		}
+	}
+}
+
+d_giant_tree  = {
+	time = 360
+	
+	is_for_colonizable = yes
+	should_swap_deposit_on_terraforming = yes
+	category = deposit_cat_food
+
+	use_for_min_max_adjustments = yes
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 300
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		planet_jobs_food_produces_mult = 0.1
+		planet_jobs_minerals_produces_mult = 0.1
+		planet_amenities_mult = 0.1	
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_society_research_produces_add = 4
+		}
+	}
+
+	on_cleared = {
+		add_resource = {
+			minerals = 1000
+		}
+	}
+
+	drop_weight = {
+		weight = @very_low
+
+		modifier = {
+			factor = 4
+			is_planet_class = pc_gaia
+		}
+
+		modifier = {
+			factor = 2
+			OR = {
+				is_planet_class = pc_tropical
+				is_planet_class = pc_savannah
+			}
+		}
+		modifier = {
+			factor = 0.5
+			is_planet_class = pc_alpine
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = pc_ocean
+				is_planet_class = pc_arid
+				is_planet_class = pc_desert
+				is_planet_class = pc_arctic
+				is_planet_class = pc_tundra
+			}
+		}
+
+		modifier = {
+			factor = 2
+			has_deposit = d_lush_jungle
+		}
+	}
+}
+
+d_sea_monster = {
+
+	is_for_colonizable = yes
+	should_swap_deposit_on_terraforming = yes
+	category = deposit_category_gaia
+
+	use_for_min_max_adjustments = yes
+
+	planet_modifier = {
+		planet_jobs_food_produces_mult = -0.05
+		trade_value_mult = -0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			owner.species = { has_trait = trait_aquatic	}
+		}
+		modifier = {
+			planet_max_districts_add = -3
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			owner = { has_civic = civic_anglers }
+		}
+		modifier = {
+			planet_farmers_food_produces_mult = -0.2
+		}
+	}
+
+	potential = {
+		OR = {
+			is_planet_class = pc_ocean
+			is_planet_class = pc_continental
+			is_planet_class = pc_arctic
+			is_planet_class = pc_gaia
+			#is_planet_class = pc_pdaquatic
+		}
+	}
+
+	drop_weight = {
+		weight = @blocker_low
+
+		modifier = {
+			factor = 0.1
+			OR = {
+				is_planet_class = pc_continental
+				is_planet_class = pc_gaia
+			}
+		}
+	}
+}
+
+d_great_lake = {
+	time = 480
+	
+	is_for_colonizable = yes
+	should_swap_deposit_on_terraforming = yes
+	category = deposit_cat_food
+
+	use_for_min_max_adjustments = yes
+
+	prerequisites = {
+		"tech_terrestrial_sculpting"
+	}
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 1500
+			minerals = 800
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -2
+		district_farming_max = 1
+		planet_amenities_add = 5
+	}
+	
+	triggered_planet_modifier = {
+		potential = { 
+			owner = { 
+				has_civic = civic_anglers 
+			}
+		}
+		modifier = {
+			planet_farmers_food_produces_mult = 0.1		# This is slightly easier than adding _produces modifiers to anglers, mainly for compatibility reasons. In effect, you can catch fish here.
+		}
+	}
+
+	drop_weight = {
+		weight = @low
+
+		modifier = {
+			factor = 2
+			is_wet = yes
+		}
+		modifier = {
+			factor = 0.5
+			OR = {
+				is_planet_class = pc_tundra
+				is_planet_class = pc_alpine
+				is_planet_class = pc_savannah
+			}
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = pc_desert
+				is_planet_class = pc_arid
+				is_planet_class = pc_arctic
+				is_planet_class = pc_ocean
+			}
+		}
+	}
+}
+
+d_floodplains = {
+	time = 360
+	
+	is_for_colonizable = yes
+	should_swap_deposit_on_terraforming = yes
+	category = deposit_cat_food
+	icon = d_natural_farmland
+
+	use_for_min_max_adjustments = yes
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			energy = 500
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		district_farming_max = 1
+	}
+
+	potential = {
+		OR = {
+			is_planet_class = pc_savannah
+			is_planet_class = pc_desert
+			is_planet_class = pc_continental
+			is_planet_class = pc_alpine
+			is_planet_class = pc_tundra
+			is_planet_class = pc_gaia
+		}
+	}
+
+	drop_weight = {
+		weight = @blocker_low
+
+		modifier = {
+			factor = 2
+			OR = {
+				is_planet_class = pc_savannah
+				is_planet_class = pc_continental
+				is_planet_class = pc_desert
+			}
+		}
+		modifier = {
+			factor = 0.5
+			OR = {
+				is_planet_class = pc_alpine
+				is_planet_class = pc_tundra
+			}
+		}
+
+		modifier = {
+			factor = 2
+			has_deposit = d_great_river
+		}
+
+	}
+}
+
+d_tidal_marshes = {
+	time = 360
+	
+	is_for_colonizable = yes
+	should_swap_deposit_on_terraforming = yes
+	category = deposit_cat_food
+
+	# blocker_swap_types = {
+	# 	d_dyke
+	# }
+
+	use_weights_for_blocker_swap_types = no
+	
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 500
+			minerals = 200
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		district_farming_max = 1
+		district_generator_max = 1
+		pop_happiness = -0.05
+	}
+
+	potential = {
+		OR = {
+			is_planet_class = pc_continental
+			is_planet_class = pc_ocean
+			is_planet_class = pc_gaia
+		}
+	}
+
+	drop_weight = {
+		weight = @med
+
+		modifier = {
+			factor = 4
+			has_deposit = d_fertile_delta
+		}
+	}
+}
+
+# Diabled until Phase 2
+# d_sheltered_bay = {
+		
+# 	is_for_colonizable = yes
+# 	should_swap_deposit_on_terraforming = yes
+# 	category = deposit_category_gaia
+
+# 	use_for_min_max_adjustments = yes
+
+# 	planet_modifier = {
+# 		planet_max_districts_add = 1
+# 		district_farming_max = 1
+# 		planet_amenities_mult = 0.05
+# 	}
+
+# 	drop_weight = {
+# 		weight = @blocker_low
+
+# 		modifier = {
+# 			factor = 2
+# 			OR = {
+# 				is_planet_class = pc_continental
+# 				is_planet_class = pc_gaia
+# 				is_planet_class = pc_ocean
+# 			}
+# 		}
+# 		modifier = {
+# 			factor = 0.5
+# 			OR = {
+# 				is_planet_class = pc_tropical
+# 				is_planet_class = pc_alpine
+# 				is_planet_class = pc_tundra
+# 				is_planet_class = pc_nuked
+# 			}
+# 		}
+# 		modifier = {
+# 			factor = 0
+# 			is_dry = yes
+# 		}
+# 	}
+# }
+
+d_basaltic_outcrops = {
+	time = 360
+	
+	is_for_colonizable = yes
+	should_swap_deposit_on_terraforming = yes
+	category = deposit_cat_minerals
+
+	use_for_min_max_adjustments = yes
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 800
+		}
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 500
+			}
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		district_mining_max = 1
+		planet_metallurgists_minerals_upkeep_add = -1
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_engineering_research_produces_add = 2
+		}
+	}
+
+	drop_weight = {
+		weight = @med
+
+		modifier = {
+			factor = 2
+			is_cold = yes
+		}
+		modifier = {
+			factor = 0
+			is_planet_class = pc_tropical
+		}
+
+		modifier = {
+			factor = 2
+			OR = {
+				has_deposit = d_active_volcano
+				has_deposit = d_volcanic_island	
+			}
+		}
+		modifier = {
+			factor = 2
+			has_planet_modifier = pm_unstable_tectonics
+		}
+	}
+}
+
+d_volcanic_island = {
+	time = 1200
+	
+	is_for_colonizable = yes
+	should_swap_deposit_on_terraforming = yes
+	category = deposit_cat_energy
+	icon = d_ocean
+
+	use_for_min_max_adjustments = yes
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 2000
+		}
+	}
+
+	prerequisites = {
+		"tech_volcano"
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 500
+			}
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1	# This is cancelled out if Aquatic
+		planet_technician_energy_produces_mult = 0.05
+		planet_jobs_food_produces_mult = 0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			owner.species = { has_trait = trait_aquatic }
+		}
+		modifier = {
+			planet_max_districts_add = 1
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_engineering_research_produces_add = 2
+		}
+	}
+
+	potential = {
+		is_wet = yes
+	}
+
+	drop_weight = {
+		weight = @med
+
+		modifier = {
+			factor = 4
+			is_planet_class = pc_ocean
+		}
+	}
+}
+
+d_volcanic_soil = {
+	time = 90
+
+	is_for_colonizable = yes
+	should_swap_deposit_on_terraforming = yes
+	category = deposit_cat_food
+	icon = d_black_soil
+
+	use_for_min_max_adjustments = yes
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 400
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		district_farming_max = 1
+		planet_farmers_food_produces_mult = 0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_society_research_produces_add = 2
+		}
+	}
+
+	drop_weight = {
+		weight = @low
+
+		modifier = {
+			factor = 5
+			OR = {
+				has_deposit = d_active_volcano
+				has_deposit = d_volcanic_island
+			}
+		}
+	}
+}
+
+d_volcanic_ash = {
+	time = 360
+	
+	is_for_colonizable = yes
+	should_swap_deposit_on_terraforming = yes
+	category = deposit_cat_blockers
+	icon = d_rubble
+
+	use_for_min_max_adjustments = yes
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			energy = 500
+		}
+	}
+	
+	planet_modifier = {
+		planet_max_districts_add = -1
+		planet_amenities_mult = -0.15
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			has_job = colonist
+		}
+		modifier = {
+			planet_colonist_physics_research_produces_add = 2
+		}
+	}
+
+	drop_weight = {
+		weight = @none
+
+		modifier = {
+			add = 66
+			OR = {
+				has_deposit = d_volcanic_island
+				has_deposit = d_active_volcano
+			}
+		}
+	}
+}
+
+d_fish_shoals = {
+	time = 180
+	
+	is_for_colonizable = yes
+	should_swap_deposit_on_terraforming = yes
+	category = deposit_cat_food
+	icon = d_ocean
+
+	use_for_min_max_adjustments = yes
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				food = 500
+			}
+		}
+	}
+
+	planet_modifier = {
+		planet_jobs_food_produces_mult = 0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_food_produces_add = 2
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			owner = { has_civic = civic_anglers	}
+		}
+		modifier = {
+			district_farming_max = 1
+			planet_jobs_food_produces_mult = 0.05
+		}
+	}
+
+	potential = {
+		OR = {
+			is_wet = yes
+			is_planet_class = pc_gaia
+			is_planet_class = pc_arctic
+		}
+	}
+
+	drop_weight = {
+		weight = @med
+
+		modifier = {
+			factor = 4
+			OR = {
+				is_planet_class = pc_ocean
+				is_planet_class = pc_gaia
+			}
+		}
+		modifier = {
+			factor = 2
+			OR = {
+				is_planet_class = pc_continental
+				is_planet_class = pc_tropical
+			}
+		}
+	}
+
+}
+
+d_tbm_impact_crater = {
+	time = 180
+	
+	is_for_colonizable = yes
+	should_swap_deposit_on_terraforming = yes
+	category = deposit_cat_minerals
+	icon = d_ocean
+
+	use_for_min_max_adjustments = yes
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 500
+			minerals = 500
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		district_mining_max = 1
+		planet_miners_minerals_produces_mult = 0.05	
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_engineering_research_produces_add = 2		
+		}
+	}
+
+	drop_weight = {
+		weight = @low
+
+		modifier = {
+			factor = 2
+			has_planet_modifier = pm_asteroid_belt			
+		}
+		modifier = {
+			factor = 2
+			has_planet_modifier = pm_asteroid_impacts
+		}
+		modifier = {
+			factor = 2
+			has_planet_modifier = pm_high_gravity
+		}
+		modifier = {
+			factor = 1.5
+			has_ring = yes
+		}
+		modifier = {
+			factor = 1.5
+			has_moon = yes
+		}
+	}
+}
+
+d_frozen_wasteland = {
+
+	time = 3600
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+
+	category = deposit_cat_energy
+
+	use_weights_for_terraforming_swap_types = yes
+	should_swap_deposit_on_terraforming = yes
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 1000
+		}
+	}
+
+	prerequisites = { "tech_housing_2" }
+	
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 200
+			}
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -3
+		district_generator_max = 1
+		planet_buildings_cost_mult = 0.2
+		pop_happiness = -0.05
+	}
+
+	potential = {
+		OR = {
+			is_cold = yes
+			is_planet_class = pc_nuked
+		}
+	}
+
+	drop_weight = {
+		weight = @very_low
+		
+		modifier = {
+			factor = 4
+			planet_size > 20
+		}
+		modifier = {
+			factor = 2
+			planet_size > 15
+		}
+		modifier = {
+			factor = 0.5
+			planet_size < 13
+		}
+		
+		modifier = {
+			factor = 2
+			OR = {
+				is_planet_class = pc_tundra
+				is_planet_class = pc_arctic
+			}
+		}
+		modifier = {
+			factor = 4
+			is_planet_class = pc_nuked
+		}
+	}
+}
+
+d_mountain_jungle = {
+	time = 900
+
+	icon = d_old_mountain
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+
+	category = deposit_cat_food
+
+	use_weights_for_terraforming_swap_types = yes
+	should_swap_deposit_on_terraforming = yes
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			energy = 1000
+		}
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 500
+				food = 400
+			}
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -2
+		planet_amenities_add = 5
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_society_research_produces_add = 2
+			planet_colonist_food_produces_add = 1
+		}
+	}
+
+	potential = {
+		OR = {
+			is_planet_class = pc_alpine
+			is_planet_class = pc_ocean
+			is_planet_class = pc_continental
+			is_planet_class = pc_arid
+			is_planet_class = pc_gaia
+			is_planet_class = pc_nuked
+		}
+	}
+
+	drop_weight = {
+		weight = @med
+
+		modifier = {
+			factor = 4
+			planet_size > 20
+		}
+		modifier = {
+			factor = 2
+			planet_size > 15
+		}
+		modifier = {
+			factor = 0.5
+			planet_size < 13
+		}
+
+		modifier = {
+			factor = 2
+			OR = {
+				is_planet_class = pc_gaia
+				is_planet_class = pc_alpine
+			}
+		}
+		modifier = {
+			factor = 0.5
+			is_planet_class = pc_arid
+		}
+		modifier = {
+			factor = 0.1
+			is_planet_class = pc_nuked
+		}
+
+		modifier = {
+			factor = 5
+			has_planet_modifier = pm_lush
+		}
+	}
+}
+
+# Tree feature for cold worlds
+d_taiga = {
+	time = 800
+
+	icon = d_old_infestation
+	
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+
+	category = deposit_cat_food
+
+	use_weights_for_terraforming_swap_types = yes
+	should_swap_deposit_on_terraforming = yes
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			energy = 800
+		}
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 500
+				food = 200
+			}
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -2
+		planet_jobs_food_produces_mult = 0.05
+		pop_happiness = -0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			has_job = colonist
+		}
+		modifier = {
+			planet_colonist_food_produces_add = 2
+		}
+	}
+
+	drop_weight = {
+		weight = @med
+
+		modifier = {
+			factor = 4
+			planet_size > 20
+		}
+		modifier = {
+			factor = 2
+			planet_size > 15
+		}
+		modifier = {
+			factor = 0.5
+			planet_size < 13
+		}
+
+		modifier = {
+			factor = 2
+			is_planet_class = pc_tundra
+		}
+		modifier = {
+			factor = 0.5
+			OR = {
+				is_planet_class = pc_gaia
+				is_planet_class = pc_arctic
+			}
+		}
+		modifier = {
+			factor = 0.1
+			OR = {
+				is_planet_class = pc_nuked
+				is_planet_class = pc_tropical
+				is_planet_class = pc_ocean
+				is_dry = yes
+			}
+		}
+
+		modifier = {
+			factor = 5
+			has_planet_modifier = pm_lush
+		}
+		modifier = {
+			factor = 2
+			has_deposit = d_rugged_woods
+		}
+	}
+}
+
+# Tree freature for dry worlds (not desert)
+d_scrubland = {
+	time = 180
+	
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+
+	category = deposit_cat_food
+
+	use_weights_for_terraforming_swap_types = yes
+	should_swap_deposit_on_terraforming = yes
+
+	planet_modifier = {
+		planet_max_districts_add = -2
+		planet_jobs_food_produces_mult = 0.05
+		pop_housing_usage_mult = -0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_food_produces_add = 2
+		}
+	}
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			energy = 400
+		}
+	}
+
+	on_cleared = {
+		add_resource = {
+			minerals = 200
+			food = 200
+		}
+	}
+
+	potential = {
+		OR = {
+			is_dry = yes
+			is_planet_class = pc_continental
+			is_planet_class = pc_gaia
+			is_planet_class = pc_nuked
+		}
+	}
+
+	drop_weight = {
+		weight = @med
+
+		modifier = {
+			factor = 4
+			planet_size > 20
+		}
+		modifier = {
+			factor = 2
+			planet_size > 15
+		}
+		modifier = {
+			factor = 0.5
+			planet_size < 13
+		}
+
+		modifier = {
+			factor = 4
+			is_planet_class = pc_savannah
+		}
+		modifier = {
+			factor = 2
+			is_planet_class = pc_gaia
+		}
+		modifier = {
+			factor = 0.5
+			is_planet_class = pc_desert
+		}
+		modifier = {
+			factor = 0.1
+			is_planet_class = pc_nuked
+		}
+
+		modifier = {
+			factor = 5
+			has_planet_modifier = pm_lush
+		}
+	}
+}
+
+# Disable for Phase 1
+# d_great_valley = {
+		
+# 	is_for_colonizable = yes
+# 	use_for_min_max_adjustments = yes
+
+# 	category = deposit_category_gaia
+
+# 	use_weights_for_terraforming_swap_types = yes
+# 	should_swap_deposit_on_terraforming = yes
+
+# 	icon = d_wide_valley
+
+# 	planet_modifier = {
+# 		district_farming_max = 2
+# 		planet_farmers_food_produces_mult = 0.1
+# 	}
+
+# 	drop_weight = {
+# 		weight = @very_low
+
+# 		modifier = {
+# 			add = 40
+# 			is_planet_class = pc_gaia
+# 		}
+# 	}
+# }
+
+# Disabled for Phase 1
+# d_wide_valley = {
+		
+# 	is_for_colonizable = yes
+# 	use_for_min_max_adjustments = yes
+
+# 	category = deposit_category_gaia
+
+# 	use_weights_for_terraforming_swap_types = yes
+# 	should_swap_deposit_on_terraforming = yes
+
+# 	planet_modifier = {
+# 		district_farming_max = 1
+# 	}
+
+# 	drop_weight = {
+# 		weight = @med
+
+# 		modifier = {
+# 			factor = 0.25
+# 			OR = {
+# 				is_planet_class = pc_arid
+# 				is_planet_class = pc_arctic
+# 				is_planet_class = pc_tropical
+# 				is_planet_class = pc_tundra
+# 			}
+# 		}
+# 		modifier = {
+# 			factor = 0
+# 			OR = {
+# 				is_planet_class = pc_ocean
+# 				is_planet_class = pc_desert
+# 			}
+# 		}
+
+# 		modifier = {
+# 			factor = 2
+# 			has_deposit = d_great_river
+# 		}
+# 	}
+# }
+
+d_barren = {
+	time = 360
+	
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+
+	category = deposit_cat_blockers
+
+	use_weights_for_terraforming_swap_types = yes
+	should_swap_deposit_on_terraforming = yes
+
+	use_weights_for_blocker_swap_types = yes
+
+	prerequisites = {
+		"tech_quicksand_basin"
+	}
+
+	on_cleared = {
+		custom_tooltip = tooltip_clear_barren
+		hidden_effect = {
+			add_from_barren = yes
+		}
+	}
+
+	planet_modifier = {
+		planet_farmers_food_produces_mult = -0.1
+		planet_miners_minerals_produces_mult = -0.1
+		planet_amenities_mult = -0.05
+	}
+
+	drop_weight = {
+		weight = @med
+	}
+}
+
+d_fertile_delta = {
+	time = 1500
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+
+	category = deposit_cat_food
+
+	use_weights_for_terraforming_swap_types = yes
+	should_swap_deposit_on_terraforming = yes
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 2000
+		}
+	}
+
+	prerequisites = {
+		"tech_terrestrial_sculpting"
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		planet_jobs_food_produces_mult = 0.05
+		district_farming_max = 1
+		district_generator_max = 1
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_physics_research_produces_add = 2
+		}
+	}
+
+	drop_weight = {
+		weight = @low
+
+		modifier = {
+			factor = 2
+			OR = {
+				is_planet_class = pc_continental
+				is_planet_class = pc_tundra
+				is_planet_class = pc_savannah
+			}
+		}
+		modifier = {
+			factor = 0.5
+			is_planet_class = pc_arctic
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = pc_alpine
+				is_planet_class = pc_nuked
+			}
+		}
+		
+		modifier = {
+			factor = 5
+			has_deposit = d_great_river
+		}
+	}
+}
+
+d_drylands = {
+	time = 720
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+
+	category = deposit_cat_energy
+
+	use_weights_for_terraforming_swap_types = yes
+	should_swap_deposit_on_terraforming = yes
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 1200
+			minerals = 400
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		district_generator_max = 1
+		planet_farmers_food_produces_mult = -0.05
+		planet_miners_minerals_produces_mult = 0.05
+	}
+
+	drop_weight = {
+		weight = @high
+
+		modifier = {
+			factor = 2
+			is_dry = yes
+		}
+		modifier = {
+			factor = 0.5
+			OR = {
+				is_planet_class = pc_ocean
+				is_planet_class = pc_alpine
+				is_planet_class = pc_tropical
+			}
+		}
+	}
+}
+
+d_crags = {
+	time = 720
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+
+	category = deposit_cat_minerals
+
+	use_weights_for_terraforming_swap_types = yes
+	should_swap_deposit_on_terraforming = yes
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 800
+		}
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 500
+			}
+		}
+	}
+
+	prerequisites = {
+		"tech_terrestrial_sculpting"
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		planet_miners_minerals_produces_mult = 0.05
+		planet_amenities_add = 5
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_minerals_produces_add = 2
+		}
+	}
+
+	drop_weight = {
+		weight = @med
+
+		modifier = {
+			factor = 5
+			is_planet_class = pc_alpine
+		}
+		modifier = {
+			factor =2
+			OR = {
+				is_planet_class = pc_continental
+				is_planet_class = pc_ocean
+				is_planet_class = pc_arctic
+			}
+		}
+		modifier = {
+			factor = 0.5
+			OR = {
+				is_planet_class = pc_arid
+				is_planet_class = pc_desert
+			}
+		}
+	}
+}
+
+d_dunelands = {
+	time = 1080
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+
+	category = deposit_cat_minerals
+
+	use_weights_for_terraforming_swap_types = yes
+	should_swap_deposit_on_terraforming = yes
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			trigger = {
+				owner = { has_technology = tech_terrestrial_sculpting }
+			}
+			energy = 775
+		}
+		cost = {
+			trigger = {
+				owner = { NOT = { has_technology = tech_terrestrial_sculpting }}
+			}
+			energy = 1500
+			minerals = 600
+		}
+	}
+
+	can_be_cleared = {
+		owner = {
+			OR = {
+				has_technology = tech_noxious_swamp
+				has_technology = tech_terrestrial_sculpting
+			}
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -2
+		planet_farmers_food_produces_mult = -0.1
+		planet_technician_energy_produces_mult = 0.05
+		planet_jobs_upkeep_mult = 0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				any_owned_pop = {
+					has_job = colonist
+				}
+			}
+		}
+		modifier = {
+			planet_colonist_engineering_research_produces_add = 2
+		}
+	}
+
+	drop_weight = {
+		weight = @med
+
+		modifier = {
+			factor = 4
+			is_planet_class = pc_desert
+		}
+		modifier = {
+			factor = 2
+			OR = {
+				is_planet_class = pc_continental
+				is_planet_class = pc_savannah
+				is_planet_class = pc_arid
+				is_planet_class = pc_ocean
+			}
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = pc_tropical
+				is_cold = yes
+			}
+		}
+	}
+}
+
+d_highland_lake = {
+	time = 720
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+	should_swap_deposit_on_terraforming = no
+
+	category = deposit_cat_blockers
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 720
+			minerals = 400
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		district_farming_max = 1
+		planet_amenities_add = 5
+	}
+
+	drop_weight = {
+		weight = @med
+
+		modifier = {
+			factor = 4
+			is_planet_class = pc_alpine
+		}
+		modifier = {
+			factor = 2
+			OR = {
+				is_planet_class = pc_continental
+				is_planet_class = pc_gaia
+			}
+		}
+		modifier = {
+			factor = 0.5
+			OR = {
+				is_planet_class = pc_arid
+				is_planet_class = pc_ocean
+				is_planet_class = pc_savannah
+				is_planet_class = pc_tropical
+			}
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = pc_arctic
+				is_planet_class = pc_desert
+				is_planet_class = pc_nuked
+			}
+		}
+
+		modifier = {
+			factor = 2
+			OR = {
+				has_deposit = d_mountain_range
+				has_deposit = d_highlands
+				has_deposit = d_steppe_uplands
+			}
+		}
+	}
+}
+
+d_lakelands = {
+	time = 1080
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+	should_swap_deposit_on_terraforming = yes
+
+	category = deposit_cat_food
+
+	can_be_cleared = {
+		owner = {
+			OR = {
+				has_technology = tech_terrestrial_sculpting
+				has_technology = tech_mountain_range
+			}
+		}
+	}
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			trigger = {
+				owner = { has_technology = tech_terrestrial_sculpting }
+			}
+			energy = 800
+		}
+		cost = {
+			trigger = {
+				owner = { NOT = { has_technology = tech_terrestrial_sculpting }}
+			}
+			energy = 1200
+			minerals = 500
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -2
+		district_farming_max = 1
+		planet_amenities_mult = 0.1
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_society_research_produces_add = 2
+		}
+	}
+
+	drop_weight = {
+		weight = @med
+
+		modifier = {
+			factor = 2
+			is_planet_class = pc_continental
+		}
+		modifier = {
+			factor = 0.5
+			is_planet_class = pc_alpine
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_dry = yes
+				is_planet_class = pc_arctic
+				is_planet_class = pc_nuked
+			}
+		}
+	}
+}
+
+d_lowland_hills = {
+	time = 1080
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+	should_swap_deposit_on_terraforming = yes
+
+	category = deposit_cat_blockers
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 500
+		}
+	}
+
+	prerequisites = {
+		"tech_mountain_range"
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 500
+			}
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -2
+		district_farming_max = 1
+		planet_miners_minerals_produces_mult = 0.05
+	}
+
+	drop_weight = {
+		weight = @high
+
+		modifier = {
+			factor = 2
+			OR = {
+				is_planet_class = pc_continental
+				is_planet_class = pc_tundra
+				is_planet_class = pc_alpine
+				is_planet_class = pc_arid
+			}
+		}
+		modifier = {
+			factor = 0.5
+			OR = {
+				is_planet_class = pc_desert
+				is_planet_class = pc_arctic
+			}
+		}
+		modifier = {
+			factor = 0
+			is_planet_class = pc_nuked
+		}
+	}
+}
+
+d_misty_plains = {
+	time = 720
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+	should_swap_deposit_on_terraforming = yes
+
+	category = deposit_cat_food
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 500
+		}
+	}
+
+	prerequisites = {
+		"tech_terrestrial_sculpting"
+	}
+
+	planet_modifier = {
+		pop_happiness = -0.05
+		planet_farmers_food_produces_mult = 0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			owner.species = { has_trait = trait_plantoid_phototrophic }
+		}
+		modifier = {
+			planet_pops_organics_energy_upkeep_mult = 0.1
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_society_research_produces_add = 2
+		}
+	}
+
+	drop_weight = {
+		weight = @med
+
+		modifier = {
+			factor = 4
+			OR = {
+				is_planet_class = pc_tundra
+				is_wet = yes
+			}
+		}
+		modifier = {
+			factor = 2
+			is_planet_class = pc_nuked
+		}
+		modifier = {
+			factor = 0.5
+			is_dry = yes
+		}
+	}
+}
+
+d_salt_flats = {
+	time = 1080
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+	should_swap_deposit_on_terraforming = yes
+
+	category = deposit_cat_minerals
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 1000
+		}
+	}
+
+	prerequisites = {
+		"tech_mountain_range"
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 500
+				engineering_research = 1000
+			}
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		district_mining_max = 1
+		planet_miners_minerals_produces_mult = 0.15
+		pop_happiness = -0.1
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_engineering_research_produces_add = 2
+			planet_colonist_physics_research_produces_add = 1
+		}
+	}
+
+	drop_weight = {
+		weight = @blocker_low
+
+		modifier = {
+			factor = 2
+			OR = {
+				is_planet_class = pc_ocean
+				is_dry = yes
+			}
+		}
+		modifier = {
+			factor = 0
+			is_planet_class = pc_tropical
+		}
+	}
+}
+
+d_arid_plains = {
+	time = 1080
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+	should_swap_deposit_on_terraforming = yes
+
+	category = deposit_cat_energy
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 500
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		district_generator_max = 1
+		planet_buildings_upkeep_mult = 0.2
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			owner.capital_scope = { is_dry = yes }
+		}
+		modifier = {
+			planet_max_districts_add = 1
+		}
+	}
+
+	drop_weight = {
+		weight = @med
+
+		modifier = {
+			factor = 2
+			is_dry = yes
+		}
+		modifier = {
+			factor = 0.5
+			is_planet_class = pc_ocean
+		}
+		modifier = {
+			factor = 0
+			OR = {
+				is_planet_class = pc_tropical
+				is_cold = yes
+			}
+		}
+	}
+
+}
+
+d_sandsea = {
+	time = 2500
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+	should_swap_deposit_on_terraforming = yes
+
+	category = deposit_cat_rare_blocker
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			trigger = {
+				owner = { has_technology = tech_terrestrial_sculpting }
+			}
+			energy = 2000
+		}
+	}
+
+	can_be_cleared = {
+		owner = {
+			OR = {
+				has_technology = tech_terrestrial_sculpting
+				has_technology = tech_mountain_range
+			}
+		}
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 500
+			}
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -3
+		district_generator_max = 2
+		planet_jobs_minerals_produces_mult = -0.1
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			# Yes, you need both to live under the sand.
+			owner.species = {
+				has_trait = trait_aquatic
+			}
+			owner.capital_scope = { is_dry = yes }
+		}
+		modifier = {
+			planet_max_districts_add = 3
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_engineering_research_produces_add = 4
+			planet_colonist_physics_research_produces_add = 4
+		}
+	}
+
+	potential = {
+		OR = {
+			is_dry = yes
+			is_planet_class = pc_tundra
+		}
+	}
+
+	drop_weight = {
+		weight = @very_low
+
+		modifier = {
+			factor = 4
+			is_planet_class = pc_desert
+		}
+		modifier = {
+			factor = 0.5
+			OR = {
+				is_planet_class = pc_arid
+				is_planet_class = pc_savannah
+				is_planet_class = pc_tundra
+			}
+		}
+	}
+}
+
+d_sandstone_cliffs = {
+	
+	time = 270
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+	should_swap_deposit_on_terraforming = yes
+
+	category = deposit_cat_minerals
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 500
+		}
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 500
+				engineering_research = 100
+			}
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		district_mining_max = 1
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_engineering_research_produces_add = 1
+		}
+	}
+
+	potential = {
+		NOT = { is_planet_class = pc_arctic }
+	}
+
+	drop_weight = {
+		weight = @high
+	}
+}
+
+d_highlands = {
+	time = 1280
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+	should_swap_deposit_on_terraforming = yes
+
+	category = deposit_cat_minerals
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 800
+		}
+	}
+
+	prerequisites = {
+		"tech_terrestrial_sculpting"
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 1000
+			}
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -2
+		district_mining_max = 1
+		planet_amenities_mult = 0.05
+	}
+
+	drop_weight = {
+		weight = @med
+
+		modifier = {
+			factor = 2
+			is_planet_class = pc_alpine
+		}
+		modifier = {
+			factor = 2
+			is_cold = yes
+		}
+		modifier = {
+			factor = 0.5
+			OR = {
+				is_planet_class = pc_tropical
+				is_planet_class = pc_savannah
+				is_planet_class = pc_desert
+				is_planet_class = pc_nuked
+			}
+		}
+	}
+}
+
+d_rough_plains = {
+	time = 90
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+	should_swap_deposit_on_terraforming = yes
+
+	category = deposit_cat_food
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 200
+		}
+	}
+
+	on_cleared = {
+		random_list = {
+			20 = {
+				modifier = {
+					factor = 2
+					owner = { has_technology = tech_mountain_range }
+				}
+
+				add_deposit = d_bountiful_plains
+			}
+			80 = {}
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		district_farming_max = 1
+		planet_amenities_mult = -0.05
+	}
+
+	drop_weight = {
+		weight = @high
+	}
+}
+
+### TBM Custom Features - Artificial (these are mostly added by events or by other features)
+
+
+# Sprawling Slums - Modified but does not overwrite vanilla for compat purposes
+d_tbm_slums = {
+	time = 180
+
+	icon = d_slums
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+	category = deposit_cat_blockers
+
+	potential = {
+		always = no
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		planet_researchers_society_research_produces_add = 1
+		
+		### Reduces amenities but also amenities usage; you'll get more of these on big worlds with lots of worker pops. At large populations, the percentage will outweigh the flat hit.
+		### Egalitarian empires will struggle with the happiness penalties, but slums may be a useful buff for some ethic types (e.g., Authoritarian).
+		planet_amenities_add = -5
+		pop_amenities_usage_mult = -0.05
+
+		pop_cat_worker_happiness = -0.05
+		planet_crime_mult = 0.05
+	}
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			energy = 300
+		}
+	}
+		
+	on_cleared = {
+		create_pop = {
+			species = owner
+		}
+	}
+}
+
+# Crater - Modified but does not overwrite vanilla for compat purposes
+d_tbm_crater = {
+	time = 480
+
+	icon = d_crater
+
+	is_for_colonizable = yes
+	category = deposit_cat_blockers
+
+	potential = {
+		always = no
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		district_mining_max = 1
+	}
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			energy = 300
+			minerals = 200
+		}
+	}
+}
+
+
+# Failing Infrastructure are generated on homeworlds at game-start
+# Additions from The Blocker Mod, and can be added via event - will not apply on homeworlds.
+d_tbm_industrial_wasteland = {
+	icon = d_metal_boneyard
+	time = 270
+
+	is_for_colonizable = yes
+	category = deposit_cat_blockers
+
+	potential = { always = no }
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		pop_happiness = -0.05
+		
+		trade_value_mult = 0.02
+		planet_crime_mult = 0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = researcher
+			}
+		}
+		modifier = {
+			planet_researchers_engineering_research_produces_add = 1
+		}
+	}
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			energy = 800
+		}
+	}
+}
+
+d_rubble = {
+	time = 180
+	
+	#is_for_colonizable = yes
+	should_swap_deposit_on_terraforming = yes
+	category = deposit_cat_blockers
+	icon = d_city_ruins
+
+	use_for_min_max_adjustments = yes
+
+	planet_modifier = {
+		planet_amenities_add = -2
+		planet_max_districts_add = -1
+		district_mining_max = 1		# Allows rubble to be situationally useful for mining.
+		planet_miners_minerals_produces_mult = -0.05	# This is to disincentivize stacking these for mining super-planets.
+	}
+
+	resources = {
+		category = deposit_blockers
+		cost = { 
+			energy = 400
+		}
+	}
+
+	on_cleared = {
+		add_resource = {
+			minerals = 100
+			unity = 10
+		}
+	}
+}
+
+d_collapsed_cliffs = {
+	time = 720
+	should_swap_deposit_on_terraforming = no
+	category = deposit_cat_blockers
+	icon = d_veiny_cliffs
+
+	use_for_min_max_adjustments = yes
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			energy = 500
+		}
+		produces = {
+			minerals = 800
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		district_mining_max = 1
+		planet_amenities_add = -10
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 500
+			}
+		}
+	}
+}
+
+d_great_river_obstructed = {
+	
+	time = 90
+
+	should_swap_deposit_on_terraforming = no
+	category = deposit_cat_blockers
+	icon = d_great_river
+
+	on_cleared = {
+		add_deposit = d_great_river
+		# Flooding Caused
+		hidden_effect = {
+			random_list = {
+				33 = {
+					planet_event = {
+						id = tbm.27
+						days = 30
+					}
+				}
+				33 = {
+					modifier = {
+						factor = 2
+						num_districts = {
+							type = any
+							value > 9
+						}
+					}
+					planet_event = {
+						id = tbm.28
+						days = 30
+					}
+				}
+				33 = {
+					planet_event = {
+						id = tbm.29
+						days = 30
+					}
+				}
+			}
+		}
+	}
+
+	planet_modifier = {
+		planet_farmers_food_produces_mult = 0.1
+	}
+}
+
+d_urban_power_plant = {
+	category = deposit_cat_blockers
+	icon = d_reactor
+
+	use_for_min_max_adjustments = yes
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		district_generator_max = 1
+		planet_technician_energy_produces_add = 1
+	}
+}
+
+d_geothermal_power_plant = {
+	category = deposit_cat_blockers
+	icon = d_bunker
+
+	use_for_min_max_adjustments = yes
+
+	planet_modifier = {
+		district_generator_max = 1
+	}
+}
+
+d_hydro_plant = {
+	category = deposit_cat_blockers
+	icon = d_ruins_medium
+
+	use_for_min_max_adjustments = yes
+
+	planet_modifier = {
+		district_generator_max = 1
+	}
+}
+
+d_dyke = {
+	
+	category = deposit_category_artificial
+	
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 500
+		}
+	}
+
+	planet_modifier = {
+		pop_housing_usage_mult = 0.02
+	}
+}
+
+
+
+### TBM Event Features
+
+d_ruler_mountain = {	
+	time = 950
+	should_swap_deposit_on_terraforming = no
+	category = deposit_cat_blockers
+	icon = d_mountain_range
+	
+	use_for_min_max_adjustments = yes
+
+	planet_modifier = {
+		planet_max_districts_add = -3
+		district_mining_max = 2
+		planet_miners_minerals_produces_mult = 0.1
+		planet_amenities_add = 2
+	}
+
+	### Note that this flag behaves differently on the special mountains
+	triggered_planet_modifier = {
+		potential = {
+			has_deposit_flag = mineral_rights
+		}
+		modifier = {
+			district_mining_max = 1
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			has_deposit_flag = mining_prohibited
+		}
+		modifier = {
+			district_mining_max = -1
+			planet_administrators_unity_produces_mult = 0.05
+		}
+	}
+
+	resources = {
+		category = deposit_blockers
+		cost = { 
+			energy = 2000
+		}
+		produces = {
+			unity = 10
+		}
+	}
+
+	on_cleared = {
+		add_resource = {
+			minerals = 2000
+		}
+	}
+
+	potential = { always = no }
+}
+
+d_homeworld_mountain = {
+	time = 950
+	should_swap_deposit_on_terraforming = no
+	category = deposit_cat_blockers
+	icon = d_mountain_range
+	
+	use_for_min_max_adjustments = yes
+
+	planet_modifier = {
+		planet_max_districts_add = -3
+		district_mining_max = 2
+		planet_miners_minerals_produces_mult = 0.1
+		planet_amenities_add = 2
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			has_deposit_flag = mineral_rights
+		}
+		modifier = {
+			district_mining_max = 1
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			has_deposit_flag = mining_prohibited
+		}
+		modifier = {
+			district_mining_max = -1
+			planet_administrators_unity_produces_mult = 0.05
+		}
+	}
+
+	resources = {
+		category = deposit_blockers
+		cost = { 
+			energy = 2000
+		}
+		produces = {
+			unity = 10
+		}
+	}
+
+	on_cleared = {
+		add_resource = {
+			minerals = 2000
+		}
+	}
+
+	potential = { always = no }
+}
+
+d_colonist_mountain = {
+	time = 950
+	should_swap_deposit_on_terraforming = no
+	category = deposit_cat_blockers
+	icon = d_mountain_range
+	
+	use_for_min_max_adjustments = yes
+
+	planet_modifier = {
+		planet_max_districts_add = -3
+		district_mining_max = 2
+		planet_miners_minerals_produces_mult = 0.1
+		planet_amenities_add = 2
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			has_deposit_flag = mineral_rights
+		}
+		modifier = {
+			district_mining_max = 1
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			has_deposit_flag = mining_prohibited
+		}
+		modifier = {
+			district_mining_max = -1
+			planet_administrators_unity_produces_mult = 0.05
+		}
+	}
+
+	resources = {
+		category = deposit_blockers
+		cost = { 
+			energy = 2000
+		}
+		produces = {
+			unity = 10
+		}
+	}
+
+	on_cleared = {
+		add_resource = {
+			minerals = 2000
+		}
+	}
+
+	potential = { always = no }
+}
+
+d_great_desert = {
+	category = deposit_cat_blockers
+	use_for_min_max_adjustments = yes
+	icon = d_searing_desert
+	
+	planet_modifier = {
+		planet_max_districts_add = -2
+		district_farming_max = 3
+		district_generator_max = 1
+		planet_jobs_unity_produces_mult = 0.10
+		planet_jobs_energy_produces_mult = 0.05
+	}
+
+	potential = { always = no }
+}
+
+d_great_city = {
+	category = deposit_cat_blockers
+	use_for_min_max_adjustments = yes
+	icon = d_searing_desert
+
+	planet_modifier = {
+		pop_job_amenities_mult = 0.2
+		pop_housing_usage_mult = -0.1
+		planet_jobs_upkeep_mult = -0.1
+		planet_jobs_energy_produces_mult = 0.05
+		district_generator_max = 1
+	}
+
+	potential = { always = no }
+}
+
+d_submerged_zro_seam = {
+	time = 4800
+	
+	should_swap_deposit_on_terraforming = no
+	category = deposit_cat_blockers
+	icon = d_submerged_ore_veins
+
+	potential = { always = no }
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 1800
+		}
+		produces = {
+			trigger = {
+				NOT = { has_planet_flag = inaccessible_zro }
+			}
+			sr_zro = 2
+		}
+	}
+
+	planet_modifier = {
+		district_mining_max = 2
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_society_research_produces_add = 1
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			has_planet_flag = zro_fish
+		}
+		modifier = {
+			planet_miners_minerals_produces_mult = -0.2
+		}
+	}
+
+	on_cleared = {
+		hidden_effect = {
+			if = {
+				limit = {
+					has_planet_flag = inaccessible_zro
+				}
+				random_list = {
+					50 = {
+						owner = {
+							add_resource = {
+								sr_zro = 500
+							}
+						}
+					}
+					50 = {}
+				}
+			}
+		}
+	}
+	
+}
+
+d_prototype_gas_generator = {
+	should_swap_deposit_on_terraforming = no
+	category = deposit_cat_blockers
+	icon = d_submerged_ore_veins
+
+	potential = { always = no }
+
+	resources = {
+		category = deposit_blockers
+		produces = {
+			energy = 5
+		}
+	}
+
+	planet_modifier = {
+		planet_amenities_add = -5
+	}
+}
