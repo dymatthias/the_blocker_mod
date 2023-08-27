@@ -1,0 +1,40 @@
+### NOTE: May need to set these as blockers = yes to get them to spawn properly; not sure if it has any other effect.
+
+deposit_cat_food = { 
+	blocker = yes
+}
+deposit_cat_energy = {
+	blocker = yes
+}
+deposit_cat_minerals = {
+	blocker = yes
+}
+deposit_cat_blockers = {
+	blocker = yes # Counts as blockers
+}
+
+deposit_cat_food_rare = {
+	blocker = yes
+	important = yes
+}
+
+deposit_cat_minerals_rare = {
+	blocker = yes
+	important = yes
+}
+
+deposit_cat_rare = {
+	important = yes	# Shows up as rare deposits in planetview
+}
+deposit_cat_rare_blocker = {
+	blocker = yes # Counts as blockers
+	important = yes	# Shows up as rare deposits in planetview
+}
+
+# This is only blockers that don't have to be cleared for ecus.
+deposit_category_gaia = {	
+}
+
+deposit_category_artificial = {
+	blocker = yes	
+}

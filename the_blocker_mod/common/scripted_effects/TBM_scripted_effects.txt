@@ -1,0 +1,131 @@
+# ### THe Blocker Mod - Scripted Effects
+
+
+# Should usually be hidden.
+add_from_barren = {
+	random_list = {
+		20 = {
+			add_deposit = d_fertile_lands
+		}
+		20 = {
+			add_deposit = d_mineral_fields		
+		}
+		210 = {
+			add_deposit = d_floodplains
+		}
+		210 = {
+			add_deposit = d_boggy_fens
+		}
+		10 = {
+			add_deposit = d_mire
+		}
+		10 = {
+			add_deposit = d_scrubland
+		}
+		20 = {
+			add_deposit = d_rough_plains
+		}
+		20 = {
+			add_deposit = d_misty_plains
+		}
+		20 = {
+			add_deposit = d_drylands
+		}
+		5 = {
+			add_deposit = d_salt_flats
+		}
+	}	
+}
+
+# remove_random_district = {
+	
+# 	# Compatibility failsafe for Planetary Diversity
+# 	# Reverst to removing last-built district.
+# 	if = {
+# 		limit = {
+# 			has_global_flag = planetarydiversity
+# 		}
+# 		remove_last_built_district = yes
+# 	}
+	
+# 	# Deal with ecus, usual
+# 	if = {
+# 		limit = {
+# 			is_planet_class = pc_city
+# 			owner = { 
+# 				is_gestalt = {
+# 					no
+# 				}
+# 			}
+# 		}
+		
+# 		### Ecumenopoleis Districtae
+# 		random_list = {
+# 			20 = {
+# 				remove_district = district_arcology_administrative
+# 			}
+# 			20 = {
+# 				remove_district = district_arcology_arms_industry
+# 			}
+# 			20 = {
+# 				remove_district = district_arcology_civilian_industry
+# 			}
+# 			20 = {
+# 				remove_district = district_arcology_housing
+# 			}
+# 			20 = {
+# 				remove_district = district_arcology_leisure
+# 			}
+# 		}
+# 	}
+
+# 	# Deal with ecus, usual
+# 	elseif = {
+# 		limit = {
+# 			is_planet_class = pc_city
+# 			owner = { 
+# 				is_gestalt = {
+# 					no
+# 				}
+# 			}
+# 		}
+		
+# 		### Ecumenopoleis Districtae
+# 		random_list = {
+# 			20 = {
+# 				remove_district = district_arcology_administrative
+# 			}
+# 			20 = {
+# 				remove_district = district_arcology_arms_industry
+# 			}
+# 			20 = {
+# 				remove_district = district_arcology_civilian_industry
+# 			}
+# 			20 = {
+# 				remove_district = district_arcology_housing
+# 			}
+# 			20 = {
+# 				remove_district = district_arcology_leisure
+# 			}
+# 		}
+# 	}
+	
+# 	# Deal with ecus, machine
+# 	else_if = {
+# 		limit = {
+# 			is_planet_class = pc_city
+# 			owner = { 
+# 				is_machine_empire = {
+# 					yes
+# 				}
+# 			}
+# 		}
+
+# 		random_list = {
+# 			20 = {
+# 				remove_district = district_arcology_organic_housing
+# 			}
+# 		}
+
+# 	}
+# }
