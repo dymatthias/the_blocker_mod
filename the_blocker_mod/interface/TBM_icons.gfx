@@ -1,9 +1,0 @@
-
-
-spriteTypes = {
-	spriteType = {
-		name = "TBM_message_bad_thing"
-		texturefile = "gfx/interface/icons/message/message_denounced.dds"	
-	}
-}
-

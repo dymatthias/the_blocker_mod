@@ -1,8 +1,0 @@
-
-message_type = {
-	key = "SUDDEN_SINKHOLE"
-	icon = "TBM_message_bad_thing"
-	icon_frame = 1
-	sound = alert_negative
-	ping = "ping_notification_yellow"
-}
