@@ -1,8 +1,0 @@
-
-# Curreently unused, set up mainly for experiment/test/future use.
-random_feature_value = {
-	base = 1
-	multiply = random_factor
-	min = 1
-	max = 100
-}
