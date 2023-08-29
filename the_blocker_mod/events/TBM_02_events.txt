@@ -1061,10 +1061,6 @@ planet_event = {
 			90 = {}
 		}
 	}
-
-	option = {
-		name = OK
-	}
 }
 
 ### 85. Vicious Sandstorm
@@ -1091,6 +1087,10 @@ planet_event = {
 				years = 10
 			}
 		}
+	}
+
+	option = {
+		name = OK
 	}
 }
 

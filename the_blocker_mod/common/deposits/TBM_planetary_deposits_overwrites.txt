@@ -47,10 +47,12 @@ d_mountain_range = {
 		district_mining_max = 2
 		planet_amenities_add = 5
 	}
-
+	
 	triggered_planet_modifier = {
 		potential = {
-			has_deposit_flag = mineral_rights
+			this = {
+				has_deposit_flag = mineral_rights
+			}
 		}
 		modifier = {
 			district_mining_max = 2
@@ -70,8 +72,10 @@ d_mountain_range = {
 	}
 
 	on_cleared = {
-		add_resource = {
-			minerals = 2000
+		owner = {
+			add_resource = {
+				minerals = 2000
+			}
 		}
 	}
 
@@ -178,7 +182,9 @@ d_active_volcano = {
 
 	triggered_planet_modifier = {
 		potential = {
-			has_deposit_flag = volcano_erupted
+			this = {
+				has_deposit_flag = volcano_erupted
+			}
 		}
 		modifier = {
 			district_farming_max = -1
@@ -257,7 +263,9 @@ d_dangerous_wildlife_blocker = {
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			has_job = livestock
+			any_owned_pop = {
+				has_job = livestock
+			}
 		}
 		modifier = {
 			planet_livestock_food_produces_add = -1
@@ -270,7 +278,7 @@ d_dangerous_wildlife_blocker = {
 
 	on_cleared = {
 		# Cull the Herd?
-		planet_event = { id = tbm.5 }
+		#planet_event = { id = tbm.5 }	# Disabled for now.
 	}
 
 	drop_weight = {
@@ -361,10 +369,12 @@ d_dense_jungle = {
 	}
 
 	on_cleared = {
-		add_resource = {
-			minerals = 500
-			food = 200
-			consumer_goods = 50
+		owner = {
+			add_resource = {
+				minerals = 500
+				food = 200
+				consumer_goods = 50
+			}
 		}
 	}
 
@@ -466,8 +476,10 @@ d_toxic_kelp = {
 	}
 
 	on_cleared = {
-		add_resource = {
-			society_research = 500
+		owner = {
+			add_resource = {
+				society_research = 500
+			}
 		}
 	}
 
@@ -607,8 +619,10 @@ d_quicksand_basin = {
 	prerequisites = { "tech_noxious_swamp" }
 
 	on_cleared = {
-		add_resource = {
-			minerals = 500
+		owner = {
+			add_resource = {
+				minerals = 500
+			}
 		}
 	}
 
@@ -703,8 +717,10 @@ d_noxious_swamp = {
 	prerequisites = { "tech_noxious_swamp" }
 
 	on_cleared = {
-		add_resource = {
-			society_research = 500
+		owner = {
+			add_resource = {
+				society_research = 500
+			}
 		}
 	}
 
@@ -1666,8 +1682,10 @@ d_tempestous_mountain = {
 	}
 
 	on_cleared = {
-		add_resource = {
-			minerals = 1000
+		owner = {
+			add_resource = {
+				minerals = 1000
+			}
 		}
 	}
 
@@ -1747,9 +1765,11 @@ d_veiny_cliffs = {
 	}
 
 	on_cleared = {
-		add_resource = {
-			minerals = 500
-			engineering_research = 100
+		owner = {
+			add_resource = {
+				minerals = 500
+				engineering_research = 100
+			}
 		}
 	}
 
@@ -2053,15 +2073,6 @@ d_rich_mountain = {
 		}
 		modifier = {
 			planet_colonist_minerals_produces_add = 1
-		}
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			has_job = miner
-		}
-		modifier = {
-			planet_miners_unity_produces_add = 1
 		}
 	}
 
@@ -2772,9 +2783,11 @@ d_lush_jungle = {
 	}
 
 	on_cleared = {
-		add_resource = {
-			minerals = 500
-			consumer_goods = 50
+		owner = {
+			add_resource = {
+				minerals = 500
+				consumer_goods = 50
+			}
 		}
 	}
 
@@ -3074,9 +3087,7 @@ d_teeming_reef = {
 	triggered_planet_modifier = {
 		potential = {
 			any_owned_pop = {
-				any_owned_pop = {
-					has_job = colonist
-				}
+				has_job = colonist
 			}
 		}
 		modifier = {

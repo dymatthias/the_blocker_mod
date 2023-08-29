@@ -272,7 +272,6 @@ d_natural_gardens = {
 	planet_modifier = {
 		planet_jobs_food_produces_mult = 0.05
 		planet_amenities_mult = 0.1
-		planet_clerks_unity_produces_add = 1
 	}
 
 	triggered_planet_modifier = {
@@ -422,6 +421,8 @@ d_glacier_lake = {
 
 d_giant_tree  = {
 	time = 360
+
+	icon = d_huge_tree
 	
 	is_for_colonizable = yes
 	should_swap_deposit_on_terraforming = yes
@@ -500,6 +501,8 @@ d_giant_tree  = {
 }
 
 d_sea_monster = {
+
+	icon = d_landed_dragon
 
 	is_for_colonizable = yes
 	should_swap_deposit_on_terraforming = yes
@@ -680,6 +683,8 @@ d_floodplains = {
 
 d_tidal_marshes = {
 	time = 360
+
+	icon = d_natural_farmland
 	
 	is_for_colonizable = yes
 	should_swap_deposit_on_terraforming = yes

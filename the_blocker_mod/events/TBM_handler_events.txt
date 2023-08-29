@@ -72,10 +72,12 @@ planet_event = {
 						has_deficit = consumer_goods
 					}
 				}
-				modifier = {
+				modifier = {	# Incentivize local food!
 					factor = 2
-					planet = {
-						has_deficit = food	#Incentivize local food (this is not working, unsurprisingly)
+					planet_resource_compare = {
+						resource = food
+						value < 0
+						type = balance
 					}
 				}
 				modifier = {

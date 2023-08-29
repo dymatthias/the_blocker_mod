@@ -155,11 +155,13 @@ planet_event = {
 			20 = {
 				modifier = {
 					factor = 2
-					is_autocracy = yes
+					owner = {
+						is_autocracy = yes
+					}
 				}
 				modifier = {
 					factor = 0
-					has_modifier = workers_die
+					has_modifier = workers_deaths
 				}
 				planet_event = { id = tbm.35 days = 60 random = 30 }
 			}
@@ -212,13 +214,13 @@ planet_event = {
 
 	immediate = {
 		add_blocker = {
-			type = d_slums
+			type = d_tbm_slums
 		}
 		add_blocker = {
-			type = d_slums
+			type = d_tbm_slums
 		}
 		add_blocker = {
-			type = d_slums
+			type = d_tbm_slums
 		}
 		add_modifier = {
 			modifier = overpopulated

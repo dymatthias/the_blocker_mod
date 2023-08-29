@@ -63,18 +63,22 @@ planet_event = {
 			namelist = random_class
 			effect = {
 				save_global_event_target_as = goldem_species
-				create_leader = {
-					name = random
-					class = scientist
-					species = this
-					set_age = 24
-					# Note: Lithy IS eligible to be a normal leader later; we'll get rid of him if not.
-					#traits
+			}
+		}
+
+		owner = {
+			create_leader = {
+				name = random
+				class = scientist
+				species = this
+				set_age = 24
+				traits = {
+					leader_trait_memories
 				}
-				last_created_leader = {
-					save_event_target_as = Lithy
-					exile_leader_as = Lithy
-				}
+			}
+			last_created_leader = {
+				save_event_target_as = Lithy
+				exile_leader_as = Lithy
 			}
 		}
 
@@ -92,13 +96,15 @@ planet_event = {
 				exile_leader_as = Rival
 			}
 
-			# Protagonist
+			# Protagonist (can be used later in some cases)
 			create_leader = {
 				name = random
 				class = scientist
 				species = event_target:colonizer
 				set_age = 11
-				#traits
+				traits = {
+					trait = leader_trait_whiz_kid
+				}
 			}
 			last_created_leader = {
 				save_event_target_as = Character
@@ -172,7 +178,9 @@ planet_event = {
 					modifier = {
 						factor = 0
 						NOT = {
-							has_dyson_sphere = no
+							owner = {
+								has_dyson_sphere = no
+							}
 						}
 					}					
 					random_system_megastructure = {
@@ -189,9 +197,7 @@ planet_event = {
 						factor = 0
 						owner = {
 							OR = {
-								any_owned_megastructure = {
-									has_dyson_sphere = yes
-								}
+								has_dyson_sphere = yes
 								AND = {
 									exists = federation
 									NOT = { is_federation_leader = yes }

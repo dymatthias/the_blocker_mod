@@ -21,8 +21,11 @@ dangerous_wildlife_hunter = {
 	resources = {
 		category = planet_farmers
 		produces = {
-			food = 4
+			food = 4	# Might make more sense if these provided less food and didn't cost energy?
 			unity = 1
+		}
+		upkeep = {
+			energy = 1
 		}
 	}
 	
@@ -101,6 +104,10 @@ dangerous_wildlife_poacher = {
 		category = planet_poachers
 		produces = {
 			food = 6
+		}
+		upkeep = {
+			energy = 1
+			unity = 1
 		}
 	}
 

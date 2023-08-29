@@ -478,7 +478,7 @@ planet_event = {
 					}
 					remove_deposit = yes
 				}
-				add_deposit = d_tempestuous_mountain
+				add_deposit = d_tempestous_mountain
 			}
 			20 = {
 				random_deposit = {
@@ -631,7 +631,7 @@ planet_event = {
 					}
 					remove_deposit = yes
 				}
-				add_deposit = d_tempestuous_mountain
+				add_deposit = d_tempestous_mountain
 			}
 			20 = {
 				random_deposit = {
@@ -781,16 +781,18 @@ planet_event = {
 								num_pops > 10
 							}
 						}
-						set_deposit = d_veiny_cliffs
-						add_blocker = {
-							type = d_rubble
-							blocked_deposit = this
+						remove_deposit = yes
+						planet = {
+							add_deposit = d_veiny_cliffs
+							add_blocker = {
+								type = d_rubble
+								blocked_deposit = d_veiny_cliffs
+							}
 						}
 					}
 					else = {
-						root = { 
-							set_deposit = d_collapsed_cliffs
-						}
+						remove_deposit = yes
+						add_deposit = d_collapsed_cliffs
 					}
 				}
 			}
@@ -809,9 +811,11 @@ planet_event = {
 				}
 			}
 		}
-		add_monthly_resource_mult = {
-			resource = unity
-			value = 2
+		owner = {
+			add_monthly_resource_mult = {
+				resource = unity
+				value = 2
+			}
 		}
 		# 40% chance to change feature that caused landslide (60% nothing else happens)
 		random_list = {
@@ -833,10 +837,13 @@ planet_event = {
 								num_pops > 10
 							}
 						}
-						set_deposit = d_veiny_cliffs
-						add_blocker = {
-							type = d_rubble
-							blocked_deposit = this
+						remove_deposit = yes
+						planet = {
+							add_deposit = d_veiny_cliffs
+							add_blocker = {
+								type = d_rubble
+								blocked_deposit = d_veiny_cliffs
+							}
 						}
 					}
 					else = {
