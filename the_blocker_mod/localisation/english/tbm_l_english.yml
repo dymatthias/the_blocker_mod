@@ -13,6 +13,16 @@
  r_engineering_research:0 "§Y£engineering_research£ Engineering Research§!"
  r_unity:0 "§Y£unity£ Unity§!"
 
+ # TBM Custom Jobs
+ 
+ job_dangerous_wildlife_hunter:0 "Dangerous Wildlife Hunter"
+ job_dangerous_wildlife_hunter_plural:0 "Dangerous Wildlife Hunters"
+ job_dangerous_wildlife_hunt_desc:0 "Dangerous Wildlife Hunters specialize in tracking and trapping extremely lethal predatory animalia. They mostly work as independent contractors and pay a portion of their bounty in exchange for hunting licenses."
+
+ job_dangerous_wildlife_poacher:0 "Dangerous Wildlife Poacher"
+ job_dangerous_wildlife_poacher_plural:0 "Dangerous Wildlife Paochers"
+ job_dangerous_wildlife_poacher_desc:0 "The poachers are a more extreme solution to the Dangerous Wildlife Problem. While not beloved by the local production, they get the job done and their bounty can feed a major settlement for a month -- at a price, of course."
+
  # TBM Job Modifiers
  mod_planet_colonist__produces_mult:0 "Resources from $icon_job_colonists$" 
 
@@ -24,14 +34,24 @@
  mod_planet_colonist_engineering_research_produces_add:0 "$r_engineering_research$ from $icon_job_colonists$:"
  mod_planet_colonist_unity_produces_add:0 "$r_unity$ from $icon_job_colonists$:"
 
+ mod_planet_farmers_energy_produces_add:0 "$r_food$ from $job_farmer_plural$"
  
+ mod_planet_miners_unity_produces_add:0 "$r_minerals$ from $job_miner_plural$"
 
- mod_technicians_food_produces_add:0 "£food£ from $job_technician_plural$:"
- mod_technicians_minerals_produces_add:0 "$r_minerals$ from $job_technician_plural$"
- 
+ mod_technician_food_produces_add:0 "£food£ from $job_technician_plural$:"
+ mod_technician_minerals_produces_add:0 "$r_minerals$ from $job_technician_plural$"
+ mod_planet_technician_alloys_produces_add:0 "$r_alloys$ from $job_technician_plural$"
 
+ mod_planet_priests_unity_produces_mult:0 "$r_unity$ from $job_priest_plural$"
 
- # The Blocker Mod - Custom Features - English
+ ### The Blocker Mod - Feature Modifiers
+
+ mod_planet_pops_food_upkeep_mult:0 "Pop Food Upkeep"
+ mod_planet_colonist_produces_mult:0 "Resources from $icon_job_colonists$"
+ mod_job_dangerous_wildlife_hunter_add:0 "$job_dangerous_wildlife_hunter$ Jobs"
+ mod_job_dangerous_wildlife_poacher_ad:0 "$job_dangeorus_wildlife_poacher$ Jobs"
+
+ ### The Blocker Mod - Custom Features - English
  
  d_fjordland:0 "Fjordland"
  d_fjordland_desc:0 "Sharp cliffs plunge straight into deep and misty bays, providing stunning vistas. The crinkly terrain is visible even from space but the ridges are impassavble, makes large-scale development impossible."
@@ -234,7 +254,7 @@
 
 
 
- ### The Blocker Mod - Modifiers
+ ### The Blocker Mod - Planet / Static Modifiers
  
  # General
 
