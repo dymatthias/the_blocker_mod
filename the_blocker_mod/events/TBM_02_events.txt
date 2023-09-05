@@ -1261,7 +1261,7 @@ planet_event = {
 	immediate = {
 		
 		export_trigger_value_to_variable = {
-			trigger = num_ssigned_jobs
+			trigger = num_assigned_jobs
 			parameters = {
 				job = miner
 			}
