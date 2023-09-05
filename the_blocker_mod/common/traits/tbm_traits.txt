@@ -3,31 +3,34 @@
 
 # A Shiny Rock event trait
 leader_trait_whiz_kid = {
-	icon = "gfx/interface/icons/traits/erudite.dds"
-	custom_tooltip_with_modifiers = tbm_whiz_kid_tooltip
+	cost = 0
+	icon = "gfx/interface/icons/traits/leader_trait_inspired.dds"
 	initial = no
 	randomized = no
-	leader_potential_add = {
-		always = no
-	}
 	
+	leader_trait = { all }
+	leader_class = { all }
+
 	modifier = {
 		country_physics_tech_research_speed = 0.15
 		ship_anomaly_fail_risk = -0.1
 		ship_accuracy_mult = 0.1
 		ship_archaeological_site_clues_add = 2
 	}
+
+	leader_potential_add = { always = no }
 }
 
 # A Shiny Rock event trait
 leader_trait_memories = {
-	icon = "gfx/interface/icons/traits/starborne"
-	custom_tooltip_with_modifiers = tbm_starborne_tooltip
+	cost = 0
+	icon = "gfx/interface/icons/traits/trait_nomadic"
 	initial = no
 	randomized = no
-	leader_potential_add = {
-		always = no
-	}
+	modification = no
+
+	leader_trait = { all }
+	leader_class = { all }
 
 	modifier = {
 		ship_archaeological_site_clues_add = 3
@@ -36,4 +39,6 @@ leader_trait_memories = {
 		country_unity_produces_mult = 0.25
 		edicts_unity_upkeep_mult = -0.1		# This is really good but doesn't fit the lore. Should tweak based on new trait modifiers in 3.8.
 	}
+
+	leader_potential_add = { always = no }
 }

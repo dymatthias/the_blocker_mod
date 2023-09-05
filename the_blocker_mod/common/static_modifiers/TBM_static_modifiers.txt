@@ -3,8 +3,8 @@
 ### General
 
 pioneering_colonists = {
-	icon = "gfx/interface/planet_modifiers/pm_victorious_army.dds"
-	custom_tooltip = pioneering_colonists.desc
+	icon = gfx/interface/planet_modifiers/pm_victorious_army.dds
+	icon_frame = 1
 	deposit_blockers_cost_mult = -0.2
 	planet_clear_blocker_speed_mult = -02
 	job_colonist_add = 2
@@ -13,7 +13,7 @@ pioneering_colonists = {
 
 new_frontier = {
 	icon = gfx/interface/icons/planet_modifiers/pm_engineering_research.dds
-	custom_tooltip = new_frontier.desc
+	icon_frame = 1
 	planet_max_buildings_add = 1
 	building_time_mult = -0.25
 	planet_buildings_cost_mult = -0.1
@@ -21,6 +21,7 @@ new_frontier = {
 
 terra_incognita = {
 	icon = gfx/interface/icons/planet_modifiers/pm_engineering_research.dds
+	icon_frame = 1
 	planet_colonist_produces_mult = 0.2
 }
 
@@ -42,6 +43,10 @@ worker_deaths_empire = {
 }
 
 cleared_hot_springs = {
+	icon = gfx/interface/icons/planet_modifiers/pm_ocean_paradise.dds
+	icon_frame = 2
+	custom_tooltip = cleared_hot_springs_desc
+	show_only_custom_tooltip = no
 	pop_happiness = -0.1
 }
 
@@ -66,7 +71,7 @@ false_prospects = {
 }
 
 mine_safety_standards = {
-	#icon = gfx/interface/icons/planet_modifiers/pm_resources2.dds
+	icon = "gfx/interface/icons/planet_modifiers/pm_resources_2.dds"
 	planet_miners_minerals_produces_mult = -0.1
 	planet_miners_unity_produces_add = 1
 	planet_miners_energy_upkeep_add = 1
@@ -124,6 +129,7 @@ denied_investment = {
 	trade_value_mult = -0.1
 	pop_cat_worker_happiness = 0.05
 	pop_cat_specialist_happiness = 0.05
+	pop_cat_ruler_happiness = -0.1
 }
 
 recreational_investment = {
@@ -238,12 +244,14 @@ recent_flooding = {
 ### Kelp Modifiers
 kelp_bioweapons = {
 	icon = gfx/interface/icons/combat_stats/combat_stat_damage_explosive.dds
+	custom_tooltip = kelp_bioweapons_tooltip
 	weapon_type_explosive_weapon_damage_mult = 0.1
 	#torpedo_weapon_damage_mult = 0.1
 }
 
 kelp_breakfasts = {
 	icon = gfx/interface/icons/modifiers/mod_food_produces_mult.dds
+	custom_tooltip = kelp_breakfast_tooltip
 	planet_pops_food_upkeep_mult = -0.1	# Applied to country in Kelp Insights?
 }
 

@@ -1,5 +1,63 @@
 ### The Blocker Mod - Scripted Localization
 
+# Debug Scripted Loc
+defined_text = {
+	name = ScriptedLocTest
+	text = {
+		localization_key = tbm_scripted_test_string_1
+	}
+	# text = {
+	# 	localization_key = tbm_scripted_test_string_2
+	# }
+}
+
+### TBM - General Scripted Loc
+
+# Colonial Afairs
+defined_text = {
+	name = ColonialAffairs
+	text = {
+		trigger = {
+			is_egalitarian = yes
+		}
+		localization_key = tbm_colonial_council
+	}
+	text = {
+		trigger = {
+			OR = {
+				is_autocracy = yes
+			}
+		}
+		localization_key = tbm_colonial_viceroy
+	}
+	text = {
+		localization_key = tbm_colonial_affairs
+	}
+}
+
+defined_text = {
+	name = ColonialAffairsCaps
+	text = {
+		trigger = {
+			is_egalitarian = yes
+		}
+		localization_key = tbm_colonial_council_cap
+	}
+	text = {
+		trigger = {
+			OR = {
+				is_autocracy = yes
+			}
+		}
+		localization_key = tbm_colonial_viceroy_cap
+	}
+	text = {
+		localization_key = tbm_colonial_affairs_cap
+	}
+}
+
+
+
 defined_text = {
 	name = GetProjectName
 	text = {
@@ -55,6 +113,229 @@ defined_text = {
 		localization_key = tbm_shiny_rock_lithoids_mineral_fields
 	}
 	text = {
+		trigger = {
+			event_target:lithoid_deposit = {
+				is_deposit_type = d_basaltic_outcrops
+			}
+		}
 		localization_key = tbm_shiny_rock_lithois_basaltic_outcroups
+	}
+}
+
+defined_text = {
+	name = ColonistSpecialFriend
+	text = {
+		trigger = {
+			event_target:colonist_name = {
+				gender = female
+			}
+		}
+		localization_key = tbm_colonist_boyfriend
+	}
+	text = {
+		trigger = {
+			event_target:colonist_name = {
+				gender = male
+			}
+		}
+		localization_key = tbm_colonist_girlfriend
+	}
+	text = {
+		trigger = {
+			event_target:colonist_name = {
+				gender = indeterminable
+			}
+		}
+		localization_key = tbm_colonist_special_friend
+	}
+}
+
+defined_text = {
+	name = MountainName
+	text = {
+		trigger = {
+			event_target:named_mountain = {
+				is_deposit_type = d_colonist_mountain
+			}
+		}
+		localization_key = tbm_mt_colonist
+	}
+	text = {
+		trigger = {
+			event_target:named_mountain = {
+				is_deposit_type = d_homeworld_mountain
+			}
+		}
+		localization_key = tbm_mt_homeworld
+	}
+	text = {
+		trigger = {
+			event_target:named_mountain = {
+				is_deposit_type = d_ruler_mountain
+			}
+		}
+		localization_key = tbm_mt_ruler
+	}
+}
+
+defined_text = {
+	name = RowdyBunch
+	text = {
+		trigger = {
+			owner = {
+				NOR = {
+					has_authority = auth_democratic
+					has_civic = civic_environmentalist
+					has_civic = civic_beacon_of_liberty
+				}
+			}
+			NOT = { has_ruling_class = yes }
+		}
+		localization_key = tbm_unruly_peasants
+	}
+	text = {
+		trigger = {
+			has_ruling_class = yes
+			NOT = {
+				owner = {
+					NOR = {
+						has_authority = auth_democratic
+						has_civic = civic_environmentalist
+						has_civic = civic_beacon_of_liberty
+					}
+				}
+			}
+		}
+		localization_key = tbm_organized_environmentalists
+	}
+}
+
+
+### General Terms
+
+defined_text = {
+	name = Sunset
+	text = {
+		trigger = {
+			solar_system.star = {
+				OR = {
+					is_binary_star = yes
+					is_trinary_star = yes
+				}
+			}
+		}
+		localization_key = tbm_sunset
+	}
+}
+
+defined_text = {
+	name = SunsetType
+	text = {
+		trigger = {
+			solar_system.star = {
+					is_binary_star = yes
+			}
+		}
+		localization_key = tbm_binary_sunset
+	}
+	text = {
+		trigger = {
+			solar_system.star = {
+				is_trinary_star = yes
+			}
+		}
+		localization_key = tbm_trinary_sunset
+	}
+}
+
+defined_text = {
+	name = SunsetTypePlural
+	text = {
+		trigger = {
+			solar_system.star = {
+					is_binary_star = yes
+			}
+		}
+		localization_key = tbm_binary_sunset_plural
+	}
+	text = {
+		trigger = {
+			solar_system.star = {
+				is_trinary_star = yes
+			}
+		}
+		localization_key = tbm_trinary_sunset_plural
+	}
+}
+
+defined_text = {
+	name = SunsetTypeCap
+	text = {
+		trigger = {
+			solar_system.star = {
+					is_binary_star = yes
+			}
+		}
+		localization_key = tbm_binary_sunset_cap
+	}
+	text = {
+		trigger = {
+			solar_system.star = {
+				is_trinary_star = yes
+			}
+		}
+		localization_key = tbm_trinary_sunset_cap
+	}
+}
+
+defined_text = {
+	name = SunsetTypeCapPlural
+	text = {
+		trigger = {
+			solar_system.star = {
+					is_binary_star = yes
+			}
+		}
+		localization_key = tbm_binary_sunset_cap_plural
+	}
+	text = {
+		trigger = {
+			solar_system.star = {
+				is_trinary_star = yes
+			}
+		}
+		localization_key = tbm_trinary_sunset_cap_plural
+	}
+}
+
+defined_text = {
+	name = SunType
+	text = {
+		trigger = {
+			solar_system.star = {
+					is_binary_star = yes
+			}
+		}
+		localization_key = tbm_binary_multiple_suns_set
+	}
+}
+
+defined_text = {
+	name = SunsetDependentPlural
+	text = {
+		trigger = {
+			solar_system.star = {
+				is_binary_star = yes
+			}
+		}
+		localization_key = tbm_sunset_set	# Binary suns set.
+	}
+	text = {
+		trigger = {
+			NOT = {
+				solar_system.star = { is_binary_star = yes }
+			}
+		}
+		localization_key = tbm_sunset_dependent_plural	# Unary sun sets
 	}
 }

@@ -27,3 +27,9 @@
  tbm.105.mining:0 "This sounds like an excellent mining opportunity."
 
  MEGASTRUCTURE_TOUR:0 "[GetStructureName] Tour"
+
+ leader_trait_whiz_kid:0 "Whiz Kid"
+ leader_trait_whiz_kid_desc:0 "Top of [leader.GetHerHis] class at the [owner.GetAdj] Science Academy, [leader.GetName] has already solved several advanced quantum-mathematical disputes and is eager to make an impression in [owner.GetAdj] society."
+
+ leader_trait_memories:0 "Star-borne Memories"
+ leader_trait_memories_desc:0 "Birthed across galaxies and cradled by the void, [leader.GetName] and [leader.GetHerHis] brethren yearn to discover the secrets of the cosmos, and perhaps one day find their true home."

@@ -161,7 +161,7 @@ planet_event = {
 				}
 				modifier = {
 					factor = 0
-					has_modifier = workers_deaths
+					has_modifier = worker_deaths
 				}
 				planet_event = { id = tbm.35 days = 60 random = 30 }
 			}

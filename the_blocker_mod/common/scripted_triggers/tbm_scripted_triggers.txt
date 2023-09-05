@@ -1,4 +1,17 @@
 
+# Checks Lost Colony starting world.
+# Really hacky and will probably remove, but currently no other way to check LC starting planet?
+is_lost_colony_starting_planet = {
+	AND = {
+		owner = { has_origin = origin_lost_colony }
+		AND = {
+			is_capitalist = yes
+			is_custom_capital_location = no
+		}
+	}
+}
+
+
 has_ruling_class = {
 	exists = owner
 	owner = {

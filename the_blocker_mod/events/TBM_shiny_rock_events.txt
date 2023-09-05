@@ -73,7 +73,7 @@ planet_event = {
 				species = this
 				set_age = 24
 				traits = {
-					leader_trait_memories
+					trait = leader_trait_memories
 				}
 			}
 			last_created_leader = {
@@ -179,7 +179,9 @@ planet_event = {
 						factor = 0
 						NOT = {
 							owner = {
-								has_dyson_sphere = no
+								any_owned_megastructure = {
+									has_dyson_sphere = no
+								}
 							}
 						}
 					}					

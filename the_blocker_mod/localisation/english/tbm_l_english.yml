@@ -3,6 +3,9 @@
  ### The Blocker Mod - Main - English
  
  # Debug
+
+
+
  
  ### The Blocker Mod - Jobs
 
@@ -14,10 +17,13 @@
  r_unity:0 "§Y£unity£ Unity§!"
 
  # TBM Custom Jobs
+
+ planet_colonist:0 "Colonist Jobs"  # Economic Category
+ planet_colonist__produces_mult:0 "Resources from Colonists"
  
  job_dangerous_wildlife_hunter:0 "Dangerous Wildlife Hunter"
  job_dangerous_wildlife_hunter_plural:0 "Dangerous Wildlife Hunters"
- job_dangerous_wildlife_hunt_desc:0 "Dangerous Wildlife Hunters specialize in tracking and trapping extremely lethal predatory animalia. They mostly work as independent contractors and pay a portion of their bounty in exchange for hunting licenses."
+ job_dangerous_wildlife_hunter_desc:0 "Dangerous Wildlife Hunters specialize in tracking and trapping extremely lethal predatory animalia. They mostly work as independent contractors and pay a portion of their bounty in exchange for hunting licenses."
 
  job_dangerous_wildlife_poacher:0 "Dangerous Wildlife Poacher"
  job_dangerous_wildlife_poacher_plural:0 "Dangerous Wildlife Paochers"
@@ -38,8 +44,8 @@
  
  mod_planet_miners_unity_produces_add:0 "$r_minerals$ from $job_miner_plural$"
 
- mod_technician_food_produces_add:0 "£food£ from $job_technician_plural$:"
- mod_technician_minerals_produces_add:0 "$r_minerals$ from $job_technician_plural$"
+ mod_planet_technician_food_produces_add:0 "£food£ from $job_technician_plural$:"
+ mod_planet_technician_minerals_produces_add:0 "$r_minerals$ from $job_technician_plural$"
  mod_planet_technician_alloys_produces_add:0 "$r_alloys$ from $job_technician_plural$"
 
  mod_planet_priests_unity_produces_mult:0 "$r_unity$ from $job_priest_plural$"
@@ -49,7 +55,9 @@
  mod_planet_pops_food_upkeep_mult:0 "Pop Food Upkeep"
  mod_planet_colonist_produces_mult:0 "Resources from $icon_job_colonists$"
  mod_job_dangerous_wildlife_hunter_add:0 "$job_dangerous_wildlife_hunter$ Jobs"
- mod_job_dangerous_wildlife_poacher_ad:0 "$job_dangeorus_wildlife_poacher$ Jobs"
+ mod_job_dangerous_wildlife_poacher_add:0 "$job_dangeorus_wildlife_poacher$ Jobs"
+
+ mod_edicts_unity_upkeep_mult:0 "Edict £unity£ Upkeep"
 
  ### The Blocker Mod - Custom Features - English
  
@@ -66,7 +74,7 @@
  d_steppe_uplands_desc:0 "This region of rugged ills, ravines, and swamp is unsuitable for all but the hardiest colonists who dare to scrape out a living working in the fields and mines."
 
  d_taiga:0 "Taiga"
- d_taiga_desc:0 "Still as a tomb, these silent, snowy woodlands sweep across vast plains of [planet.GetName]'s sub-polar regions. As peaceful as they seem from orbit, the conifer forests hide murky bogs and miles of swampland."
+ d_taiga_desc:0 "Still as a tomb, these silent, snowy woodlands sweep across vast plains of sub-polar regions. As peaceful as they seem from orbit, the conifer forests hide murky bogs and miles of swampland."
 
  d_sandstone_spires:0 "Sandstone Spires"
  d_sandstone_spires_desc:0 "Towers of fragile stone teeter on the open plains of this world, harboring nooks, crannies, and caves carved by wind and who knows what else inside."
@@ -75,7 +83,7 @@
  d_gas_vents_desc:0 "REPLACE_ME"
 
  d_natural_gardens:0 "Natural Gardens"
- d_natural_gardens_desc:0 "Whether by design or chance, this region of [planet.GetName] is covered by meticulously crafted ornate gardens. Behind flowers and rare trees are beds of vegetables and fungi for the benefit--intended or otherwise--of our colonists."
+ d_natural_gardens_desc:0 "Whether by design or chance, this region is covered by meticulously crafted ornate gardens. Behind flowers and rare trees are beds of vegetables and fungi for the benefit--intended or otherwise--of our colonists."
 
  d_glacier_lake:0 "Glacier Lake"
  d_glacier_lake_desc:0 "At the foot of a large glacier, this crystal-clear lake provides a chilly but welcome oasis amongst the icy mountains."
@@ -84,7 +92,7 @@
  d_giant_tree_desc:0 "The canopy of a truly massive deciduous tree provides its own ecosystem in the shade beneath its gigantic leaves and its miles-long roots expose valuable mineral seams for easy extraction."
 
  d_sea_monster:0 "Sea Monster"
- d_sea_monster_desc:0 "Seen only occasionally, rumors of a great moster's existence have spread among colonists, who now fear to explore the deeper seas on [planet.GetName]."
+ d_sea_monster_desc:0 "Seen only occasionally, rumors of a great moster's existence have spread among colonists, who now fear to explore the deeper seas and oceans of this world."
 
  d_great_lake:0 "Great Lake"
  d_great_lake_desc:0 "Initially mistaken for an inland sea from orbit, this vast freshwater lake offers rugged but valuable farmland at its shore."
@@ -151,24 +159,24 @@
  d_misty_plains_desc:0 "Humid and nearly always foggy, these damp plains are covered in deep bogs and peat moss punctuated by outcrops of rock and pine trees. Though verdant, the constant mist gives the region a gloomy, ghostly feel."
 
  d_salt_flats:0 "Salt Flats"
- d_salt_flats_desc:0 "This wide plain likely used to be a sea-bed and exposed salt glitters white and red in the parching sunlight from [planet.system.GetName] while sulfur and phosphorus waft through the air."
+ d_salt_flats_desc:0 "This wide plain likely used to be a sea-bed and exposed salt glitters white and red in the parching sunlight while sulfur and phosphorus waft through the air."
 
  d_arid_plains:0 "Arid Plains"
  d_arid_plains_desc:0 "Dry and riddled with rock, these rugged plains make construction and maintenance difficult. A lack of neaby fresh water makes the region a low priority for settlement, but leaves ample space for large-scale energy facilities."
 
  d_sandsea:0 "Sandsea"
- d_sandsea_desc:0 "A curious phenomenon, salt water and loose sand from nearby desert regions have mixed to form a roiling sea of quicksand and sand foam that flows with [planet.GetName]'s tides."
+ d_sandsea_desc:0 "A curious phenomenon, salt water and loose sand from nearby desert regions have mixed to form a roiling sea of quicksand and sand foam that flows with this world's tides."
 
  d_sandstone_cliffs:0 "Sandstone Cliffs"
  d_sandstone_cliffs_desc:0 "Towers cliffs loom over this region. The crumbling sandstone is too fragile to support any larger foundation but allows miners easy access to useful minerals."
 
- d_rough_plains:0 "Roough Plainsland"
+ d_rough_plains:0 "Rough Plainsland"
  d_rough_plains_desc:0 "There is nothing especially remarkable about this region, but its combination of razor-sharp rock, swift-flowing rivers, and unsavory weather leave it low on just about every ranking of potential settlements."
 
  ### The Blocker Mod - Artificial Features - English
 
  d_tbm_slums:0 "Sprawling Slums"
- d_tbm_slums_desc:0 "Poor urban planning has resulted in this expansive region of impoverished dwellings, where denizens live in squalor and are preyed upon by the less savory elements of [planet.GetName] society."
+ d_tbm_slums_desc:0 "Poor urban planning has resulted in this expansive region of impoverished dwellings, where denizens live in squalor and are preyed upon by the less savory elements of society."
 
  d_tbm_crater:0 "Crater"
  d_tbm_crater_desc:0 "A massive explosion has decimated this area, leaving a crater miles wide and several hundred feet deep where something used to be."
@@ -191,20 +199,20 @@
  d_geothermal_power_plant:0 "Geothermal Power Plant"
  d_geothermal_power_plant_desc:0 "A prototype facility extracts immense amounts of £energy£ Energy Credits from the planet's mantle."
 
- d_hydro_plant:0 "Hydroelectic Power Plant"
- d_hydro_plant_desc:0 "The £blocker£Rushing Waterfalls have been diverted to power a nearby city."
+ d_hydro_plant:0 "Hydro Power Plant"
+ d_hydro_plant_desc:0 "These £blocker£ Rushing Waterfalls have been diverted to power a nearby city."
 
  d_dyke:0 "REPLACE_ME"
  d_dyke_desc:0 "REPLACE_ME"
 
- d_ruler_mountain:0 "Mt. [ruler_at_the_time.GetFirstName]"
- d_ruler_mountain_desc:0 "This particularly colossal and auspicious mountain has been named for our glorious leader, [ruler_at_the_time.GetName]!"
+ #  d_ruler_mountain:0 "Mt. [planet.owner.ruler_at_the_time.GetFirstName]"
+ #  d_ruler_mountain_desc:0 "This particularly colossal and auspicious mountain has been named for our glorious leader, [planet.owner.ruler_at_the_time.GetName]!"
 
- d_homeworld_mountain:0 "Mt. [colony_homeworld.GetName]"
- d_homeworld_mountain_desc:0 "This especially spectacular and inspiring mountain was named by colonists after their homeworld, [colony_homeworld.GetName]."
+ #  d_homeworld_mountain:0 "Mt. [planet.owner.colonist_homeworld.GetName]"
+  #  d_homeworld_mountain_desc:0 "This especially spectacular and inspiring mountain was named by colonists after their homeworld, [planet.owner.GetHomeWorldName]."
 
- d_colonist_mountain:0 "Mt. [colonist_name.leader.GetLastName]"
- d_colonist_mountain_desc:0 "This marvelous and resplendent mountain was named by a particularly intrepid member of the expedition team who discovered and charted it shortly after the world was colonized."
+ #  d_colonist_mountain:0 "Mt. [planet.owner.colonist_name.GetSecondName]"
+ #  d_colonist_mountain_desc:0 "This marvelous and resplendent mountain was named by a particularly intrepid member of the expedition team after [planet.owner.colonist_name.GetHerHis] [planet.owner.ColonistSpecialFriend] who tragically perished in a climbing accident on [planet.owner.colony_homeworld.GetName] shortly before [planet.owner.colonist_name.GetHerHis] return to civilization."
 
  d_submerged_zro_seam:0 "Submerged Zro Seam"
  d_submerged_zro_seam_desc:0 "A seam of pure Zro is buried at the bottom of a deep-sea trench where the pressure has densified it to never-before-seen concentrations."
@@ -214,10 +222,10 @@
 
  ### The Blocker Mod - A City of the Desert - Features - English
 
- d_great_desert:0 "The Great [desert_planet.GetName] Desert"
- d_great_desert_desc:0 "Once a desolate £blocker£Searing Desert, years of toil and work have seen our people turn this place into a thriving region of farms and gardens, all powered by sustainable energy."
- d_great_city:0 "The Great [desert_planet.GetName] City"
- d_great_city_desc:0 "Once a desolate £blocker£Searing Desert, years of toil and work have seen our people turn this place into a thriving region that regularly attracts tourists, traders, and those looking for a fresh start."
+ d_great_desert:0 "The Great Desert Garden"
+ d_great_desert_desc:0 "Once a desolate §Y£blocker£ Searing Desert§!, years of toil and work have seen our people turn this place into a thriving region of farms and gardens, all powered by sustainable energy."
+ d_great_city:0 "The Great Desert City"
+ d_great_city_desc:0 "Once a desolate §Y£blocker£ Searing Desert§!, years of toil and work have seen our people turn this place into a thriving region that regularly attracts tourists, traders, and those looking for a fresh start."
 
  ### The Blocker Mod - A City of the Desert - Modifiers - English
 
@@ -232,10 +240,10 @@
 
  # Downside modifiers
  worker_deaths:0 "Worker Deaths"
- worker_deaths_empire:0 "Worker Deaths on [desert_planet.GetName]"
+ worker_deaths_empire:0 "Worker Deaths"
  overpopulated:0 "Overcrowding"
  stolen_materials:0 "Critical Materials Missing"
- sandstorms:0 "REPLACE_ME"
+ sandstorms:0 "Vicious Sandstorm"
 
  # Specialization modifiers (planet)
  great_desert_farms:0 "Desert Farms"
@@ -250,8 +258,7 @@
  WATERS_OF_LIFE:0 "The Waters of Life"
  WATERS_OF_LIFE_DESC:0 "All life begins with water. Though our people have learned to live on dry regions thanks to our technology, to truly capture the potential of these worlds will take mastering the sand and dust."
  CITY_OF_THE_DESERT:0 "A City of the Desert"
- CITY_OF_THE_DESERT_DESC:0 "The heat ripples on the horizon as [owner.GetAdj] workers on [desert_planet.GetName] dig foundations that fill back in with the wind. Many of them will never see the city built from nothing but sand come to fruition. But, slowly, sand becomes glass and glass becomes silicon; beams hold buildings above the dunes and fibers send plans, designs, and ideas back and forth at whirlwind speed."
-
+ CITY_OF_THE_DESERT_DESC:0 "The heat ripples on the horizon as workers on dig foundations that fill back in with the wind. Many of them will never see the city built from nothing but sand come to fruition. But, slowly, sand becomes glass and glass becomes silicon; beams hold buildings above the dunes and fibers send plans, designs, and ideas back and forth at whirlwind speed."
 
 
  ### The Blocker Mod - Planet / Static Modifiers
@@ -259,17 +266,18 @@
  # General
 
  mass_protest:0 "Mass Protest"
+ night_watches:0 "Night Watches"
 
  # Pioneering Colonists (Called on worlds with negative district space) 
 
  pioneering_colonists:0 "Pioneering Colonists"
- pioneering_colonists.desc:0 "The colonists on this planet are ready to face the harsh unknown that awaits, and will work to fashion this untamed world into a new home.\n\n"
+ pioneering_colonists_desc:0 "The colonists on this planet are ready to face the harsh unknown that awaits, and will work to fashion this untamed world into a new home.\n\n"
 
  new_frontier:0 "New Frontier"
- new_fronteir.desc:0 "This [planet.GetPlanetMoon] is a brave new world waiting to add its bounty to [owner.GetName].\n\n"
+ new_frontier_desc:0 "This is a brave new world waiting for us to enjoy its bounty.\n\n"
 
  terra_incognita:0 "Terra Incognita"
- terra_incognita.desc:0 "For the first time, [owner.GetSpeciesNamePlural] have set foot on a brave new world. Colonists are even now exploring the planet and discovering new alien wonders with every step."
+ terra_incognita_desc:0 "For the first time, we have set foot on a brave new world. Colonists are even now exploring the planet and discovering new alien wonders with every step."
 
  # Event Modifiers
 
@@ -280,14 +288,19 @@
  dangerous_wildlife_toxin:0 "Dangerous Wildlife Toxin"
  dangerous_wildlife_contamination:0 "Dangerous Wildlife Toxin Contamination"
  dangerous_wildlife_food_changes:0 "Dangerous Wildlife\:\ Food Chain Changes"
- night_watches:0 "Dangerous Wildlife\:\Night Watches"
 
  denied_investment:0 "Denied Investment"
  recreational_investment:0 "Recreational Investment"
 
+ kelp_bioweapons:0 "Kelp Bio-Weapons"
+ kelp_bioweapons_tooltip:0 "Our fleets now use explosive warheards containing lethally toxic barbs and aerosols derived from £blocker£ §YToxic Kelp§!.\n\n"
+ kelp_breakfasts:0 "Kelp For Breakfast"
+ kelp_breakfast_tooltip:0 "Once the poisonous barbs are removed, £blocker£ §YToxic Kelp§! on makes for a nutritious meal. So far, there have only been a few casualties.\\n\n"
+
  studying_latent_underlying_geothermal_gas_eruption_rhythm:0 "REPLACE_ME"
- PREDATOR_MODIFICATION_PROJECT:0 "REPLACE_ME"
- EXTERMINATE_XENOFAUNA:0 "REPLACE_ME"
+ 
+ cleared_hot_springs:0 "Cleared Hot Springs"
+ cleared_hot_springs_desc:0 "Though remote, the $d_hot_springs$ were a popular feature for outdoors-minded colonists and space tourists. While progress marches onwards, there is some grumbling about what is lost.\n\n"
 
  ### The Blocker Mod - Event Projects
 
@@ -296,9 +309,11 @@
  SHIFTING_SANDS:0 "REPLACE_ME"
  SOMETHING_IN_THE_PIPES:0 "REPLACE_ME"
  MEGASTRUCTURE_TOUR:0 "REPLACE_ME"
- 
 
- 
+ PREDATOR_MODIFICATION_PROJECT:0 "REPLACE_ME"
+
+ EXTERMINATE_XENOFAUNA:0 "Dangerous Wildlife Extermination"
+ EXTERMINATE_XENOFAUNA_DESC:0 "After attacks on outlying settlements, planetary authorities will welcome the military being sent in to take care of the $d_dangerous_wildlife_blocker$ once and for all." 
 
  cleared_hot_springs:0 "REPLACE_ME" 
  evacuations:0 "REPLACE_ME"
@@ -308,8 +323,7 @@
  
 
  recent_flooding:0 "REPLACE_ME"
- kelp_bioweapons:0 "REPLACE_ME"
- kelp_breakfasts:0 "REPLACE_ME"
+
  bigger_fish:0 "REPLACE_ME"
  xenofish_attacks:0 "REPLACE_ME"
  xenofish.attacks:0 "REPLACE_ME"

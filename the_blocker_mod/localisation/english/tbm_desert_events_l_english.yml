@@ -7,11 +7,11 @@
  tbm.31.desc:0 "[planet.GetName] is covered in §Y£blocker£ Searing Deserts§! ringed by §Y£blocker£ Arid Highlands§! devoid of anything but dust for hundreds of miles. These scorched regions make anything but the most hardy solar energy development a dream in the visual appendages of some more ambitious local administrators. \n\nSo, how do you clear a desert? You think big. Two ambitious projects have been presented to [desert_governor.GetName]\:\ \n\nThe first would irrigate these dry regions to allow widespread farming around a network of oases, aqueducts, and reservoirs. Similar feats have been attempted on our homeworld, but to achieve the same in an alien biosphere would be a monumental task indeed.\n\nThe second proposal speaks of a city in the sand, arcologies shining in the noon-time light, its inhabitants living and working in a hub of trade and culture like the great [owner.species.GetAdj] cities of old. Certainly, these dry regions are easily accessible by spacecraft--but building a modern mega-city from nothing but sand would be a feat for the ages.\n\nRealistically, the colony only possesses the capacity and resources to attempt one of these projects. It is also possible to redirect some of these resources to existing settlements, but no one ever dreams of that, do they?"
 
  tbm.31.waters:0 "We will bring the waters of life to these sands."
- tbm.31.waters.desc:0 "§TThis can only be chosen once.§V\n\nOur people will learn how to farm the dust and desert, but building larger cities here will be impossible."
- tbm.31.city:0 "These dunes will become the greatest city the galaxy has ever known."
- tbm.31.city.desc:0 "§TThis can only be chosen once.§V\n\nCity-building in other deserts will become easier, but dry worlds will not gain any agricultural bonuses."
- tbm.31.neither:0 "The welfare and development of what we have must come before what might one day be."
- tbm.31.neither.desc:0 "§TThis can only be chosen once.§V\n\nOur people will learn to live in the deserts as they are, but building larger cities or farming the hostile sand will remain beyond our reach."
+ tbm.31.waters.desc:0 "§EThis can only be chosen once.§!\n\nOur people will learn how to farm the dust and desert, but building larger cities here will be impossible."
+ tbm.31.city:0 "These dunes will be the greatest city the galaxy has ever known."
+ tbm.31.city.desc:0 "§EThis can only be chosen once.§!\n\nCity-building in other deserts will become easier, but dry worlds will not gain any agricultural bonuses."
+ tbm.31.neither:0 "The development of what we have must come before what might one day be."
+ tbm.31.neither.desc:0 "§EThis can only be chosen once.§!\n\nOur people will learn to live in the deserts as they are, but building larger cities or farming the hostile sand will remain beyond our reach."
 
  # Downsides
 
@@ -44,7 +44,7 @@
 
  tbm.39.farming:0 "Desert Farms"
  tbm.39.desc:0 "Spurred by [desert_governor.GetName]'s investments, pioneers and colonists from across the system are flocking to the §EGreat [planet.GetName] Desert§! looking for land and work.\n\nAlready, vine, cereal, and melon crops are taking root. Farming at this scale does require a lot of space, but soon the bounty will be exported across our worlds, bringing newfound flavours to the best [owner.GetAdj] restaurants and boosting the local economy on [planet.GetName] to boot."
- tbm.39.yes:0 "Bella vina, [desert_governor.Getname]!"
+ tbm.39.yes:0 "Bella vina, [desert_governor.GetName]!"
  tbm.39.no:0 "Easy pickings, but some of that land is spoken for."
 
  tbm.40.biosolar:0 "Bio-Solar Power"

@@ -264,7 +264,7 @@ planet_event = {
 		if = {
 			limit = {
 				owner = {
-					num_owned_planets < 2	# No luck for habitat starts, you already know a thing or two about colonization.
+					num_owned_planets < 3	# 3 because this is called after you own the colony. No luck for habitat starts, you already know a thing or two about colonization.
 				}
 			}
 			add_modifier = {
@@ -287,6 +287,6 @@ planet_event = {
 	}
 
 	option = {
-		name = OK	# This should really be something cooler.
+		name = tbm_handler.101.option	# This should really be something cooler.
 	}
 }

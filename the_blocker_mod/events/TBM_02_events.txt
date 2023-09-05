@@ -1120,9 +1120,9 @@ planet_event = {
 	immediate = {
 		# Get @num_miners
 		export_trigger_value_to_variable = {
-			trigger = any_owned_pop
+			trigger = num_assigned_jobs
 			parameters = {
-				has_job = miner
+				job = miner
 			}
 			variable = @miners
 		}
@@ -1261,9 +1261,9 @@ planet_event = {
 	immediate = {
 		
 		export_trigger_value_to_variable = {
-			trigger = any_owned_pop
+			trigger = num_ssigned_jobs
 			parameters = {
-				has_job = miner
+				job = miner
 			}
 			variable = @miners
 		}
@@ -1557,16 +1557,18 @@ planet_event = {
 
 	after = {
 		add_planet_devastation = 10
-		if = {
-			limit = {
-				can_collapse = yes
+		event_target:collapsed_mine = {
+			if = {
+				limit = {
+					can_collapse = yes
+				}
+				event_target:collapsed_mine = {
+					remove_deposit = yes
+				}
 			}
-			event_target:collapsed_mine = {
-				remove_deposit = yes
+			else = {
+				root = { remove_district = district_mining }
 			}
-		}
-		else = {
-			remove_district = district_mining
 		}
 		
 		#Casualties

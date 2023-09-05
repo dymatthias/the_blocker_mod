@@ -2,6 +2,34 @@
 
  ### The Blocker Mod - Scripted Loc Keys - English
 
+ tbm_scripted_test_string_1:0 "$tbm_test_string_recursive$"
+ tbm_scripted_test_string_2:0 "Scripted Test String Two"
+
+ tbm_colonial_council:0 "colonial council"
+ tbm_colonial_viceroy:0 "colonial viceroy"
+ tbm_colonial_affairs:0 "colonial affairs"
+
+ tbm_colonial_council_cap:0 "Colonial Council"
+ tbm_colonial_viceroy_cap:0 "Colonial Viceroy"
+ tbm_colonial_affairs_cap:0 "Colonial Affairs"
+
+ tbm_sunset:0 "suns-set"
+ tbm_binary_sunset:0 "binary sunset"
+ tbm_trinary_sunset:0 "trinary sunset"
+ tbm_binary_sunset_plural:0 "binary sunsets"
+ tbm_trinary_sunset_plural:0 "trinary sunsets"
+ tbm_binary_sunset_cap:0 "Binary sunset"
+ tbm_trinary_sunset_cap:0 "Trinary sunset"
+ tbm_binary_sunset_cap_plural:0 "Binary sunsets"
+ tbm_trinary_sunset_cap_plural:0 "Trinary sunets"
+
+ tbm_binary_multiple_suns_set:0 "suns-set"
+
+ tbm_binary_suns:0 "suns"
+ tbm_sunset_set:0 "set"
+ tbm_sunset_dependent_plural:0 "sets"
+ 
+
  tbm_waters_of_life_project_name:0 "Waters of Life"
  tbm_city_desert_project_name:0 "A City of the Desert"
 
@@ -11,3 +39,16 @@
  tbm_shiny_rock_starbase:0 "Star Fortress"
  tbm_shiny_rock_lithoids_mineral_fields:0 "§YMineral Fields§!"
  tbm_shiny_rock_lithois_basaltic_outcroups:0 "§YBasaltic Outcrops§!"
+
+ tbm_colonist_boyfriend:0 "boyfriend"
+ tbm_colonist_girlfriend:0 "girlfriend"
+ tbm_colonist_special_friend:0 "special friend"
+
+#  tbm_mt_colonist:0 "Mt. [planet.owner.colonist_friend.GetSecondName]"
+#  tbm_mt_homeworld:0 "Mt. [planet.owner.colony_homeworld.GetName]"
+#  tbm_mt_ruler:0 "Mt. [planet.owner.ruler_at_the_time.GetFirstName]"
+
+ tbm_unruly_peasants:0 "unruly peasants"
+ tbm_organized_environmentalists:0 "organized environmentalists"
+
+ 

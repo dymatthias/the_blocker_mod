@@ -31,7 +31,7 @@ colonist = {
 			trigger = {
 				is_lithoid = no
 			}
-			food = 1000
+			food = 1
 		}
 		produces = {
 			trigger = {

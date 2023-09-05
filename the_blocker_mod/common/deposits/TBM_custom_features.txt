@@ -15,6 +15,10 @@
 @blocker_high = 10
 @blocker_low = 5
 
+### TBM Debug Features
+
+
+
 ### TBM Custom Features - Natural (these can spawn)
 
 d_fjordland = {
@@ -235,7 +239,7 @@ d_sandstone_spires = {
 		weight = @low
 
 		modifier = {
-			factor = 4
+			factor = 2
 			is_dry = yes
 		}
 
@@ -655,7 +659,7 @@ d_floodplains = {
 	}
 
 	drop_weight = {
-		weight = @blocker_low
+		weight = @med
 
 		modifier = {
 			factor = 2
@@ -1078,7 +1082,7 @@ d_tbm_impact_crater = {
 	is_for_colonizable = yes
 	should_swap_deposit_on_terraforming = yes
 	category = deposit_cat_minerals
-	icon = d_ocean
+	icon = d_crater
 
 	use_for_min_max_adjustments = yes
 
@@ -1680,8 +1684,7 @@ d_drylands = {
 	resources = {
 		category = deposit_blockers_natural
 		cost = {
-			energy = 1200
-			minerals = 400
+			energy = 600
 		}
 	}
 
@@ -2459,21 +2462,23 @@ d_rough_plains = {
 	resources = {
 		category = deposit_blockers_natural
 		cost = {
-			energy = 200
+			energy = 400
 		}
 	}
 
 	on_cleared = {
-		random_list = {
-			20 = {
-				modifier = {
-					factor = 2
-					owner = { has_technology = tech_mountain_range }
+		hidden_effect = {
+			random_list = {
+				20 = {
+					modifier = {
+						factor = 2
+						owner = { has_technology = tech_mountain_range }
+					}
+	
+					add_deposit = d_bountiful_plains
 				}
-
-				add_deposit = d_bountiful_plains
+				80 = {}
 			}
-			80 = {}
 		}
 	}
 
@@ -2481,6 +2486,7 @@ d_rough_plains = {
 		planet_max_districts_add = -1
 		district_farming_max = 1
 		planet_amenities_mult = -0.05
+		planet_farmers_food_produces_mult = -0.05
 	}
 
 	drop_weight = {
@@ -2630,6 +2636,10 @@ d_rubble = {
 			}
 		}
 	}
+
+	potential = {
+		always = no
+	}
 }
 
 d_collapsed_cliffs = {
@@ -2662,6 +2672,10 @@ d_collapsed_cliffs = {
 				minerals = 500
 			}
 		}
+	}
+
+	potential = {
+		always = no
 	}
 }
 
@@ -2710,6 +2724,10 @@ d_great_river_obstructed = {
 	planet_modifier = {
 		planet_farmers_food_produces_mult = 0.1
 	}
+
+	potential = {
+		always = no
+	}
 }
 
 d_urban_power_plant = {
@@ -2723,6 +2741,10 @@ d_urban_power_plant = {
 		district_generator_max = 1
 		planet_technician_energy_produces_add = 1
 	}
+
+	potential = {
+		always = no
+	}
 }
 
 d_geothermal_power_plant = {
@@ -2734,6 +2756,10 @@ d_geothermal_power_plant = {
 	planet_modifier = {
 		district_generator_max = 1
 	}
+
+	potential = {
+		always = no
+	}
 }
 
 d_hydro_plant = {
@@ -2742,8 +2768,17 @@ d_hydro_plant = {
 
 	use_for_min_max_adjustments = yes
 
+	blocker_swap_types = {	# Currently unused but will likely be for ME homeworlds.
+		d_great_river
+		d_rushing_waterfalls
+	}
+
 	planet_modifier = {
 		district_generator_max = 1
+	}
+
+	potential = {
+		always = no
 	}
 }
 
@@ -2760,6 +2795,10 @@ d_dyke = {
 
 	planet_modifier = {
 		pop_housing_usage_mult = 0.02
+	}
+
+	potential = {
+		always = no
 	}
 }
 

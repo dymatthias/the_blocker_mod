@@ -22,14 +22,16 @@ special_project = {
 	days_to_research = 90
 	picture = GFX_evt_alien_wildlife
 
-	event_scope = planet_event
+	event_scope = ship_event
 	
 	requirements = {
 		shipclass_military = 1
 	}
 
 	on_success = {
-		remove_deposit = d_dangerous_wildlife_blocker
+		from = {
+			remove_deposit = d_dangerous_wildlife_blocker
+		}
 	}
 }
 
