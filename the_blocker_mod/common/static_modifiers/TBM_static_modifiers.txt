@@ -3,7 +3,7 @@
 ### General
 
 pioneering_colonists = {
-	icon = gfx/interface/planet_modifiers/pm_victorious_army.dds
+	icon = "gfx/interface/planet_modifiers/pm_victorious_army.dds"
 	icon_frame = 1
 	deposit_blockers_cost_mult = -0.2
 	planet_clear_blocker_speed_mult = -02
@@ -23,6 +23,10 @@ terra_incognita = {
 	icon = gfx/interface/icons/planet_modifiers/pm_engineering_research.dds
 	icon_frame = 1
 	planet_colonist_produces_mult = 0.2
+}
+
+subsurface_spaceport_opened = {
+	trade_value_mult = 0.25
 }
 
 mass_protest = {
@@ -54,6 +58,11 @@ evacuations = {
 	#icon = gfx/interface/icons/planet_modifiers/pm_unity.dds
 	icon_frame = 3
 	planet_jobs_unity_produces_mult = -0.1
+	pop_happiness = -0.1
+}
+
+modifier_privatizations = {
+	pop_ethic_egalitarian_attraction_mult = 0.25
 	pop_happiness = -0.1
 }
 

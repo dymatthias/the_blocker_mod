@@ -12,6 +12,53 @@ is_lost_colony_starting_planet = {
 }
 
 
+### LOCAL
+has_gaseous_system = {
+	from.solar_system = {
+		any_system_planet = {
+			OR = {
+				has_deposit = d_exotic_gases_1
+				has_deposit = d_exotic_gases_2
+				has_deposit = d_exotic_gases_3
+				has_deposit = d_exotic_gases_4
+				has_deposit = d_exotic_gases_5
+				#is_planet_class = pd_gas_dwarf
+			}
+		}
+	}
+}
+
+### LANDSCAPES
+#	this = planet
+
+has_volcanic_activity = {
+	has_deposit = d_geothermal_vent
+}
+
+has_hill_feature = {
+	from = {
+		OR = {
+			has_deposit = d_alien_pets_deposit
+			has_deposit = d_arid_highlands	
+			has_deposit = d_fjordland
+			has_deposit = d_highlands
+			has_deposit = d_highland_lake
+			has_deposit = d_arid_highlands
+		}
+	}
+}
+
+has_mountain_feature = {
+	OR = {
+		has_deposit = d_rich_mountain
+		has_deposit = d_tempestous_mountain
+		has_deposit = d_prosperous_mesa
+	}
+}
+
+
+
+
 has_ruling_class = {
 	exists = owner
 	owner = {
@@ -31,6 +78,15 @@ has_ruling_class = {
 			has_civic = civic_shared_burden
 			has_civic = civic_technocracy
 		}
+	}
+}
+
+# this = owner
+is_industrialist = {
+	OR = {
+		has_authority = auth_corporate
+		has_civic = civic_relentless_industrialists
+		has_civic = civic_mining_guilds
 	}
 }
 

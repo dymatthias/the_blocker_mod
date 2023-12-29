@@ -5,8 +5,9 @@
 namespace = tbm_handler
 
 
-# 2. Adds Regional Power Plants to Urban Areas - TEST FEATURE
-# Planets with > 3 urban districts and < 1 generator need to set aside space for power; also helps planets without natural generator districts.
+
+
+# 2. Power Plant Handler (this needs a better trigger)
 planet_event = {
 	id = tbm_handler.2
 	hide_window = yes
@@ -18,18 +19,57 @@ planet_event = {
 	}
 
 	trigger = {
-		# Needs scripted.
+		owner = {
+			any_owned_planet = {
+				is_artificial = no
+				OR = {
+					num_districts = {
+						type = district_city
+						value > 2
+					}
+					num_districts = {
+						type = district_industrial
+						value > 2
+					}
+				}
+				num_districts = {
+					type = district_generator
+					value < 1
+				}
+			}
+		}
 	}
 
 	immediate = {
-		add_deposit = d_urban_power_plant
-		# Show notification
+		planet_event = {
+			id = tbm_handler.3
+			days = 180
+			random = 90
+		}
 	}
 }
 
-### 3. Slum Generator - Non-Artificial (on_yearly_pulse)
+### 3. Power Plant Generator
 planet_event = {
 	id = tbm_handler.3
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		add_deposit = d_urban_power_plant
+		create_message = {	# This isn't working yet.
+			type = "MESSAGE_TEST"
+			localization = TBM_MESSAGE_TEST
+			days = -1
+			target = this
+		}
+	}
+}
+
+### 4. Slum Handler (on_yearly_pulse)
+planet_event = {
+	id = tbm_handler.4
 	hide_window = yes
 
 	is_triggered_only = yes
@@ -40,17 +80,24 @@ planet_event = {
 
 	# Several pre-reqs here that basically amount to crummy urban living; should be less common in late-game post-scarcity economies
 	trigger = {
-		# Got to have one each of sprawl and poor conditions
-		OR = {
-			free_amenities < 1
-			free_housing < 5
-			planet_crime > 15
-		}
-		OR = {
-			free_district_slots < 1
-			num_districts = {
-				type = district_city
-				value >= 3
+		owner = {
+			any_owned_planet = {
+			
+				is_artificial = no
+				
+				# Got to have one each of sprawl and poor conditions
+				OR = {
+					free_amenities < 1
+					free_housing < 5
+					#planet_crime > 15
+				}
+				OR = {
+					free_district_slots < 1
+					num_districts = {
+						type = district_city
+						value >= 3
+					}
+				}	
 			}
 		}
 	}
@@ -59,7 +106,7 @@ planet_event = {
 		
 		random_list = {
 			# Slums generated, more likely if conditions are already bad.
-			50 = {
+			20 = {
 				modifier = {
 					factor = 2
 					any_owned_pop = {
@@ -72,12 +119,18 @@ planet_event = {
 						has_deficit = consumer_goods
 					}
 				}
+				modifier = {
+					factor = 2
+					planet_resource_compare = {	# TEST performance hit on yearly pulse.
+						resource = consumer_goods
+						value < 2
+					}
+				}
 				modifier = {	# Incentivize local food!
 					factor = 2
 					planet_resource_compare = {
 						resource = food
 						value < 0
-						type = balance
 					}
 				}
 				modifier = {
@@ -86,7 +139,6 @@ planet_event = {
 						OR = {
 							has_authority = auth_corporate
 							has_authority = auth_oligarchic
-							has_authority = auth_imperial
 						}
 					}
 				}
@@ -103,21 +155,12 @@ planet_event = {
 					}
 				}
 
-				add_deposit = d_tbm_slums	# Gestalts need to get appropriate unsupervised/deviant settlement.
-				create_message = {	# This isn't working yet.
-					type = "SUDDEN_SINKHOLE"
-					localization = tbm.message.slumgenerator
-					days = 30
-					target = root
-					variable = {
-						type = name
-						localization = PLANET
-						scope = this
-					}
+				planet_event = {
+					id = tbm_handler.5
 				}
 			}
 			# No slums this time.
-			50 = {
+			80 = {
 				modifier = {
 					factor = 2
 					owner = {
@@ -133,7 +176,26 @@ planet_event = {
 	}
 }
 
-### 6. Industrial Wasteland Generator - Non-Artificial (on_yearly_pulse)
+### 5. Slum Generator
+planet_event = {
+	id = tbm_handler.5
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		add_deposit = d_tbm_slums	# Gestalts need to get custom slums eventually.
+		create_message = {
+			type = "MESSAGE_TEST"
+			localization = TBM_MESSAGE_TEST
+			days = -1
+			target = this
+		}
+	}
+	
+}
+
+### 6. Industrial Wasteland Handler (on_yearly_pulse)
 planet_event = {
 	id = tbm_handler.6
 	hide_window = yes
@@ -141,28 +203,37 @@ planet_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		
-		# Got to have one each of sprawl and poor conditions
-		OR = {
-			free_amenities < 3
-			free_housing < 1
-			planet_crime > 10
-		}
-		OR = {
-			# Partly to punish highly-specialized planets of any kind, but okay as long as you don't stuff it.
-			free_district_slots < 2
-			OR = {
-				num_districts = {
-					type = district_industrial
-					value >= 3
+		owner = {
+			any_owned_planet = {
+				is_artificial = no
+	
+				# Got to have one each of sprawl and poor business conditions
+				OR = {
+					free_amenities < 8
+					planet_crime > 10
+					any_owned_pop = {
+						OR = {
+							has_job = merchant
+						}
+					}
 				}
-				num_districts = {
-					type = district_mining
-					value >= 3
-				}
-				num_districts = {
-					type = district_generator
-					value >= 3
+				OR = {
+					# Partly to punish highly-specialized planets of any kind, but okay as long as you don't stuff it.
+					free_district_slots < 2
+					OR = {
+						num_districts = {
+							type = district_industrial
+							value >= 3
+						}
+						num_districts = {
+							type = district_mining
+							value >= 3
+						}
+						num_districts = {
+							type = district_generator
+							value >= 3
+						}
+					}
 				}
 			}
 		}
@@ -171,7 +242,7 @@ planet_event = {
 	immediate = {
 		
 		random_list = {
-			# Slums generated, more likely with some other factors.
+			# Wastelands generated, more likely with some other factors.
 			50 = {
 				modifier = {
 					factor = 2
@@ -199,7 +270,13 @@ planet_event = {
 					planet_crime > 20
 				}
 
-				add_deposit = d_failing_infrastructure
+				add_deposit = d_tbm_industrial_wasteland
+				create_message = {
+					type = "MESSAGE_TEST"
+					localization = TBM_MESSAGE_TEST
+					days = -1
+					target = this
+				}
 			}
 			# No slums this time.
 			50 = {
@@ -207,6 +284,24 @@ planet_event = {
 			}
 		}
 
+	}
+}
+
+### 7. Industrial Wasteland Generator
+planet_event = {
+	id = tbm_handler.7
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		add_deposit = d_tbm_industrial_wasteland
+		create_message = {
+			type = "MESSAGE_TEST"
+			localization = TBM_MESSAGE_TEST
+			days = -1
+			target = this
+		}
 	}
 }
 
