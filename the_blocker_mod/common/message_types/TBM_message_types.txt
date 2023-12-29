@@ -1,8 +1,21 @@
 
+
+message_type = {
+	key = "MESSAGE_TEST"
+	name = "MESSAGE_TEST_TITLE"
+	icon = "TBM_message_bad_thing"
+	icon_frame = 1
+	sound = alert_negative
+	auto_opens = none
+	ping = "ping_notification_yellow"
+}
+
+
 message_type = {
 	key = "SUDDEN_SINKHOLE"
 	icon = "TBM_message_bad_thing"
 	icon_frame = 1
 	sound = alert_negative
+	auto_opens = none
 	ping = "ping_notification_yellow"
 }

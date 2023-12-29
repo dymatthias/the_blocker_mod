@@ -4,7 +4,8 @@
  
  # Debug
 
-
+ MESSAGE_TEST_TITLE:0 "Message Test"
+ TBMM_MESSAGE_TEST:0 "This message tested."
 
  
  ### The Blocker Mod - Jobs
@@ -58,6 +59,7 @@
  mod_job_dangerous_wildlife_poacher_add:0 "$job_dangeorus_wildlife_poacher$ Jobs"
 
  mod_edicts_unity_upkeep_mult:0 "Edict £unity£ Upkeep"
+
 
  ### The Blocker Mod - Custom Features - English
  
@@ -175,6 +177,9 @@
 
  ### The Blocker Mod - Artificial Features - English
 
+ d_vanilla_failing_infrastructure:0 "Industrial Wasteland"
+ d_vanilla_failing_infrastructure_desc:0 "This region is covered by ruined industrial complexes and toxic soil, detritus from a past age of progress."
+
  d_tbm_slums:0 "Sprawling Slums"
  d_tbm_slums_desc:0 "Poor urban planning has resulted in this expansive region of impoverished dwellings, where denizens live in squalor and are preyed upon by the less savory elements of society."
 
@@ -267,6 +272,7 @@
 
  mass_protest:0 "Mass Protest"
  night_watches:0 "Night Watches"
+ modifier_privatizations:0 "Privatization"
 
  # Pioneering Colonists (Called on worlds with negative district space) 
 

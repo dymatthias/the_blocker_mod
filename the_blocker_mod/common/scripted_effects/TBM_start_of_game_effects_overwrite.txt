@@ -1,8 +1,9 @@
 ### The Blocker Mod - Start of Game Effects Overwrite
 #	This effect is called from game_start.12 for empire init.
 #	It does NOT get called on Void Dweller starts or Toxic Knights starts.
-#	For TBM 0.4 Alpha, all custom effects are added/called at the end. This includes the Lost Colony fix.
-### Any mod that edits this scripted_effect must load BEFORE The Blocker Mod or homeworlds will have bugs.
+
+### Any mod that edits this scripted_effect will conflict with The Blocker Mod and will produce bugs on homeworlds.
+###	Planetary Diversity edits this effect, but only to do much the same as TBM. Load TBM after Planetary Diversity or you will have bugs.
 
 
 # This is called after game start
@@ -13,7 +14,29 @@ generate_start_deposits_and_blockers = {
 	optimize_memory
 	clear_deposits = yes
 
-	# blockers
+
+	### The Blocker Mod - Flags & System Initializer Patches
+	
+	
+	#	Vanilla adds a bunch of unique planets via solar_system_initializers. Anyt hat are inhabited are set to clear all blockers, thus removing all features when TBM is enabled. This script adds them back.
+
+
+
+	# Check and flag Lost Colony worlds (doing it here avoids compatibility problems)
+	if = {
+		limit = {
+			owner = { has_origin = origin_lost_colony }
+		}
+		# Make it easier to denote lost colony starting planets for feature purposes.
+		set_planet_flag = lost_colony_world
+	}
+
+
+	### The Blocker Mod - Overwrite
+
+	### Basic Blockers
+	
+	# Post-Apoc
 	if = {
 		limit = {
 			owner = {
@@ -22,7 +45,13 @@ generate_start_deposits_and_blockers = {
 		}
 		add_deposit = d_tomb_world_ruins
 		add_deposit = d_tomb_world_wasteland
+
+		# Special features for Post-Apoc
+		add_deposit = d_library_of_before
+		add_deposit = d_chapel_of_the_fall
 	}
+	
+	# Exterminators
 	else_if = {
 		limit = {
 			owner = {
@@ -34,6 +63,8 @@ generate_start_deposits_and_blockers = {
 		add_deposit = d_exterminators_ruins
 		add_deposit = d_former_battlefield
 	}
+	
+	# Servitors
 	else_if = {
 		limit = {
 			owner = {
@@ -44,6 +75,8 @@ generate_start_deposits_and_blockers = {
 		add_deposit = d_strip_mine
 		add_deposit = d_unsupervised_settlement
 	}
+
+	# Assimilators
 	else_if = {
 		limit = {
 			owner = {
@@ -55,6 +88,8 @@ generate_start_deposits_and_blockers = {
 		add_deposit = d_strip_mine
 		add_deposit = d_assimilators_ruins
 	}
+
+	# Machines
 	else_if = {
 		limit = {
 			owner = {
@@ -66,6 +101,8 @@ generate_start_deposits_and_blockers = {
 		add_deposit = d_strip_mine
 		add_deposit = d_machine_empire_ruins
 	}
+
+	# Hives
 	else_if = {
 		limit = {
 			owner = {
@@ -77,6 +114,8 @@ generate_start_deposits_and_blockers = {
 		add_deposit = d_failing_infrastructure
 		add_deposit = d_failing_infrastructure
 	}
+
+	# Standard Blockers - TBM changes Industrial Wasteland to a clone versions to avoid some bugs and maintain compatibility.
 	else_if = {
 		limit = {
 			owner = {
@@ -84,10 +123,20 @@ generate_start_deposits_and_blockers = {
 			}
 		}
 		add_deposit = d_decrepit_dwellings
-		add_deposit = d_failing_infrastructure
-		add_deposit = d_failing_infrastructure
+		add_deposit = d_vanilla_failing_infrastructure
+		add_deposit = d_vanilla_failing_infrastructure
 	}
 
+	# Unity (Commonwealth)
+	if = {
+		limit = {
+			has_planet_flag = planet_unity
+		}
+		remove_deposit = d_failing_infrastructure
+		add_deposit = d_forgotten_civilization
+	}
+
+	# Lithoids - Note Calamitous Birth lithoids are handled in generate_home_planet_final_pass which TBM does not touch.
 	if = {
 		limit = {
 			owner = {
@@ -104,6 +153,7 @@ generate_start_deposits_and_blockers = {
 		}
 	}
 
+	# Devouring Lithopids
 	if = {
 		limit = {
 			owner = {
@@ -117,507 +167,488 @@ generate_start_deposits_and_blockers = {
 		}
 	}
 
+
+	### Features
+	#	All planet classes are handled identically to help preserve mod compatibility
+	#	Order of effects is very important here!	
+	
+
+	### --- Regular Spreads --- ###
+
+	### HIVES
 	if = {
 		limit = {
-			owner = {
-				has_origin = origin_post_apocalyptic
-			}
+			owner = { is_hive_empire = yes }
 		}
 
-		# 3 + 3 energy
-		add_deposit = d_hot_springs
-		add_deposit = d_searing_desert
-		add_deposit = d_underwater_vent
-
-		# 3 + 4 mining
-		add_deposit = d_veiny_cliffs
-		add_deposit = d_ore_rich_caverns
-		add_deposit = d_submerged_ore_veins
-
-		# 3 + 2 farming
-		add_deposit = d_lichen_fields
-		add_deposit = d_fungal_caves
-		add_deposit = d_fungal_forest
-	}
-
-	if = {
-		limit = {
-			owner = {
-				has_civic = civic_machine_terminator
-			}
+		### ENERGY: 5 + 1 from dual feature, 1 blocked, -1 districts
+		add_deposit = d_neural_network
+		# Macro-Mitochondria / Protein Metabolyzers (replacing Power Plant)
+		add_deposit = d_homeworld_extreme_weather
+		add_deposit = d_gestlat_experimental_geothermal_tap
+		add_blocker = {
+			type = d_homeworld_bandit_camp
+			blocked_deposit = d_gestalt_fossil_fuel_reserves
 		}
+		# +1 from Fertile Delta
 
-		# 4 + 3 energy
-		add_deposit = d_hot_springs
-		add_deposit = d_searing_desert
-		add_deposit = d_underwater_vent
-		add_deposit = d_searing_desert
+		### MINING: 6, -1 district
+		add_deposit = d_mining_enzymes
+		add_deposit = d_tbm_gestalt_strip_mine
+		add_deposit = d_recycling_processes
+		add_deposit = d_gestalt_major_impact_site
+		add_deposit = d_gestalt_rare_metals_lab
+		# +1 from Dustbowl
 
-		# 4 + 3 mining
-		add_deposit = d_veiny_cliffs
-		add_deposit = d_ore_rich_caverns
-		add_deposit = d_submerged_ore_veins
-
-		# 3 farming
-		add_deposit = d_lichen_fields
-		add_deposit = d_fungal_caves
-	}
-
-	if = {
-		limit = {
-			owner = {
-				has_origin = origin_life_seeded
-			}
-		}
-
-		set_planet_size = 30
-
-		# 5 + 3 energy
-		add_deposit = d_searing_desert
-		add_deposit = d_underwater_vent
-		add_deposit = d_tempestous_mountain
-
-		# 5 + 3 mining
-		add_deposit = d_ore_rich_caverns
-		add_deposit = d_prosperous_mesa
-		add_deposit = d_submerged_ore_veins
-
-		# 5 + 3 farming (lithoids swap 3 for minerals)
-		add_deposit = d_lush_jungle
-		add_deposit = d_teeming_reef
-
+		### FARMING: 8, 1 blocked
 		if = {
-			limit = { owner = { is_lithoid_empire = yes } }
-			add_deposit = d_rich_mountain
+			limit = { owner = { is_lithoid_empire = yes }}
+			aadd_blocker = {
+				type = d_homeworld_dustbowl
+				blocked_deposit = d_reclaimed_land
+			}
+			add_deposit = d_fertile_delta
 		}
 		else = {
-			add_deposit = d_black_soil
+			add_deposit = d_metabolic_processing
+			add_deposit = d_factory_slaughterhouses
+			add_deposit = d_fertile_delta # +1 generator
+			add_deposit = d_homeworld_gestalt_urban_aeroponics
+			add_deposit = d_homeworld_gestalt_urban_aeroponics
+			add_blocker = {
+				type = d_homeworld_dustbowl
+				blocked_deposit = d_reclaimed_land
+			}
+		}
+		
+		# Fish Shoals / Moisture Farming (+1 farming)
+		if = {
+			limit = {
+				OR = {
+					is_wet = yes
+					is_planet_class = pc_gaia
+				}
+			}
+			add_deposit = d_fish_shoals
+		}
+		else = {
+			add_deposit = d_homeworld_moisture_farming
+		}
+	}
+	### MACHINES
+	# Exterminators & Servitors get extra districts later.
+	else_if = {
+		limit = {
+			owner = { is_machine_empire = yes }
 		}
 
-		# 1 random medium deposit
-		random_list = {
-			33 = { add_deposit = d_frozen_gas_lake }
-			33 = { add_deposit = d_prosperous_mesa }
-			33 = { add_deposit = d_fertile_lands }
+		### ENERGY: 5, 1 from dual feature, 1 blocked, -1 total district
+		add_deposit = d_high_wire_network
+		# Central Power Nexus (like power plant but ME-flavor and no district hit)
+		add_deposit = d_battery_farms
+		add_deposit = d_homeworld_extreme_weather
+		add_deposit = d_gestlat_experimental_geothermal_tap
+		add_blocker = {
+			type = d_homeworld_bandit_camp
+			blocked_deposit = d_gestalt_fossil_fuel_reserves
+		}
+		# +1 from Fertile Delta
+
+		### MINING: 6
+		add_deposit = d_computerized_extraction_sites
+		add_deposit = d_tbm_gestalt_strip_mine
+		add_deposit = d_recycling_processes
+		add_deposit = d_gestalt_major_impact_site
+		add_deposit = d_gestalt_rare_metals_lab
+		# +1 from Dustbowl
+
+		### FARMING: 4, 1 blocked (Servitors and Assimilators get more below)
+		add_deposit = d_factory_slaughterhouses
+		add_deposit = d_fertile_delta # +1 generator
+		add_blocker = {
+			type = d_homeworld_dustbowl
+			blocked_deposit = d_reclaimed_land
+		}
+	}
+
+	### REGULAR EMPIRE HOMEWORLDS
+	else = {
+	
+		# Energy: 6, 1 blocked, =1 total district
+		add_deposit = d_high_wire_network
+		add_deposit = d_urban_power_plant
+		add_deposit = d_homeworld_extreme_weather
+		add_deposit = d_inaugural_spaceport
+		add_deposit = d_experimental_geothermal_tap
+		add_blocker = {
+			type = d_homeworld_bandit_camp
+			blocked_deposit = d_fossil_fuel_reserves
+		}
+		# +1 from Fertile Delta
+
+		# Mining: 6, 1 blocked, -1 total district
+		add_deposit = d_mine_shafts
+		add_deposit = d_tbm_strip_mine
+		add_deposit = d_recycling_programs
+		add_blocker = {
+			type = d_impact_memorial
+			blocked_deposit = d_major_impact_site
+		}
+		add_deposit = d_rare_metals_lab
+
+		# Farming: 8, -1 total district
+		if = {
+			limit = { owner = { is_lithoid_empire = yes }}
+			add_blocker = {
+				type = d_homeworld_dustbowl
+				blocked_deposit = d_reclaimed_land
+			}
+			add_deposit = d_fertile_delta
+		}
+		else = {
+			add_deposit = d_homestead_farms
+			add_deposit = d_factory_slaughterhouses
+			add_deposit = d_fertile_lands
+			add_deposit = d_fertile_delta
+			add_deposit = d_homeworld_urban_aeroponics
+			add_deposit = d_food_banks
+			add_blocker = {
+				type = d_homeworld_dustbowl
+				blocked_deposit = d_reclaimed_land
+			}
 		}
 
-		add_deposit = d_dust_caverns
+	}
+
+	### --- Special Homeworld feature sets - Can only have one --- ###
+	#		These clear everything above and re-do.
+
+	### POST-APOC - Regular
+	# Special spread forcing slightly more challenge, particularly with food, but more potential for alloy salvage.
+	if = {
+		limit = {
+			owner = { has_origin = origin_post_apocalyptic}
+			owner = { is_gestalt = no }
+		}
+		
+		# Remove last vestiges of civilization
+		clear_deposits = yes
+		
+		# Energy - Post-Apoc gets 8 gen (+2 from vanilla), one blocked, one is hybrid
+		add_deposit = d_homeworld_derelict_reactors
+		add_deposit = d_homeworld_derelict_reactors
+		add_deposit = d_homeworld_derelict_reactors
+		add_deposit = d_homeworld_extreme_weather
+		add_deposit = d_unexploded_munitions	# Also provides mining
+		add_deposit = d_homeworld_black_market	# Consider removing
+		add_blocker = {
+			type = d_broken_transformer_station
+			blocked_deposit = d_high_wire_network
+		}
+		add_blocker = {
+			type = d_homeworld_bandit_camp
+			blocked_deposit = d_fossil_fuel_reserves
+		}
+
+		# Mining - Post-Apoc get 9 mining (+2 from vanilla), one blocked, one hybrid (above)
+		add_deposit = d_scavenger_bands
+		add_deposit = d_scavenger_bands
+		add_deposit = d_hulks
+		add_deposit = d_hulks
+		add_deposit = d_slag_heap
+		add_deposit = d_slag_heap
+		add_deposit = d_rare_metals_lab
+		add_deposit = d_tomb_mine_shafts
+
+		# Farming - Post-apoc get very little farming: 3 (-3 from vanilla)
+		add_deposit = d_food_rations
+		add_deposit = d_survival_camps
+		add_deposit = d_seed_banks
+	}
+
+	### POST-APOC - Hive (machines currently do not get a special Post-Apoc)
+
+
+
+	### RELICS (currently just vanilla but add here as necessary)
+	else_if = {
+		limit = { is_planet_class = pc_relic }
+		if = {
+			limit = { owner = { has_origin = origin_remnants }}
+			set_planet_size = 22
+			add_deposit = d_ruined_arcology
+			add_deposit = d_ruined_arcology
+			add_deposit = d_ruined_arcology
+			add_deposit = d_ruined_arcology
+			add_deposit = d_ruined_arcology
+		}
+
+		#clear_deposits = yes
+
+		# Remnant Stuff Go Here
+	}
+
+	### LIFE-SEEDED
+	#	Life-Seeded will now have most of its massive planet blocked, to allow for choices as the empire develops.
+	else_if = {
+		limit = { owner = { has_origin = origin_life_seeded}}
+		clear_deposits = yes
+
+		# Energy - 8 total, -3 districts, 2 blocked	
+		add_deposit = d_fertile_delta	# Provies 1 farming as well
+		add_deposit = d_inaugural_spaceport
+		add_deposit = d_high_wire_networks
+		add_deposit = d_homeworld_dormant_supervolcano # 2 generators, cannot currently be cleared but also doesn't blow, fair trade.
+		add_blocker = {
+			type = d_hot_springs
+			blocked_deposit = d_homeworld_dormant_supervolcano
+		}
+		add_blocker = {
+			type = d_homeworld_bandit_camp
+			blocked_deposit = d_gaia_homeworld_fossil_fuels
+		}
+		add_deposit = d_sandsea	# Mainly to give two generators, but also gives Aquatics a reason to take Life-Seeded
+		
+		# Mining - 8 total, 1 blocked, -3 districts
+		add_deposit = d_recycling_programs
+		add_deposit = d_mine_shafts
+		add_deposit = d_mine_shafts
+		add_deposit = d_submerged_ore_veins
+		add_blocker = {
+			type = d_homeworld_deep_trench
+			blocked_deposit = prev
+		}
+		add_deposit = d_rare_metals_lab
+		add_deposit = d_mineral_striations
+		add_deposit = d_betharian_deposit
+		add_deposit = d_homeworld_sculpted_mountains
+
+		# Farming - 8 total, 1 blocked, -7 districts (have to maintain that utopian landscape)
+		add_deposit = d_lakelands
+		add_deposit = d_lush_jungle
+		add_deposit = d_black_soil
+		add_deposit = d_fish_shoals
+		add_deposit = d_homestead_farms
+		add_deposit = d_homestead_farms
+		add_deposit = d_homeworld_utopian_hills
+		add_deposit = d_idyllic_pastorale
+		add_deposit = d_ancient_forests
+
+		# Special (same as vanilla)
 		add_deposit = d_bubbling_swamp
 		add_deposit = d_crystalline_caverns
+		add_deposit = d_dust_caverns
 	}
 
-	if = {
+	### AQUATICS 
+	#	Will spawn origin-specific features if taken with those instead.
+	else_if = {		
 		limit = {
-			is_planet_class = pc_continental
+			owner = { has_trait = trait_aquatic }
 		}
 
-		# 3 + 3 energy
-		add_deposit = d_hot_springs
-		add_deposit = d_rushing_waterfalls
-		add_deposit = d_tempestous_mountain
-		if = {
-			limit = { owner = { is_machine_empire = yes } }
-			add_deposit = d_rushing_waterfalls
-		}
-		if = {
-			limit = { owner = { has_valid_civic = civic_machine_servitor } }
-			add_deposit = d_hot_springs
-		}
+		# First, ignore the landlubbers
+		clear_blockers = yes
+		clear_deposits = yes
 
-		# 3 + 3 mining
-		add_deposit = d_veiny_cliffs
-		add_deposit = d_prosperous_mesa
-		add_deposit = d_rich_mountain
-
-		# 4 + 3 farming (lithoids swap 3 for minerals)
-		add_deposit = d_rugged_woods
-		add_deposit = d_fertile_lands
+		### Energy
+		add_deposit = d_homeworld_tidal_turbines
+		add_deposit = d_homeworld_hurricanes
 		if = {
-			limit = { owner = { is_machine_empire = no } }
-			add_deposit = d_rugged_woods
-
+			limit = { owner = { is_gestalt = yes }}
 			if = {
-				limit = { owner = { is_lithoid_empire = yes } }
-				add_deposit = d_rich_mountain
+				limit = { owner = { is_hive_empire = yes }}
+				add_deposit = d_neural_network
+			}
+			else_if = {
+				limit = { owner = { is_machine_empire = yes }}
+				add_deposit = d_battery_farms
+			}
+			add_deposit = d_gestalt_inaugural_spaceport
+			add_deposit = d_gestlat_experimental_geothermal_tap
+			add_deposit = d_gestalt_fossil_fuel_reserves
+			add_blocker = {
+				type = d_homeworld_bandit_camp
+				blocked_deposit = d_gestalt_fossil_fuel_reserves
+			}
+		}
+		else = {
+			add_deposit = d_inaugural_spaceport
+			add_deposit = d_experimental_geothermal_tap
+			add_deposit = d_gestalt_fossil_fuel_reserves
+			add_blocker = {
+				type = d_homeworld_bandit_camp
+				blocked_deposit = d_gestalt_fossil_fuel_reserves
+			}
+			add_deposit = d_homeworld_tidal_turbines
+		}
+
+		# Mining
+		add_deposit = d_submerged_ore_veins	# provides 3 mining, -1 total district
+		add_deposit = d_flotsam
+		if = {
+			limit = { owner = { is_gestalt = yes }}
+			add_deposit = d_recycling_processes
+			add_deposit = d_gestalt_rare_metals_lab
+		}
+		else = {
+			add_deposit = d_recycling_programs
+			add_deposit = d_rare_metals_lab
+		}
+		if = {
+			limit = { owner = { is_lithoid_empire = yes }}
+			add_deposit = d_megaliths
+			add_deposit = d_megaliths
+			add_deposit = d_megaliths
+		}
+		
+		# Farming
+		add_deposit = d_shallow_bay
+		add_deposit = d_fish_plants
+		if = {
+			limit = { owner = { is_lithoid_empire = yes }}
+			add_deposit = d_homeworld_urban_aeroponics
+			add_deposit = d_homeworld_urban_aeroponics
+		}
+		else = {
+			if = {
+				limit = { owner = { is_gestalt = yes }}
+				add_deposit = d_homeworld_gestalt_urban_aeroponics
+				add_deposit = d_homeworld_gestalt_urban_aeroponics
+				# Need two more
 			}
 			else = {
-				add_deposit = d_black_soil
+				add_deposit = d_homeworld_urban_aeroponics
+				add_deposit = d_homeworld_urban_aeroponics
+				add_deposit = d_migratory_fishing_fleets
+				add_deposit = d_homestead_farms
+				add_deposit = d_food_banks
 			}
 		}
 	}
 
+	### LOST COLONIES
+	#	Adds a mix of regular colonial features and homeworld features, as well as some modifiers for balance
 	if = {
 		limit = {
-			is_planet_class = pc_tropical
+			owner = { has_origin = origin_lost_colony }
 		}
 
-		# 3 + 3 energy
-		add_deposit = d_hot_springs
-		add_deposit = d_rushing_waterfalls
-		add_deposit = d_tempestous_mountain
-		if = {
-			limit = { owner = { is_machine_empire = yes } }
-			add_deposit = d_rushing_waterfalls
-		}
-		if = {
-			limit = { owner = { has_valid_civic = civic_machine_servitor } }
-			add_deposit = d_hot_springs
+		clear_deposits = yes
+
+		# Adds Pioneering Colonists for 20 years
+		add_modifier = {
+			modifier = pioneering_colonists
+			years = 5
 		}
 
-		# 3 + 3 mining
-		add_deposit = d_mineral_fields
-		add_deposit = d_prosperous_mesa
-		add_deposit = d_submerged_ore_veins
+		# Energy
+		add_deposit = d_drylands
+		add_deposit = d_colony_ship_core
+		add_deposit = d_alien_gas_deposit
+		add_deposit = d_urban_power_plant
+		add_deposit = d_high_wire_network
+		add_deposit = d_inaugural_spaceport
 
-		# 4 + 3 farming (lithoids swap 3 for minerals)
-		add_deposit = d_green_hills
-		add_deposit = d_lush_jungle
-		if = {
-			limit = { owner = { is_machine_empire = no } }
-			if = {
-				limit = { owner = { is_lithoid_empire = yes } }
-				add_deposit = d_submerged_ore_veins
-			}
-			else = {
-				add_deposit = d_green_hills
-				add_deposit = d_tropical_island
-			}
-		}
-	}
-
-	if = {
-		limit = {
-			is_planet_class = pc_ocean
-		}
-
-		# 3 + 3 energy
-		add_deposit = d_hot_springs
-		add_deposit = d_rushing_waterfalls
-		add_deposit = d_underwater_vent
-		if = {
-			limit = { owner = { is_machine_empire = yes } }
-			add_deposit = d_rushing_waterfalls
-		}
-		if = {
-			limit = { owner = { has_valid_civic = civic_machine_servitor } }
-			add_deposit = d_hot_springs
-		}
-
-		# 3 + 3 mining
-		add_deposit = d_mineral_fields
-		add_deposit = d_ore_rich_caverns
-		add_deposit = d_submerged_ore_veins
-
-		# 4 + 3 farming (lithoids swap 3 for minerals)
-		add_deposit = d_green_hills
-		add_deposit = d_lush_jungle
-		if = {
-			limit = { owner = { is_machine_empire = no } }
-			add_deposit = d_green_hills
-
-			if = {
-				limit = { owner = { is_lithoid_empire = yes } }
-				add_deposit = d_submerged_ore_veins
-			}
-			else = {
-				add_deposit = d_teeming_reef
-			}
-		}
-	}
-
-	if = {
-		limit = {
-			is_planet_class = pc_arctic
-		}
-
-		# 3 + 3 energy
-		add_deposit = d_hot_springs
-		add_deposit = d_frozen_gas_lake
-		add_deposit = d_geothermal_vent
-		if = {
-			limit = { owner = { is_machine_empire = yes } }
-			add_deposit = d_frozen_gas_lake
-		}
-		if = {
-			limit = { owner = { has_valid_civic = civic_machine_servitor } }
-			add_deposit = d_hot_springs
-		}
-
-		# 3 + 3 mining
-		add_deposit = d_veiny_cliffs
-		add_deposit = d_ore_rich_caverns
-		add_deposit = d_rich_mountain
-
-		# 4 + 3 farming (lithoids swap 3 for minerals)
-		add_deposit = d_lichen_fields
+		# Mining
+		add_deposit = d_salt_flats
 		add_deposit = d_fungal_caves
-		if = {
-			limit = { owner = { is_machine_empire = no } }
-			add_deposit = d_lichen_fields
-
-			if = {
-				limit = { owner = { is_lithoid_empire = yes } }
-				add_deposit = d_rich_mountain
-			}
-			else = {
-				add_deposit = d_fungal_forest
-			}
+		add_deposit = d_tbm_strip_mine
+		add_deposit = d_major_impact_site
+		add_blocker = {
+			type = d_lost_colony_impact_memorial
+			blocked_deposit = d_major_impact_site
 		}
-	}
-
-	if = {
-		limit = {
-			is_planet_class = pc_tundra
-		}
-
-		# 3 + 3 energy
-		add_deposit = d_hot_springs
-		add_deposit = d_frozen_gas_lake
-		add_deposit = d_geothermal_vent
-		if = {
-			limit = { owner = { is_machine_empire = yes } }
-			add_deposit = d_frozen_gas_lake
-		}
-		if = {
-			limit = { owner = { has_valid_civic = civic_machine_servitor } }
-			add_deposit = d_hot_springs
-		}
-
-		# 3 + 3 mining
-		add_deposit = d_mineral_fields
-		add_deposit = d_ore_rich_caverns
-		add_deposit = d_rich_mountain
-
-		# 4 + 3 farming (lithoids swap 3 for minerals)
-		add_deposit = d_forgiving_tundra
-		add_deposit = d_fungal_caves
-		if = {
-			limit = { owner = { is_machine_empire = no } }
-			add_deposit = d_forgiving_tundra
-
-			if = {
-				limit = { owner = { is_lithoid_empire = yes } }
-				add_deposit = d_rich_mountain
-			}
-			else = {
-				add_deposit = d_fungal_forest
-			}
-		}
-	}
-
-	if = {
-		limit = {
-			is_planet_class = pc_alpine
-		}
-
-		# 3 + 3 energy
-		add_deposit = d_hot_springs
-		add_deposit = d_frozen_gas_lake
-		add_deposit = d_tempestous_mountain
-		if = {
-			limit = { owner = { is_machine_empire = yes } }
-			add_deposit = d_frozen_gas_lake
-		}
-		if = {
-			limit = { owner = { has_valid_civic = civic_machine_servitor } }
-			add_deposit = d_hot_springs
-		}
-
-		# 3 + 3 mining
-		add_deposit = d_veiny_cliffs
-		add_deposit = d_ore_rich_caverns
-		add_deposit = d_rich_mountain
-
-		# 4 + 3 farming (lithoids swap 3 for minerals)
-		add_deposit = d_forgiving_tundra
-		add_deposit = d_fungal_caves
-		if = {
-			limit = { owner = { is_machine_empire = no } }
-			add_deposit = d_forgiving_tundra
-
-			if = {
-				limit = { owner = { is_lithoid_empire = yes } }
-				add_deposit = d_rich_mountain
-			}
-			else = {
-				add_deposit = d_fungal_forest
-			}
-		}
-	}
-
-	if = {
-		limit = {
-			is_planet_class = pc_desert
-		}
-
-		# 3 + 3 energy
-		add_deposit = d_arid_highlands
-		add_deposit = d_searing_desert
-		add_deposit = d_geothermal_vent
-		if = {
-			limit = { owner = { is_machine_empire = yes } }
-			add_deposit = d_searing_desert
-		}
-		if = {
-			limit = { owner = { has_valid_civic = civic_machine_servitor } }
-			add_deposit = d_arid_highlands
-		}
-
-		# 3 + 3 mining
-		add_deposit = d_mineral_fields
-		add_deposit = d_ore_rich_caverns
-		add_deposit = d_rich_mountain
-
-		# 4 + 3 farming (lithoids swap 3 for minerals)
-		add_deposit = d_nutritious_mudland
-		add_deposit = d_great_river
-		if = {
-			limit = { owner = { is_machine_empire = no } }
-			add_deposit = d_nutritious_mudland
-
-			if = {
-				limit = { owner = { is_lithoid_empire = yes } }
-				add_deposit = d_rich_mountain
-			}
-			else = {
-				add_deposit = d_marvelous_oasis
-			}
-		}
-		set_planet_flag = tasty_desert
-	}
-
-	if = {
-		limit = {
-			is_planet_class = pc_arid
-		}
-
-		# 3 + 3 energy
-		add_deposit = d_arid_highlands
-		add_deposit = d_searing_desert
-		add_deposit = d_geothermal_vent
-		if = {
-			limit = { owner = { is_machine_empire = yes } }
-			add_deposit = d_searing_desert
-		}
-		if = {
-			limit = { owner = { has_valid_civic = civic_machine_servitor } }
-			add_deposit = d_arid_highlands
-		}
-
-		# 3 + 3 mining
-		add_deposit = d_veiny_cliffs
-		add_deposit = d_ore_rich_caverns
-		add_deposit = d_rich_mountain
-
-		# 4 + 3 farming (lithoids swap 3 for minerals)
-		add_deposit = d_bountiful_plains
-		add_deposit = d_great_river
-		if = {
-			limit = { owner = { is_machine_empire = no } }
-			add_deposit = d_bountiful_plains
-
-			if = {
-				limit = { owner = { is_lithoid_empire = yes } }
-				add_deposit = d_rich_mountain
-			}
-			else = {
-				add_deposit = d_tropical_island
-			}
-		}
-	}
-
-	if = {
-		limit = {
-			is_planet_class = pc_savannah
-		}
-
-		# 3 + 3 energy
-		add_deposit = d_arid_highlands
-		add_deposit = d_searing_desert
-		add_deposit = d_geothermal_vent
-		if = {
-			limit = { owner = { is_machine_empire = yes } }
-			add_deposit = d_searing_desert
-		}
-		if = {
-			limit = { owner = { has_valid_civic = civic_machine_servitor } }
-			add_deposit = d_arid_highlands
-		}
-
-		# 3 + 3 mining
-		add_deposit = d_mineral_fields
-		add_deposit = d_prosperous_mesa
+		add_deposit = d_rare_metals_lab
 		add_deposit = d_submerged_ore_veins
 
-		# 4 + 3 farming (lithoids swap 3 for minerals)
-		add_deposit = d_bountiful_plains
+		# Farming (-1 because Fungal Caves adds a farm above)
+		add_deposit = d_rough_plains
 		add_deposit = d_fertile_lands
-		if = {
-			limit = { owner = { is_machine_empire = no } }
-			add_deposit = d_bountiful_plains
-
-			if = {
-				limit = { owner = { is_lithoid_empire = yes } }
-				add_deposit = d_rich_mountain
-			}
-			else = {
-				add_deposit = d_black_soil
-			}
-		}
+		add_deposit = d_fish_shoals
+		add_deposit = d_urban_aeroponics
+		add_deposit = d_urban_aeroponics
+		add_deposit = d_factory_slaughterhouses
 	}
+	
+	### --- Extras --- ###
 
+	### LITHOIDS
+	#	Lithoids get 3 extra mining districts to eat.
+	#	Vanilla usually removes 3 farming as well, but this requires a lot of script to do so we'll let 'em do with the vegetables what they will.'
 	if = {
-		limit = {
-			is_planet_class = pc_relic
-			owner = {
-				has_origin = origin_remnants
-			}
-		}
+		limit = { owner = { is_lithoid_empire = yes }}
+		add_deposit = d_megaliths
+		add_deposit = d_crumbling_mountain
+		add_deposit = d_crystal_outcrops
+	}
 
-		set_planet_size = 22
-
-		# 5 blockers
-		add_deposit = d_ruined_arcology
-		add_deposit = d_ruined_arcology
-		add_deposit = d_ruined_arcology
-		add_deposit = d_ruined_arcology
-		add_deposit = d_ruined_arcology
-
-		# 3 + 3 energy
-		add_deposit = d_arid_highlands
-		add_deposit = d_searing_desert
-		add_deposit = d_geothermal_vent
+	### CORPORTATE
+	#	For unclear reasons, corporate empires get an extra generator district in vanilla. For the time being, TBM leaves this uncahanged.
+	if = {
+		limit = { owner = { has_authority = auth_corporate }}
+		add_deposit = d_slush_funds
+	}
+	
+	### PROSPEROUS UNIFICATION (adds +1 to all districts, as in vanilla)
+	if = {
+		limit = { owner = { has_origin = origin_default }}
 		if = {
-			limit = { owner = { is_machine_empire = yes } }
-			add_deposit = d_searing_desert
+			limit = { owner = { is_hive_empire = yes }}
 		}
-		if = {
-			limit = { owner = { has_valid_civic = civic_machine_servitor } }
-			add_deposit = d_arid_highlands
+		else_if = {
+			limit = { owner = { is_machine_empire = yes }}
 		}
+		else = {
 
-		# 3 + 3 mining
-		add_deposit = d_mineral_fields
-		add_deposit = d_prosperous_mesa
-		add_deposit = d_submerged_ore_veins
-
-		# 4 + 3 farming
-		add_deposit = d_bountiful_plains
-		add_deposit = d_fertile_lands
-		if = {
-			limit = { owner = { is_machine_empire = no } }
-			add_deposit = d_bountiful_plains
-			add_deposit = d_black_soil
 		}
 	}
 
-	# Ocean Paradise Origin
+	### MACHINE WORLD
+	#	Currently the same as vanilla as Machine World has unlimited districts; may change this later
+	else_if = {
+		limit = {
+			owner = { has_origin = origin_machine } # Checking this rather than planet class for mod compatibility in case anything gives you a machine start with its own feature spread
+		 }
+		 add_deposit = d_resource_consolidation_1
+		 # Is apparently supposed to get a Malfunctiong Replicator Bay here in vanilla but I can't actually find it anywhere in the vinalla files
+		 if = {
+			limit = {
+				owner = { has_civic = civic_machine_assimilator }
+			}
+			add_deposit = d_organic_slurry
+		 }
+	}
+
+	### DETERMINED EXTERMINATORS - Just add batteries
+	if = {
+		limit = {owner = {has_civic = civic_machine_terminator}}
+		add_deposit = d_battery_farms
+	}
+
+	### DRIVEN ASSIMILATORS
+	if = {
+		limit = {owner = {has_civic = civic_machine_assimilator}}
+		add_deposit = d_battery_farms
+	}
+
+	### ROGUE SERVITORS - Taking care of you
+	if = {
+		limit = { owner = { has_civic = civic_machine_servitor }}
+		add_deposit = d_nutrient_terminals
+		add_deposit = d_battery_farms
+	}
+
+	### OCEAN PARADISE
+	#	Adds extra features for origin and size 30 planet. Logic is somewhat different than vanilla (which just spammed a lot of the same features on)
 	if = {
 		limit = {
 			owner = {
 				has_origin = origin_ocean_paradise
 			}
 		}
+		
+		# Add modifier - copy/paste from vanilla
 		if = {
 			limit = {
 				owner = { is_hive_empire = yes }
@@ -627,44 +658,50 @@ generate_start_deposits_and_blockers = {
 		else = {
 			add_modifier = { modifier = ocean_paradise }
 		}
-		clear_deposits = yes
-		clear_blockers = yes
+		#clear_deposits = yes
+		#clear_blockers = yes
 
-		# Food
-		add_deposit = d_teeming_reef
-		add_deposit = d_teeming_reef
-		add_deposit = d_teeming_reef
-		add_deposit = d_teeming_reef
-		add_deposit = d_teeming_reef
-		add_deposit = d_teeming_reef
-		add_deposit = d_teeming_reef
-		add_deposit = d_teeming_reef
+		# Energy - 10 total (+1 from vanilla), but some added by extras below
+		add_deposit = d_undersea_cable_networks
+		add_deposit = d_heavy_weather
 
-		# Minerals
-		add_deposit = d_submerged_ore_veins
-		add_deposit = d_submerged_ore_veins
-		add_deposit = d_submerged_ore_veins
+		# Minerals - 11 total (+2 from vanilla), 2 blocked, some added below as special
+		add_deposit = d_fjordland
+		add_deposit = d_pearl_fields
+		add_deposit = d_continental_shelf
 
-		# Energy
-		add_deposit = d_underwater_vent
-		add_deposit = d_underwater_vent
-		add_deposit = d_underwater_vent
+		# Farming - 15 total (technically -9 from vanilla but come on, 24 farming?)
+		add_deposit = d_warm_lagoon
+		add_deposit = d_tidal_marshes
+		#add_deposit = d_sheltered_bay - doesn't currentlyd do anything
 
-		# Bonus
+		# Special, vanilla		
 		add_deposit = d_crystal_reef
 		random_list = {
 			50 = { add_deposit = d_submerged_ore_veins }
 			50 = { add_deposit = d_underwater_vent }
 		}
-	}
 
+		# Extras - TBM
 
-	### The Blocker Mod - Additional effects
-	if = {
-		limit = {
-			owner = { has_origin = origin_lost_colony }
+		# The Abyss & Endless Chasm: Mining + Events
+		add_blocker = {
+			type = d_the_abyss
+			blocked_deposit = d_endless_chasm
 		}
-		# Ensure LC starting worlds don't get hammered by blockers. Long-term, will design a better holistic fix.
-		set_planet_flag = lost_colony_homeworld
+
+		# Spaceport Location - Replaces Inaugural Spaceport with choice of surface or subsurface spaceport
+		remove_deposit = d_inaugural_spaceport
+		add_blocker = {
+			type = d_surface_spaceport
+			blocked_deposit = d_subsurface_spaceport
+		}
 	}
+
+
 }
+# END
+
+# generate_earth_deposits_and_blockers = {
+
+# }

@@ -13,12 +13,27 @@ deposit_cat_blockers = {
 	blocker = yes # Counts as blockers
 }
 
+deposit_cat_blockers_natural = {	# Currently unused in TBM but needed for certain vanilla 
+	blocker = yes # Counts as blockers
+}
+
+deposit_cat_rare_resource = {	# Needed for some vanilla event features, not used by TBM.
+	important = yes	# Shows up as rare deposits in planetview
+}
+
+
+
 deposit_cat_food_rare = {
 	blocker = yes
 	important = yes
 }
 
 deposit_cat_minerals_rare = {
+	blocker = yes
+	important = yes
+}
+
+deposit_cat_energy_rare = {
 	blocker = yes
 	important = yes
 }
@@ -32,9 +47,13 @@ deposit_cat_rare_blocker = {
 }
 
 # This is only blockers that don't have to be cleared for ecus.
-deposit_category_gaia = {	
+deposit_cat_gaia = {	
 }
 
-deposit_category_artificial = {
-	blocker = yes	
+deposit_cat_artificial = {
+	blocker = yes
+}
+
+deposit_category_final = {
+	
 }

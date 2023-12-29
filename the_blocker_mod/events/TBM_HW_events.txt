@@ -1,0 +1,33 @@
+### The Blocker Mod - Homeworld Feature Events
+
+namespace = tbm_hw
+
+### Index
+#
+# 1. Advanced Geothermal Tap Handler
+
+
+### 1. Advanced Geothermal Tap - Handler
+#	Sets flag and calls future tap events
+#	Called on_press_begin
+country_event = {
+	id = tbm_hw.01
+
+	hide_window = yes
+	is_triggered_only = yes
+
+	trigger = {
+		any_owned_planet = {
+			has_deposit = d_experimental_geothermal_tap
+		}
+	}
+
+	immediate = {
+		every_owned_planet = {
+			limit = {
+				has_deposit = d_experimental_geothermal_tap
+			}
+			set_planet_flag = experimental_geothermal_tap
+		}
+	}
+}

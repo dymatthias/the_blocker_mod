@@ -1,0 +1,84 @@
+# TBM - AI Planet Designation Archetypes
+
+# Basic planet designation weighting applied to (almost) every feature.
+# General idea is we want rural, research, and unity planets to keep more bonuses; industrial and urban worlds, less so.
+# Specialized resource districts (i.e., farming) are handled in each feature to avoid over-generalization.
+# Not called on most negative features as the logic is inverse; these are handled in deposits/.
+# This also contains the vanilla Environmentalist modifier until I decide how to change it.
+
+# Habilitability - do we like planet-appropriate features? (This will help with terraforming down the line)
+modifier = {
+	add = -0.33
+	is_ideal_planet_class = {
+		who = owner_main_species
+		status = yes
+	}
+}
+
+# Unity, research designations - this: planet
+modifier = {
+	add = -0.55	# Should still clear if we need a district, but not before other stuff!
+	this = {
+		OR = {
+			colony_type = col_bureau
+			colony_type = col_bureau_hive
+			colony_type = col_bureau_hive
+			colony_type = col_bureau_machine
+			colony_type = col_rural
+			colony_type = col_rural_gestalt
+		}
+	}
+}
+
+# Special types
+modifier = {
+	add = -1
+	OR = {
+		colony_type = col_penal
+		colony_type = col_resort
+		colony_type = col_slave
+		colony_type = col_fe_colony
+	}
+}
+
+modifier = {
+	add = 0.55
+	this = {
+		OR = {
+			colony_type = col_industrial
+			colony_type = col_foundry
+			colony_type = col_factory
+		}
+	}
+}
+
+# # Sector focuses
+# # These stack with the colony_type!
+# # root = planet!
+# modifier = {
+# 	add = -1
+# 	fromfrom.sector = {
+# 		has_any_sector_focus = yes # Let's bail out of this as quickly as possible if we're not automating.
+# 		OR = {
+# 			has_sector_focus = basic
+# 			has_sector_focus = research
+# 			has_sector_focus = unity
+# 		}
+# 	}
+# }
+
+# modifier = {
+# 	add = 0.25	# We want industrial sectors to clear features, but still based on other weights, and not go hog clearing all of them right away.
+# 	fromfrom.sector = {
+# 		has_any_sector_focus = yes # Let's bail out of this as quickly as possible if we're not automating.
+# 		OR = {
+# 			has_sector_focus = manufacturing
+# 		}
+# 	}
+# }
+
+# Vanilla
+modifier = {
+	factor = 0
+	owner = { has_valid_civic = civic_environmentalist }
+}

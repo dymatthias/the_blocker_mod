@@ -1,5 +1,16 @@
-### The Blocker Mod - Vanilla Overwrite
+### The Blocker Mod - Vanilla Overwrites
+#
+#	Overwrites most keys in 01_blocker_deposits.tx and all keys in 01_planetary_deposits.txt
+#	Re-installing those vanilla files will break this mod.
+#
+#	All terraforming weights are set to should_swap_deposit_on_terraforming - no
+#	Otherwise, you will get some very odd planets and district spreads post-terraform.
+#	Terraforming in this mod is handled mostly by events.
+#
+#	AI Weights are set on each feature to allow for greater flexibility.
+#	Vanilla inline_script references have been removed so as not to interfere with this.
 
+#	VOID AFTER 0.5
 #	Note: For initial release, vanilla features use is_homeworld to re-add lost districts to homeworlds. Otherwise, they start at size 25 with 0 free districts.
 #	This will remain the case until a better solution is found (probably involved game_start events) and a compatibility headache.
 #	Format below is: 
@@ -16,6 +27,11 @@
 #	Vanilla "blockers" will not spawn on homeworlds, in keeping with vanilla. Who needs mountains?
 #	Blockers added at game_start by events will still appear.
 
+
+### VARIABLES
+
+# 	Spawning
+
 @high = 16
 @med = 8
 @low = 4
@@ -25,47 +41,44 @@
 @mid_rare = 0.25
 @low_rare = 0.1
 
-@planet_type_bonus = 1.5	# This is no longer used in TBM but am keeping it around for sentimental value.
+@planet_type_bonus = 1.5	# This is no longer used in TBM but we're keeping it around for sentimental value.
 
 @blocker_high = 10
 @blocker_low = 5
 
+# ai_weight variables
+# Vanilla defaults to weight = 1 - TBM weights differently for different features and different personalities, colony designations, and some other factors.
+
+@base = 1	# Base ai_weight. AI will clear any feature at weight = 1 *if it needs district space*
+@clear = 2	# AI will clear this feature immediately.
+@keep = 0	# AI will clear this feature only after all other features of higher weight)
+@always_clear = 100	# AI will always clear this feature; used mainly for negative features (e.g., rubble)
+@always_keep = -100 # AI will always keep this feature; used mainly for bonus features and some flavor features
+
+#	Resource-related
+
+@ranger_small_production = 0.5
+@ranger_large_production = 1
+
+
+
 ### Blocker Replacement
 
 d_mountain_range = {
-	time = 950
+	
+	category = deposit_cat_blockers_natural
 
 	is_for_colonizable = yes
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
-	category = deposit_cat_blockers
-	icon = d_mountain_range
-	
 	use_for_min_max_adjustments = yes
 
-	planet_modifier = {
-		planet_max_districts_add = -3
-		district_mining_max = 2
-		planet_amenities_add = 5
-	}
-	
-	# For Famous Mountain event, disabled
-	# triggered_planet_modifier = {
-	# 	potential = {
-	# 		this = {
-	# 			has_deposit_flag = mineral_rights
-	# 		}
-	# 	}
-	# 	modifier = {
-	# 		district_mining_max = 2
-	# 		planet_miners_minerals_produces_mult = 0.05
-	# 	}
-	# }
+	should_swap_deposit_on_terraforming = no
+
+	time = 950
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = { 
-			energy = 2000
+			energy = 800
 		}
 	}
 
@@ -81,10 +94,45 @@ d_mountain_range = {
 		}
 	}
 
+	planet_modifier = {
+		planet_max_districts_add = -3
+		district_mining_max = 2
+		planet_amenities_mult = 0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_civic = civic_environmentalist }
+		}
+		planet_rangers_minerals_produces_add = @ranger_large_production
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			is_occupied_flag = yes
+		}
+		modifier = {
+			planet_stability_add = -5	# Guerillas
+		}
+	}
+	
+	# For Famous Mountain event, currently disabled
+	# triggered_planet_modifier = {
+	# 	potential = {
+	# 		this = {
+	# 			has_deposit_flag = mineral_rights
+	# 		}
+	# 	}
+	# 	modifier = {
+	# 		district_mining_max = 2
+	# 		planet_miners_minerals_produces_mult = 0.05
+	# 	}
+	# }
+
 	potential = {
 		planet_size > 10
-		is_homeworld = no
-		NOT = { has_planet_flag = lost_colony_homeworld }
 	}
 
 	drop_weight = {
@@ -120,11 +168,8 @@ d_mountain_range = {
 		modifier = {
 			factor = 1.5
 			OR = {
-				has_deposit = d_rich_mountain
-				has_deposit = d_tempestous_mountain
-				has_deposit = d_prosperous_mesa
-				has_deposit = d_alien_pets_deposit
-				has_deposit = d_arid_highlands	
+				has_hill_feature = yes
+				has_mountain_feature = yes
 			}
 		}
 
@@ -146,19 +191,49 @@ d_mountain_range = {
 	}
 
 	ai_weight = {
-		weight = 1
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = 0.5
+			OR = {
+				colony_type = col_mining
+			}
+		}
+		modifier = {
+			add = -0.25
+			owner = { has_ai_personality = hegemonic_imperialists } # We like imposing scenery.
+		}
+		modifier = {
+			add = -0.25
+			owner = { 
+				OR = {
+					has_ai_personality = erudite_explorers # Landmarks
+				}
+			}
+		}
 	}
 }
 
 d_active_volcano = {
-
-	time = 720
+	category = deposit_cat_blockers_natural
 
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
-	category = deposit_cat_blockers
+
+	should_swap_deposit_on_terraforming = no
+
+	blocker_swap_types = {
+		d_tempestous_mountain
+		d_prosperous_mesa
+		d_rich_mountain
+		d_fjordland
+		d_tropical_island
+	}
+
+	time = 720
 
 	prerequisites = {
 		"tech_volcano"
@@ -168,6 +243,15 @@ d_active_volcano = {
 		category = deposit_blockers
 		cost = {
 			energy = 1800
+		}
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 200
+				engineering_research = 1000
+			}
 		}
 	}
 
@@ -189,8 +273,9 @@ d_active_volcano = {
 
 	triggered_planet_modifier = {
 		potential = {
-			this = {
-				has_deposit_flag = volcano_erupted
+			exists = owner
+			any_deposit = {
+				has_deposit_flag = volcano_erupted	# This has to be applied to a SPECIFIC Active Volcano in the event.
 			}
 		}
 		modifier = {
@@ -199,18 +284,15 @@ d_active_volcano = {
 		}
 	}
 
-	potential = {
-		is_homeworld = no
-		NOT = { has_planet_flag = lost_colony_homeworld }
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_civic = civic_environmentalist }
+		}
+		planet_rangers_energy_produces_add = @ranger_large_production
 	}
 
-	on_cleared = {
-		owner = {
-			add_resource = {
-				minerals = 1000
-				engineering_research = 1000
-			}
-		}
+	potential = {
 	}
 
 	drop_weight = {
@@ -238,20 +320,46 @@ d_active_volcano = {
 			OR = {
 				planet_size < 15
 				has_planet_modifier = pm_low_gravity
-				has_deposit = d_geothermal_vent
+			}
+		}
+
+		modifier = {
+			factor = 2
+			has_volcanic_activity = yes
+		}
+	}
+
+	ai_weight = {
+		weight = @clear
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -0.75
+			owner = {
+				is_machine_empire = yes
+			}
+		}
+
+		modifier = {
+			add = -0.5
+			OR = {
+				colony_type = col_generator
 			}
 		}
 	}
 }
 
 d_dangerous_wildlife_blocker = {
-	time = 120
-		
+	category = deposit_cat_blockers_natural
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
-	category = deposit_cat_blockers
+
+	should_swap_deposit_on_terraforming = no
+
+	time = 120
 
 	resources = {
 		category = deposit_blockers_natural
@@ -276,28 +384,6 @@ d_dangerous_wildlife_blocker = {
 		cost = {
 			energy = 400
 		}
-	}
-
-	planet_modifier = {
-		planet_researchers_society_research_produces_add = 1
-		job_dangerous_wildlife_hunter_add = 1
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			exists = owner
-			any_owned_pop = {
-				has_job = livestock
-			}
-		}
-		modifier = {
-			planet_livestock_food_produces_add = -1
-		}
-	}
-
-	potential = {
-		is_homeworld = no
-		NOT = { has_planet_flag = lost_colony_homeworld }
 	}
 
 	on_cleared = {
@@ -376,6 +462,34 @@ d_dangerous_wildlife_blocker = {
 		}
 	}
 
+	planet_modifier = {
+		planet_researchers_society_research_produces_add = 1
+		job_dangerous_wildlife_hunter_add = 1
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			any_owned_pop = {
+				has_job = livestock
+			}
+		}
+		modifier = {
+			planet_livestock_food_produces_add = -1
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_civic = civic_environmentalist }
+		}
+		planet_rangers_society_research_produces_add = @ranger_large_production
+	}
+
+	potential = {
+	}
+
 	drop_weight = {
 		weight = @blocker_high
 		
@@ -417,21 +531,50 @@ d_dangerous_wildlife_blocker = {
 		}
 		
 	}
+
+	ai_weight = {
+		weight = @clear
+
+		inline_script = tbm_personality_weights
+	inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -0.5
+			owner = {
+				OR = {
+					is_machine_empire = yes
+					is_hive_empire = yes
+					is_homicidal = yes
+				}
+			}
+		}
+	}
 }
 
 d_dense_jungle = {
-	time = 720
+	category = deposit_cat_blockers_natural
 
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
-	category = deposit_cat_food
+
+	should_swap_deposit_on_terraforming = no
+
+	time = 720
 
 	resources = {
 		category = deposit_blockers_natural
 		cost = {
 			energy = 500
+		}
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 500
+				food = 200
+				consumer_goods = 50
+			}
 		}
 	}
 
@@ -444,18 +587,7 @@ d_dense_jungle = {
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
-		}
-		modifier = {
-			planet_max_districts_add = 2
-		}
-	}
-
-	triggered_planet_modifier = {
-		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -466,14 +598,12 @@ d_dense_jungle = {
 		}
 	}
 
-	on_cleared = {
-		owner = {
-			add_resource = {
-				minerals = 500
-				food = 200
-				consumer_goods = 50
-			}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_civic = civic_environmentalist }
 		}
+		planet_rangers_food_produces_add = @ranger_small_production
 	}
 
 	potential = {
@@ -521,19 +651,79 @@ d_dense_jungle = {
 			has_planet_modifier = pm_lush
 		}
 	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -0.5
+			owner = {
+				OR = {
+					has_ai_personality = erudite_explorers
+					has_ai_personality = federation_builders
+					has_ai_personality = migrating_flock
+					has_ai_personality = harmonious_hierarchy
+					has_ai_personality = spiritual_seekers
+					has_ai_personality = hive_mind
+				}
+			}
+		}
+
+		modifier = {
+			add = 0.5
+			owner = {
+				OR = {
+					has_ai_personality = ruthless_capitalists
+					has_ai_personality = machine_intelligence
+					has_ai_personality = exterminators
+					has_ai_personality = devouring_swarm
+				}
+			}
+		}
+		
+		modifier = {
+			add = -0.6
+			colony_type = col_research
+		}
+
+		modifier = {
+			add = -0.25
+			colony_type = col_farming
+		}
+
+		modifier = {
+			add = -0.33
+			owner_species = {
+				has_trait = trait_plantoid_budding
+			}
+		}
+
+		modifier = {
+			add = 0.33
+			owner_species = {
+				has_trait = trait_plantoid_phototrophic
+			}
+		}
+	}
 }
 
 d_toxic_kelp = {
-	time = 60
+	category = deposit_cat_blockers_natural
 
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
-	category = deposit_cat_blockers
+
+	should_swap_deposit_on_terraforming = no
+
+	prerequisites = { "tech_toxic_kelp" }
+
+	time = 60
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
 			trigger = {
 				exists = owner
@@ -546,12 +736,21 @@ d_toxic_kelp = {
 		}
 	}
 
+	on_cleared = {
+		owner = {
+			add_resource = {
+				society_research = 200
+			}
+		}
+	}
+
 	planet_modifier = {
 		trade_value_mult = -0.05
 	}
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -565,7 +764,8 @@ d_toxic_kelp = {
 
 	triggered_planet_modifier = {
 		potential = {
-			owner.species = {
+			exists = owner
+			owner = {
 				has_trait = trait_aquatic
 			}
 		}
@@ -574,12 +774,12 @@ d_toxic_kelp = {
 		}
 	}
 
-	on_cleared = {
-		owner = {
-			add_resource = {
-				society_research = 500
-			}
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_civic = civic_environmentalist }
 		}
+		planet_rangers_food_produces_add = @ranger_small_production
 	}
 
 	potential = {
@@ -588,8 +788,6 @@ d_toxic_kelp = {
 			is_planet_class = pc_continental
 			is_planet_class = pc_gaia
 		}
-		is_homeworld = no
-		NOT = { has_planet_flag = lost_colony_homeworld }
 	}
 
 	drop_weight = {
@@ -619,39 +817,34 @@ d_toxic_kelp = {
 		}
 	}
 
-	prerequisites = { "tech_toxic_kelp" }
-}
+	ai_weight = {
+		weight = @clear
 
-d_deep_sinkhole = {
-	time = 60
+		# No archetypes here; even the Spiritual Seekers don't love Toxic Kelp
 
-	is_for_colonizable = yes
-	use_for_min_max_adjustments = yes
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
-	category = deposit_cat_blockers
-
-	resources = {
-		category = deposit_blockers
-		cost = {
-			energy = 200
-		}
-	}
-
-	planet_modifier = {
-		planet_max_districts_add = -1
-		district_mining_max = 1
-	}
-
-	triggered_planet_modifier = {
-		potential = {
+		modifier = {
+			add = -0.5
 			any_owned_pop = {
 				has_job = colonist
 			}
 		}
-		modifier = {
-			planet_colonist_minerals_produces_add = 2
-			planet_colonist_engineering_research_produces_add = 1
+	}
+}
+
+d_deep_sinkhole = {
+	category = deposit_cat_blockers_natural
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+
+	should_swap_deposit_on_terraforming = no
+
+	time = 60
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 200
 		}
 	}
 
@@ -669,6 +862,32 @@ d_deep_sinkhole = {
 			}
 			66 = {}
 		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		district_mining_max = 1
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_minerals_produces_add = 2
+			planet_colonist_engineering_research_produces_add = 1
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_civic = civic_environmentalist }
+		}
+		planet_rangers_energy_produces_add = @ranger_small_production
 	}
 
 	potential = {
@@ -698,26 +917,47 @@ d_deep_sinkhole = {
 			factor = 0
 			is_planet_class = pc_ocean
 		}
+
+		modifier = {
+			factor = 4
+			OR = {
+				has_deposit = d_sandsea
+				has_deposit = d_quicksand_basin
+			}
+		}
+	}
+
+	ai_weight = {
+		weight = @clear	# Most sinkhole bonuses are via event, better for player
+
+		modifier = {
+			add = -0.4
+			OR = {
+				colony_type = col_mining
+				colony_type = col_rural
+			}
+		}
 	}
 }
 
 d_quicksand_basin = {
-	time = 270
+	category = deposit_cat_blockers_natural
 
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
-	category = deposit_cat_blockers
+
+	should_swap_deposit_on_terraforming = no
+
+	time = 270
+
+	prerequisites = { "tech_noxious_swamp" }
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
 			energy = 650
 		}
 	}
-
-	prerequisites = { "tech_noxious_swamp" }
 
 	on_cleared = {
 		owner = {
@@ -735,6 +975,7 @@ d_quicksand_basin = {
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -764,9 +1005,12 @@ d_quicksand_basin = {
 		}
 	}
 
-	potential = {
-		is_homeworld = no
-		NOT = { has_planet_flag = lost_colony_homeworld }
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_civic = civic_environmentalist }
+		}
+		planet_rangers_minerals_produces_add = @ranger_small_production
 	}
 
 	drop_weight = {
@@ -797,42 +1041,62 @@ d_quicksand_basin = {
 			factor = 0
 			is_planet_class = pc_alpine
 		}
+
+		modifier = {
+			factor = 4
+			has_deposit = d_sandsea
+		}
+	}
+
+	ai_weight = {
+		weight = @clear
+
+		modifier = {
+			add = -0.4
+			OR = {
+				colony_type = col_mining
+				colony_type = col_rural
+			}
+		}
 	}
 }
 
 d_noxious_swamp = {
-	time = 240
-
+	category = deposit_cat_blockers_natural
+	
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
-	category = deposit_cat_blockers
+
+	should_swap_deposit_on_terraforming = no
+
+	prerequisites = { "tech_noxious_swamp" }
+
+	time = 240
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
 			energy = 600
 		}
 	}
 
-	prerequisites = { "tech_noxious_swamp" }
-
 	on_cleared = {
 		owner = {
 			add_resource = {
-				society_research = 500
+				society_research = 400
 			}
 		}
 	}
 
 	planet_modifier = {
 		planet_max_districts_add = -1
-		pop_amenities_usage_mult = 0.05
+		pop_amenities_usage_mult = 0.1
+		planet_researchers_society_research_produces_add = 1
 	}
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -844,9 +1108,12 @@ d_noxious_swamp = {
 		}
 	}
 
-	potential = {
-		is_homeworld = no
-		NOT = { has_planet_flag = lost_colony_homeworld }
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_civic = civic_environmentalist }
+		}
+		planet_rangers_food_produces_add = @ranger_small_production
 	}
 
 	drop_weight = {
@@ -884,40 +1151,40 @@ d_noxious_swamp = {
 			}
 		}
 	}
-}
 
-d_massive_glacier = {
-	time = 1800
+	ai_weight = {
+		weight = @clear
 
-	is_for_colonizable = yes
-	use_for_min_max_adjustments = yes
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
-	category = deposit_cat_blockers
-
-	resources = {
-		category = deposit_blockers
-		cost = {
-			energy = 3500
-		}
-	}
-
-	planet_modifier = {
-		planet_max_districts_add = -3
-		planet_miners_minerals_produces_mult = 0.05
-		planet_researchers_physics_research_produces_add = 1
-		planet_researchers_engineering_research_produces_add = 1
-	}
-
-	triggered_planet_modifier = {
-		potential = {
+		modifier = {
+			add = -0.15
 			any_owned_pop = {
 				has_job = colonist
 			}
 		}
+
 		modifier = {
-			planet_colonist_minerals_produces_add = 2
-			planet_colonist_engineering_research_produces_add = 1			
+			add = -0.4
+			colony_type = col_research
+		}
+	}
+}
+
+d_massive_glacier = {
+	category = deposit_cat_blockers_natural
+
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+
+	should_swap_deposit_on_terraforming = no
+
+	prerequisites = { "tech_massive_glacier" }
+
+	time = 1800
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 3500
 		}
 	}
 
@@ -929,11 +1196,34 @@ d_massive_glacier = {
 		}
 	}
 
-	prerequisites = { "tech_massive_glacier" }
+	planet_modifier = {
+		planet_max_districts_add = -3
+		planet_miners_minerals_produces_mult = 0.05
+		planet_researchers_engineering_research_produces_add = 1
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_minerals_produces_add = 1
+			planet_colonist_engineering_research_produces_add = 2
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_civic = civic_environmentalist }
+		}
+		planet_rangers_minerals_produces_add = @ranger_small_production
+	}
 
 	potential = {
-		is_homeworld = no
-		NOT = { has_planet_flag = lost_colony_homeworld }
 	}
 
 	drop_weight = {
@@ -975,20 +1265,90 @@ d_massive_glacier = {
 			factor = 2
 			OR = {
 				has_deposit = d_mountain_range
-				has_deposit = d_rich_mountain
+				has_deposit = d_fjordland
+			}
+		}
+	}
+
+	ai_weight = {
+		weight = @clear
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+		
+		modifier = {
+			add = -0.5	# These are pretty good mining features but they're also space-killers, so AI should still clear
+			colony_type = col_mining
+		}
+		
+		modifier = {
+			add = -1000
+			owner = {
+				has_civic = civic_environmentalist
 			}
 		}
 	}
 }
 
-### SPECIAL
+# These are cloned and added via generate_start_deposits_and_blockers to avoid some bugs.
+# Main difference is these no longer have blocker_swap_types and so will no longer add random features to block on your homeworld.
+# If you really want 'em back, de-comment blocker_swap_types below, but be aware you may end up with negative starting districts on your homeworld in some cases.
+d_vanilla_failing_infrastructure = {
+	icon = d_metal_boneyard
+	time = 120
+
+	is_for_colonizable = yes
+	category = deposit_cat_blockers
+
+	potential = { always = no }
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+	}
+
+	#use_weights_for_blocker_swap_types = yes
+	# blocker_swap_types = {
+	# 	d_rushing_waterfalls
+	# 	d_searing_desert
+	# 	d_frozen_gas_lake
+	# 	d_prosperous_mesa
+	# 	d_ore_rich_caverns
+	# 	d_fungal_caves
+	# 	d_lush_jungle
+	# 	d_fertile_lands
+	# 	d_great_river
+	# }
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			energy = 300
+		}
+	}
+
+	ai_weight = {
+		weight = @clear		# This should help the AI get rid of these a bit faster. The vanilla clone doesn't actually have any ill effects, but it's still weird to conquer planets that have this still around.
+	}
+}
+
+### TOMB
 
 d_radioactive_wasteland = {
-	time = 720
+	category = deposit_cat_blockers
 
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
-	category = deposit_cat_blockers
+
+	should_swap_deposit_on_terraforming = no
+
+	time = 720
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			energy = 2000
+		}
+	}
 
 	planet_modifier = {
 		planet_max_districts_add = -2
@@ -998,19 +1358,13 @@ d_radioactive_wasteland = {
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
 		}
 		modifier = {
 			planet_colonist_physics_research_produces_add = 2
-		}
-	}
-
-	resources = {
-		category = deposit_blockers
-		cost = {
-			energy = 2000
 		}
 	}
 
@@ -1027,14 +1381,48 @@ d_radioactive_wasteland = {
 			is_planet_class = pc_nuked
 		}
 	}
+
+	ai_weight = {
+		weight = @clear
+
+		modifier = {
+			add = -0.75		# These get very little other reason to be kept around so should still go.
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+
+		modifier = {
+			add = -0.5
+			colony_type = col_research
+		}
+
+		modifier = {
+			add = 1		# Except for the crazies; they like basking in the glow, at least for a while.
+			owner = {
+				has_ai_personality = exterminators
+				has_ai_personality = metalhead
+			}
+		}
+	}
 }
 
 d_city_ruins = {
-	time = 480
+	category = deposit_cat_blockers
 
 	use_for_min_max_adjustments = yes
 	is_for_colonizable = yes
-	category = deposit_cat_blockers
+
+	should_swap_deposit_on_terraforming = no
+
+	time = 480
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			energy = 1200
+		}
+	}
 
 	planet_modifier = {
 		planet_max_districts_add = -1
@@ -1043,6 +1431,7 @@ d_city_ruins = {
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -1052,16 +1441,7 @@ d_city_ruins = {
 		}
 	}
 
-	resources = {
-		category = deposit_blockers
-		cost = {
-			energy = 1200
-		}
-	}
-
 	potential = {
-		is_homeworld = no	# These features are added by script for special homeworlds that need 'em.'
-		NOT = { has_planet_flag = lost_colony_homeworld }
 		OR = {
 			is_planet_class = pc_nuked
 			is_planet_class = pc_relic
@@ -1076,33 +1456,37 @@ d_city_ruins = {
 			is_planet_class = pc_nuked
 		}
 	}
+
+	ai_weight = {
+		weight = @clear
+
+		modifier = {
+			add = -1.25
+			owner = {
+				OR = {
+					has_ai_personality = spiritual_seekers
+					has_ai_personality = fanatic_befrienders
+				}
+			}
+		}
+
+		modifier = {
+			add = -0.75
+			colony_type = col_research
+		}
+	}
 }
 
 d_bomb_crater = {
 	icon = d_crater
-
-	time = 360
+	category = deposit_cat_blockers
 
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
-	category = deposit_cat_blockers
+	
+	should_swap_deposit_on_terraforming = no
 
-	planet_modifier = {
-		planet_max_districts_add = -1
-		district_mining_max = 1
-		planet_researchers_engineering_research_produces_add = 2
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			any_owned_pop = {
-				has_job = colonist
-			}
-		}
-		modifier = {
-			planet_colonist_minerals_produces_add = 5
-		}
-	}
+	time = 360
 
 	resources = {
 		category = deposit_blockers
@@ -1112,10 +1496,26 @@ d_bomb_crater = {
 		}
 	}
 
+	planet_modifier = {
+		planet_max_districts_add = -1
+		district_mining_max = 1
+		planet_researchers_engineering_research_produces_add = 2
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_minerals_produces_add = 5
+		}
+	}
+
 	potential = {
 		is_planet_class = pc_nuked
-		is_homeworld = no
-		NOT = { has_planet_flag = lost_colony_homeworld }
 	}
 
 	drop_weight = {
@@ -1135,6 +1535,26 @@ d_bomb_crater = {
 			}
 		}
 	}
+
+	ai_weight = {
+		weight = @clear
+
+		modifier = {
+			add = -0.5
+			OR = {
+				colony_type = col_research
+				colony_type = col_mining
+			}
+		}
+
+		modifier = {
+			add = 1		# Except for the crazies; they like basking in the glow, at least for a while.
+			owner = {
+				has_ai_personality = exterminators
+				has_ai_personality = metalhead
+			}
+		}		
+	}
 }
 
 ###############
@@ -1142,18 +1562,19 @@ d_bomb_crater = {
 ###############
 
 d_arid_highlands = {
-	time = 1800
+	category = deposit_cat_energy
 
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 	
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	should_swap_deposit_on_terraforming = no
 
-	category = deposit_cat_energy
+	prerequisites = { "tech_mountain_range" }
+
+	time = 1260
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		produces = {
 			trigger = {
 				has_planet_flag = desert_strong
@@ -1161,26 +1582,22 @@ d_arid_highlands = {
 			unity = 1
 		}
 		cost = {
-			energy = 1800
+			energy = 800
+		}
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 500
+			}
 		}
 	}
 
 	planet_modifier = {
 		planet_max_districts_add = -2
 		district_generator_max = 1
-		planet_buildings_energy_upkeep_mult = 0.1
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
-		}
-		modifier = {
-			planet_max_districts_add = 2
-		}
+		planet_buildings_upkeep_mult = 0.05
 	}
 
 	triggered_planet_modifier = {
@@ -1194,10 +1611,19 @@ d_arid_highlands = {
 			district_generator_max = 1
 		}
 	}
+
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_generator_max = 1
+		mult = value:district_amount_mastery_of_nature
+	}
 	
 	# From A City of the Desert Chain
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			owner = {
 				has_modifier = waters_of_life
 			}
@@ -1206,15 +1632,6 @@ d_arid_highlands = {
 			planet_jobs_food_produces_mult = 0.05
 			district_farming_max = 1
 		}
-	}
-
-	on_cleared = {
-		owner = {
-			add_resource = {
-				minerals = 500
-			}
-		}
-		#Event
 	}
 
 	potential = {
@@ -1244,43 +1661,52 @@ d_arid_highlands = {
 			factor = 0
 			is_planet_class = pc_tropical
 		}
-	}
 
-	prerequisites = { "tech_mountain_range" }
+		modifier = {
+			factor = 2
+			has_hill_feature = yes
+		}
+	}
 	
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -0.5
+			colony_type = col_mining
+		}
+
+		modifier = {
+			add = -2 # Never clear
+			OR = {
+				owner = {
+					has_modifier = waters_of_life
+				}
+				planet = {
+					has_planet_flag = desert_strong
+				}
+			}
+		}
+	}
 }
 
 d_hot_springs = {
-	time = 90
-	
+	category = deposit_cat_energy
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_energy
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 90
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
 			energy = 600
-		}
-	}
-
-	planet_modifier = {
-		planet_amenities_add = 10
-		# Should also add spa building or possibly call spa event.
-	}
-
-	triggered_planet_modifier = {
-		potential = {
-			any_owned_pop = {
-				has_job = colonist
-			}
-		}
-		modifier = {
-			planet_colonist_society_research_produces_add = 1
 		}
 	}
 
@@ -1296,7 +1722,33 @@ d_hot_springs = {
 				years = 10
 			}
 		}
-		#add_deposit = d_geothermal_power_plant
+		add_deposit = d_geothermal_power_plant
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		planet_amenities_add = 10
+		# Should also add spa building or possibly call spa event.
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_society_research_produces_add = 1
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_generator_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	drop_weight = {
@@ -1326,39 +1778,42 @@ d_hot_springs = {
 
 		modifier = {
 			factor = 2
+			has_volcanic_activity = yes
+		}
+	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -2	# Do not clear baths on unity worlds
 			OR = {
-				has_deposit = d_geothermal_vent
-				has_deposit = d_active_volcano
+				colony_type = col_bureau
+				colony_type = col_bureau_hive
+				colony_type = col_bureau_hive
+				colony_type = col_bureau_machine
 			}
+		}
+
+		modifier = {
+			add = -2
+			free_amenities < 10
 		}
 	}
 }
 
 d_rushing_waterfalls = {
-	time = 480
-	
-	is_for_colonizable = yes
-	use_for_min_max_adjustments = yes
 	category = deposit_cat_energy
 
-	use_weights_for_terraforming_swap_types = yes
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
 
-	planet_modifier = {
-		planet_amenities_add = 5
-		pop_happiness = 0.05
-		planet_clerks_unity_produces_add = 1	### Consider balance. Might be too strong, esp. on worlds that are large.
-	}
+	should_swap_deposit_on_terraforming = no
 
-	triggered_planet_modifier = {
-		potential = {
-			any_owned_pop = {
-				has_job = colonist
-			}
-		}
-		modifier = {
-			planet_colonist_unity_produces_add = 2
-		}
-	}
+	time = 480
 
 	resources = {
 		category = deposit_blockers_natural
@@ -1381,6 +1836,32 @@ d_rushing_waterfalls = {
 				50 = {}
 			}
 		}
+	}
+
+	planet_modifier = {
+		planet_amenities_add = 5
+		pop_happiness = 0.05
+		planet_clerks_unity_produces_add = 0.25
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			any_owned_pop = {
+				has_job = colonist
+			}
+		}
+		modifier = {
+			planet_colonist_unity_produces_add = 2
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_generator_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	drop_weight = {
@@ -1418,35 +1899,52 @@ d_rushing_waterfalls = {
 			OR = {
 				has_deposit = d_great_river
 				has_deposit = d_mountain_range
+				has_mountain_feature = yes
 			}
+		}
+	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -1
+			owner = {
+				has_ai_personality = spiritual_seekers	# Sacred Water
+				has_ai_personality = hegemonic_imperialists	# We like imposing things.
+				has_ai_personality = erudite_explorers	# Got things to see.
+				has_ai_personality = harmonious_hierarchy
+				has_ai_personality = fanatic_befrienders	# Nights beneath the waterfall are romantic in most societies
+			}
+		}
+		
+		modifier = {
+			add = -2	# Do not clear waterfalls on unity worlds
+			OR = {
+				colony_type = col_bureau
+				colony_type = col_bureau_hive
+				colony_type = col_bureau_hive
+				colony_type = col_bureau_machine
+			}
+		}
+
+		modifier = {
+			add = -0.75
+			free_amenities < 5
 		}
 	}
 }
 
 d_searing_desert = {
-
-	time = 7200
+	category = deposit_cat_energy
 
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_energy
-
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
-
-	resources = {
-		category = deposit_blockers_natural
-		produces = {
-			trigger = {
-				has_planet_flag = desert_strong
-			}
-			unity = 1
-		}
-		cost = {
-			energy = 1000
-		}
-	}
+	should_swap_deposit_on_terraforming = no
 
 	can_be_cleared = {
 		NOR = {
@@ -1464,31 +1962,48 @@ d_searing_desert = {
 				}
 			}
 		}
+		owner = {
+			OR = {
+				has_technology = tech_housing_2
+				has_technology = tech_terrestrial_sculpting
+			}
+		}
 	}
 
-	prerequisites = { "tech_housing_2" }
+	time = 7200
+
+	resources = {
+		category = deposit_blockers_natural
+		produces = {
+			trigger = {
+				has_planet_flag = desert_strong
+			}
+			unity = 1
+		}
+		cost = {
+			energy = 1800
+		}
+	}
 
 	planet_modifier = {
 		planet_max_districts_add = -3
 		district_generator_max = 1
-		planet_technician_energy_produces_add = 2
+		planet_technician_energy_produces_mult = 0.2
 		planet_buildings_energy_upkeep_mult = 0.1
 	}
-
+	
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}		}
-		modifier = {
-			planet_max_districts_add = 3
+			always = yes
 		}
+		district_generator_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	# From A City of the Desert Chain
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			owner = {
 				has_modifier = waters_of_life
 			}
@@ -1553,18 +2068,38 @@ d_searing_desert = {
 			}
 		}
 	}
+
+	ai_weight = {
+		weight = @clear
+
+		modifier = {
+			add = -0.25 	# Slight boost, but this is still a space killer, so we want to clear it soon even on generator worlds.
+			colony_type = col_generator
+		}
+
+		modifier = {
+			add = -2 	# However, keep it if we're on a generator world and we're trying to build more generators
+			colony_type = col_generator
+			num_free_districts = {
+				type = district_generator
+				value < 1
+			}
+		}
+	}
 }
 
 d_frozen_gas_lake = {
-	time = 180
-	
+	category = deposit_cat_energy
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_energy
+	should_swap_deposit_on_terraforming = no
+
+	time = 180
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
 			energy = 600
 			minerals = 300
@@ -1579,9 +2114,6 @@ d_frozen_gas_lake = {
 		}
 	}
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
-
 	planet_modifier = {
 		planet_max_districts_add = -1
 		district_generator_max = 1
@@ -1590,17 +2122,7 @@ d_frozen_gas_lake = {
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}		}
-		modifier = {
-			planet_max_districts_add = 1
-		}
-	}
-
-	triggered_planet_modifier = {
-		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -1608,6 +2130,14 @@ d_frozen_gas_lake = {
 		modifier = {
 			planet_colonist_food_produces_add = 2
 		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_generator_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	drop_weight = {
@@ -1631,22 +2161,65 @@ d_frozen_gas_lake = {
 				is_planet_class = pc_gaia
 			}
 		}
+
+		modifier = {
+			factor = 2
+			has_volcanic_activity = yes
+		}
+		modifier = {
+			factor = 2
+			OR = {
+				has_deposit = d_bubbling_swamp
+				has_deposit = d_fuming_bog
+			}
+		}
+		modifier = {
+			factor = 2
+			has_gaseous_system = yes	# Checks if there's any exotic gas in the system.
+		}
+	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+		
+		modifier = {
+			add = -0.5
+			colony_type = col_generator
+		}
+
+		modifier = {
+			add = 1	# Clear this if we don't have gases, or are running a deficit and will need the +50. Ideally, this should help AIs get a bit mor SRs.
+			owner = {
+				OR = {
+					resource_income_compare = {
+						resource = exotic_gases
+						value < 0
+					}
+					has_country_resource = {
+						type = exotic_gases
+						amount = 0
+					}
+				}
+			}
+		}
 	}
 }
 
 d_geothermal_vent = {
-	time = 920
-	
+	category = deposit_cat_energy
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_energy
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 920
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		
 		cost = {
 			trigger = {
@@ -1680,6 +2253,7 @@ d_geothermal_vent = {
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -1691,13 +2265,10 @@ d_geothermal_vent = {
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}		}
-		modifier = {
-			planet_max_districts_add = 1
+			always = yes
 		}
+		district_generator_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	drop_weight = {
@@ -1720,27 +2291,59 @@ d_geothermal_vent = {
 		}
 		modifier = {
 			add = 5		### Add is deliberate! Won't spawn on dry worlds UNLESS they have volcanic activity.
-			has_deposit = d_active_volcano
+			has_volcanic_activity = yes
+		}
+	}
+
+	ai_weight = {
+		weight = @base
+		
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -0.5
+			OR = {
+				colony_type = col_generator
+				colony_type = col_research
+			}
 		}
 	}
 }
 
 d_underwater_vent = {
+	category = deposit_cat_energy
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_energy
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 1260
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		produces = {
 			trigger = {
 				has_modifier = studying_latent_underlying_geothermal_gas_eruption_rhythm
 			}
 			engineering_research = 2
+		}
+		cost = {
+			trigger = {
+				owner = {
+					NOT = { has_trait = trait_aquatic }
+				}
+			}
+			energy = 1000
+			minerals = 600
+		}
+		cost = {
+			trigger = {
+				owner = { has_trait = trait_aquatic	}
+			}
+			energy = 600
+			minerals = 1000
 		}
 	}
 
@@ -1752,23 +2355,15 @@ d_underwater_vent = {
 
 	triggered_planet_modifier = {
 		potential = {
-			exists = owner
-			owner.species = {
-				has_trait = trait_aquatic
-			}
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			always = yes
 		}
-		modifier = {
-			planet_max_districts_add = -2
-			district_generator_max = 1
-		}
+		district_generator_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -1780,11 +2375,23 @@ d_underwater_vent = {
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
+			owner = { has_trait = trait_aquatic }
+		}
+		modifier = {
+			planet_max_districts_add = -2
+			district_generator_max = 1
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
 			owner = { has_origin = origin_ocean_paradise }
 			is_homeworld = yes
 		}
 		modifier = {
-			district_generator_max = 1
+			trade_Value_mult = 0.1
 		}
 	}
 	
@@ -1811,22 +2418,47 @@ d_underwater_vent = {
 	
 	drop_weight = {
 		weight = @high
+
+		modifier = {
+			factor = 2
+			has_volcanic_activity = yes
+		}
+	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = 1
+			NOT = { is_homeworld = yes }
+			owner = { has_trait = trait_aquatic }
+		}
+
+		modifier = {
+			add = -0.5	# Should result in Aquatics treating these as basically normal blockers but only on generator worlds. Otherwise, they want the space.
+			OR = {
+				colony_type = col_generator
+				colony_type = col_research
+			}
+		}
 	}
 }
 
 d_tempestous_mountain = {
-	time = 720
-	
+	category = deposit_cat_energy
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_energy
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 720
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
 			energy = 1500
 		}
@@ -1850,24 +2482,21 @@ d_tempestous_mountain = {
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			always = yes
 		}
-		modifier = {
-			planet_max_districts_add = 2
-		}
+		district_generator_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
 		}
 		modifier = {
-			planet_colonist_unity_produces_add = 5
+			planet_colonist_unity_produces_add = 2
 		}
 	}
 
@@ -1891,7 +2520,37 @@ d_tempestous_mountain = {
 		}
 		modifier = {
 			factor = 5
-			has_deposit = d_mountain_range
+			has_mountain_feature = yes
+		}
+	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -0.5
+			OR = {
+				colony_type = col_farming
+				colony_type = col_mining
+				colony_type = col_generator
+			}
+		}
+
+		modifier = {
+			add = -0.5
+			owner = {
+				is_industrialist = yes
+			}
+		}
+
+		modifier = {
+			add = -0.5
+			owner = {
+				has_origin = origin_subterranean
+			}
 		}
 	}
 }
@@ -1901,18 +2560,17 @@ d_tempestous_mountain = {
 ###################
 
 d_veiny_cliffs = {
-	time = 270
-	
+	category = deposit_cat_minerals
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_minerals
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 270
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
 			energy = 500
 		}
@@ -1929,22 +2587,28 @@ d_veiny_cliffs = {
 
 	planet_modifier = {
 		planet_max_districts_add = -1
-		district_mining_max = 2
+		district_mining_max = 1
 		planet_miners_minerals_produces_mult = 0.05
-		planet_amenities_add = -10
 	}
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
+			exists = owner
+			any_owned_pop = {
+				has_job = colonist
 			}
 		}
 		modifier = {
-			planet_max_districts_add = 1
-			planet_amenities_add = 10
+			planet_colonist_minerals_produces_add = 2
 		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_mining_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	drop_weight = {
@@ -1973,19 +2637,74 @@ d_veiny_cliffs = {
 				is_planet_class = pc_savannah
 			}
 		}
+
+		modifier = {
+			factor = 4
+			has_mountain_feature = yes
+		}
+	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -0.75	# These are upper-end mining features as they don't hit amenities
+			colony_type = col_mining
+		}
+
+		modifier = {
+			add = -0.25
+			owner = {
+				OR = {
+					is_industrialist = yes
+					has_ai_personality = slaving_despots
+					has_ai_personality = hegemonic_imperialists
+					has_ai_personality = ruthless_capitalists
+				}
+			}
+		}
 	}
 }
 
 d_mineral_fields = {
-	time = 60
-	
+	category = deposit_cat_minerals
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_minerals
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 90
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 500
+		}
+		cost = {
+			trigger = {
+				owner = { has_technology = tech_mountain_range }
+			}
+			energy = -250
+		}
+		cost = {
+			trigger = {
+				owner = { has_technology = tech_terrestrial_sculpting }
+			}
+			energy = -250
+		}
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 500
+			}
+		}
+	}
 
 	planet_modifier = {
 		planet_max_districts_add = -1
@@ -1994,18 +2713,15 @@ d_mineral_fields = {
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			always = yes
 		}
-		modifier = {
-			planet_max_districts_add = 1
-		}
+		district_mining_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -2042,28 +2758,68 @@ d_mineral_fields = {
 			}
 		}
 	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -0.75	# These are upper-end mining features as they don't hit amenities
+			colony_type = col_mining
+		}
+
+		modifier = {
+			add = -0.25
+			owner = {
+				OR = {
+					is_industrialist = yes
+					has_ai_personality = slaving_despots
+					has_ai_personality = hegemonic_imperialists
+					has_ai_personality = ruthless_capitalists
+				}
+			}
+		}
+	}
 }
 
 d_prosperous_mesa = {
-	time = 720
-	
+	category = deposit_cat_minerals
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_minerals
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
-
-	resources = {
-		category = deposit_blockers
-		cost = {
-			energy = 1500
+	can_be_cleared = {
+		owner = {
+			oR = {
+				has_technology = tech_mountain_range
+				has_technology = tech_terrestrial_sculpting
+			}
 		}
 	}
 
-	prerequisites = {
-		"tech_mountain_range"
+	time = 1800
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 1500
+		}
+		cost = {
+			trigger = {
+				owner = { has_technology = tech_mountain_range }
+			}
+			energy = -500
+		}
+		cost = {
+			trigger = {
+				owner = { has_technology = tech_terrestrial_sculpting }
+			}
+			energy = -500
+		}
 	}
 
 	on_cleared = {
@@ -2085,14 +2841,10 @@ d_prosperous_mesa = {
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			always = yes
 		}
-		modifier = {
-			planet_max_districts_add = 2
-		}
+		district_mining_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	potential = {
@@ -2124,17 +2876,60 @@ d_prosperous_mesa = {
 			factor = 0
 			is_planet_class = pc_ocean
 		}
+		modifier = {
+			factor = 2
+			has_mountain_feature = yes
+		}
+	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -1
+			owner = {
+				has_ai_personality = spiritual_seekers
+				has_ai_personality = evangelising_zealots	# Preach from the mount.
+			}
+		}
+
+		modifier = {
+			add = -0.25
+			owner = {
+				has_ai_personality = hegemonic_imperialists # We just like imposing things.
+			}
+		}
 	}
 }
 
 d_ore_rich_caverns = {
+	category = deposit_cat_minerals
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_minerals
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 270
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 600
+			engineering_research = 50
+		}
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 800
+			}
+		}
+	}
 
 	planet_modifier = {
 		district_mining_max = 2
@@ -2143,6 +2938,7 @@ d_ore_rich_caverns = {
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -2174,47 +2970,70 @@ d_ore_rich_caverns = {
 			}
 		}
 		modifier = {
-			planet_miners_minerals_produces_mult = 0.05
+			planet_miners_minerals_produces_mult = 0.1
 		}
 	}
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			always = yes
 		}
-		modifier = {
-			planet_max_districts_add = 2
-		}
+		district_mining_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	drop_weight = {
 		weight = @high
+
+		# Should be a boost here for other subterranean features but we don't have enough of them yet.
+	}
+
+	ai_weight = {
+		weight = @keep
+
+		modifier = {
+			add = -0.5
+			owner = {
+				is_industrialist = yes
+			}
+		}
+
+		modifier = {
+			add = -0.5
+			owner = {
+				has_origin = origin_subterranean
+			}
+		}
 	}
 }
 
 d_rich_mountain = {
-	time = 720
-	
+	category = deposit_cat_minerals
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_minerals
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 720
 	
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
 			energy = 1500
 		}
-	}
-
-	prerequisites = {
-		"tech_mountain_range"
+		cost = {
+			trigger = {
+				owner = { has_technology = tech_mountain_range }
+			}
+			energy = -500
+		}
+		cost = {
+			trigger = {
+				owner = { has_technology = tech_terrestrial_sculpting }
+			}
+			energy = -500
+		}
 	}
 
 	on_cleared = {
@@ -2233,18 +3052,15 @@ d_rich_mountain = {
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			always = yes
 		}
-		modifier = {
-			planet_max_districts_add = 2
-		}
+		district_mining_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -2281,32 +3097,122 @@ d_rich_mountain = {
 				is_planet_class = pc_nuked
 			}
 		}
+
+		modifier = {
+			factor = 4
+			OR = {
+				has_planet_modifier = pm_mineral_rich
+				has_planet_modifier = pm_ultra_rich
+			}
+		}
+	}
+
+	ai_weight = {
+		weight = @keep
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -0.75
+			OR = {
+				colony_type = col_mining
+				colony_type = col_farming
+			}
+		}
+
+		modifier = {
+			add = -0.25
+			owner = {
+				has_ai_personality = hegemonic_imperialists # We just like imposing things.
+			}
+		}
+
+		modifier = {
+			add = -0.5
+			owner = {
+				is_industrialist = yes
+			}
+		}
+
+		modifier = {
+			add = -0.5
+			owner = {
+				has_origin = origin_subterranean
+			}
+		}
 	}
 }
 
 d_submerged_ore_veins = {
+	category = deposit_cat_minerals
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_minerals
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 480
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			trigger = {
+				owner = {
+					NOT = { has_trait = trait_aquatic }
+				}
+			}
+			energy = 800
+		}
+		cost = {
+			trigger = {
+				owner = { has_trait = trait_aquatic	}
+			}
+			minerals = 600
+		}
+	}
+
+	on_cleared = {
+		if = {
+			limit = {
+				owner = { has_trait = trait_aquatic }
+			}
+			owner = {
+				add_resource = {
+					minerals = 1000
+				}
+			}
+		}
+		else = {
+			owner = {
+				add_resource = {
+					minerals = 600
+				}
+			}
+		}
+	}
 
 	planet_modifier = {
-		district_mining_max = 2
-		planet_colonist_minerals_produces_add = 1
-		planet_colonist_engineering_research_produces_add = 1
+		district_mining_max = 1
 	}
 
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner.species = { has_trait = trait_aquatic	}
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
+			any_owned_pop = {
+				has_job = colonist
 			}
+		}
+		modifier = {
+			planet_colonist_minerals_produces_add = 1
+			planet_colonist_engineering_research_produces_add = 1
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_trait = trait_aquatic	}
 		}
 		modifier = {
 			planet_max_districts_add = -2
@@ -2324,6 +3230,14 @@ d_submerged_ore_veins = {
 		}
 	}
 
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_mining_max = 1
+		mult = value:district_amount_mastery_of_nature
+	}
+
 	potential = {
 		OR = {
 			is_planet_class = pc_ocean
@@ -2339,24 +3253,37 @@ d_submerged_ore_veins = {
 			is_planet_class = pc_ocean
 		}
 	}
+
+	ai_weight = {
+		weight = @keep
+
+		modifier = {
+			add = 1
+			owner = { has_trait = trait_aquatic }
+		}
+
+		modifier = {
+			add = -0.75
+			colony_type = col_mining
+		}
+	}
 }
 
 ###################
 ##### FOOD	#####
 ###################
 d_lichen_fields = {
-	time = 60
-	
+	category = deposit_cat_food
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_food
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 90
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
 			energy = 300
 		}
@@ -2366,25 +3293,20 @@ d_lichen_fields = {
 		planet_max_districts_add = -1
 		district_farming_max = 1
 		planet_farmers_unity_produces_add = 1
-		pop_happiness = -0.05
+		biological_pop_happiness = -0.1
 	}
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			always = yes
 		}
-		modifier = {
-			planet_max_districts_add = 1
-			planet_farmers_unity_produces_add = -1
-			pop_happiness = 0.05
-		}
+		district_farming_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -2395,23 +3317,33 @@ d_lichen_fields = {
 		}
 	}
 
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_trait = trait_lithoid }
+		}
+		modifier = {
+			habitability_ceil_add = -0.1
+		}
+	}
+
 	drop_weight = {
 		weight = @blocker_high
 		modifier = {
-			factor = 0.33
+			factor = 1.5
 			is_planet_class = pc_nuked
 		}
 		modifier = {
-			factor = 5
+			factor = 4
 			OR = {
-				is_planet_class = pc_tundra
-				is_planet_class = pc_alpine
+				is_cold = yes
 			}
 		}
 		modifier = {
 			factor = 0.5
 			OR = {
 				is_planet_class = pc_arid
+				is_planet_class = pc_savannah
 			}
 		}
 		modifier = {
@@ -2424,24 +3356,72 @@ d_lichen_fields = {
 				is_planet_class = pc_ocean
 				is_planet_class = pc_tropical
 				is_planet_class = pc_desert
-				is_planet_class = pc_savannah
 			}
+		}
+	}
+
+	ai_weight = {
+		weight = @clear
+
+		modifier = {
+			add = -0.5
+			owner = {
+				OR = {
+					has_ai_personality = slaving_despots	# You can still live on lichen.
+					has_ai_personality = decadent_hierarchy
+					has_ai_personality = spiritual_seekers	# Mana
+					has_ai_personality = honorbound_warriors	# Survival
+				}
+			}
+		}
+
+		modifier = {
+			add = -0.25
+			colony_type = col_farming
+			is_cold = yes	# Needs to be both, otherwise this feature really isn't worth it
+		}
+
+		modifier = {
+			add = -0.5
+			owner = {
+				has_trait = trait_plantoid_budding
+			}
+		}
+
+		modifier = {
+			add = 0.75
+			OR = {
+				colony_type = col_bureau
+				colony_type = col_bureau_hive
+				colony_type = col_bureau_hive
+				colony_type = col_bureau_machine
+			}
+		}
+
+		modifier = {
+			add = -1000
+			owner = { has_trait = trait_lithoid }
 		}
 	}
 }
 
 d_bountiful_plains = {
-	time = 90
-
 	icon = d_fertile_lands
+	category = deposit_cat_food
 	
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_food
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 180
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 250
+		}
+	}
 
 	planet_modifier = {
 		planet_max_districts_add = -1
@@ -2451,15 +3431,22 @@ d_bountiful_plains = {
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
+			exists = owner
+			any_owned_pop = {
+				has_job = colonist
 			}
 		}
 		modifier = {
-			planet_max_districts_add = 1
-			pop_happiness = -0.05
+			planet_colonist_food_produces_add = 2
 		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_farming_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	drop_weight = {
@@ -2494,61 +3481,108 @@ d_bountiful_plains = {
 			}
 		}
 	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -1
+			colony_type = col_farming
+		}
+
+		modifier = {
+			add = -0.75
+			owner = {
+				OR = {
+					has_ai_personality = spiritual_seekers	# Preach, farmer
+					has_ai_personality = evangelising_zealots
+					has_ai_personality = peaceful_traders	# Barter economy
+					has_ai_personality = decadent_hierarchy
+					has_ai_personality = harmonious_hierarchy
+					has_ai_personality = xenophobic_isolationists
+					has_ai_personality = fanatic_befrienders
+					has_ai_personality = fanatic_purifiers
+				}
+			}
+		}
+
+		modifier = {
+			add = -1000
+			owner = { has_civic = civic_agrarian_idyll }
+		}
+	}
 }
 
 d_rugged_woods = {
-	time = 720
-	
+	category = deposit_cat_food
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_food
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 720
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 800
+		}
+		cost = {
+			trigger = {
+				owner = { has_technology = tech_mountain_range }
+			}
+			energy = -300
+		}
+	}
+
+	on_cleared = {
+		if = {
+			limit = {
+				NOT = {
+					owner = {
+						OR = {
+							has_technology = tech_mountain_range
+							has_technology = tech_terrestrial_sculpting
+						}
+					}
+				}
+			}
+			owner = {
+				add_resource = {
+					minerals = 200
+					food = 100
+				}
+			}
+		}
+	}
 
 	planet_modifier = {
 		planet_max_districts_add = -2
 		planet_jobs_food_produces_mult = 0.05
-		planet_amenities_add = 2
+		planet_amenities_add = 5
 	}
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			always = yes
 		}
-		modifier = {
-			planet_max_districts_add = 2
-		}
+		district_farming_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
 		}
 		modifier = {
 			planet_colonist_food_produces_add = 2
-		}
-	}
-
-	resources = {
-		category = deposit_blockers
-		cost = {
-			energy = 500
-		}
-	}
-
-	on_cleared = {
-		owner = {
-			add_resource = {
-				minerals = 200
-				food = 100
-			}
 		}
 	}
 
@@ -2599,19 +3633,77 @@ d_rugged_woods = {
 			factor = 5
 			has_planet_modifier = pm_lush
 		}
+
+		modifier = {
+			add = 10
+			has_hill_feature = yes
+		}
+	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -0.5
+			colony_type = col_farming
+		}
+
+		modifier = {
+			add = -0.5
+			owner = {
+				has_ai_personality = spiritual_seekers
+				has_ai_personality = erudite_explorers
+				has_ai_personality = federation_builders
+				has_ai_personality = migrating_flock
+				has_ai_personality = harmonious_hierarchy
+				has_ai_personality = hive_mind
+			}
+		}
+
+		modifier = {
+			add = 0.5
+			owner = {
+				OR = {
+					has_ai_personality = ruthless_capitalists
+					has_ai_personality = machine_intelligence
+					has_ai_personality = exterminators
+					has_ai_personality = devouring_swarm
+				}
+			}
+		}
 	}
 }
 
 d_green_hills = {
-	time = 270
-	
+	category = deposit_cat_food
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_food
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 720
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 600
+		}
+		cost = {
+			trigger = {
+				owner = {
+					OR = {
+						has_technology = tech_mountain_range
+						has_technology = tech_terrestrial_sculpting
+					}
+				}
+			}
+			energy = -350
+		}
+	}
 
 	planet_modifier = {
 		planet_max_districts_add = -2
@@ -2621,18 +3713,15 @@ d_green_hills = {
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			always = yes
 		}
-		modifier = {
-			planet_max_districts_add = 2
-		}
+		district_farming_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 	
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -2678,36 +3767,70 @@ d_green_hills = {
 				is_planet_class = pc_nuked
 			}
 		}
+
+		modifier = {
+			factor = 4
+			has_hill_feature = yes
+		}
+	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -1000
+			owner = { has_civic = civic_agrarian_idyll }
+		}
+
+		modifier = {
+			add = -0.5
+			owner = {
+				OR = {
+					has_ai_personality = spiritual_seekers	# Wandering monks
+					has_ai_personality = evangelising_zealots
+					has_ai_personality = harmonious_hierarchy	# One with nature
+					has_ai_personality = peaceful_traders	# Next village over
+					has_ai_personality = migrating_flock	# Easy nesting
+					has_ai_personality = hegemonic_imperialists # We just like imposing things
+					has_ai_personality = xenophobic_isolationists
+				}
+			}
+		}
 	}
 }
 
 d_forgiving_tundra = {	
-	time = 90
+	category = deposit_cat_food
 
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_food
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 90
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 400
+		}
+	}
 
 	planet_modifier = {
 		planet_max_districts_add = -1
 		district_farming_max = 1
-		pop_ethic_spiritualist_attraction_mult = 0.05
+		pop_ethic_spiritualist_attraction_mult = 0.05	# Praise be!
 	}
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			always = yes
 		}
-		modifier = {
-			planet_max_districts_add = 1
-		}
+		district_farming_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 	
 	triggered_planet_modifier = {
@@ -2758,24 +3881,52 @@ d_forgiving_tundra = {
 			is_planet_class = pc_nuked
 		}
 	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -0.5
+			colony_type = col_farming
+		}
+		
+		modifier = {
+			add = 1000
+			owner = { has_ethic = ethic_fanatic_spiritualist }
+		}
+
+		modifier = {
+			add = 1
+			owner = { has_civic = civic_agrarian_idyll }
+		}
+	}
 }
 
 d_boggy_fens = {
-	time = 480
+	category = deposit_cat_food
 
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_food
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 480
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
-			energy = 600
-			minerals = 200
+			energy = 1200
+			minerals = 400
+		}
+		cost = {
+			trigger = {
+				owner = { has_technology = tech_noxious_swamp }
+			}
+			energy = -400
+			minerals = -200
 		}
 	}
 
@@ -2788,28 +3939,23 @@ d_boggy_fens = {
 	}
 
 	planet_modifier = {
-		planet_max_districts_add = -2
+		planet_max_districts_add = -1
 		planet_researchers_society_research_produces_add = 2
-		pop_amenities_usage_mult = 0.05
+		pop_amenities_usage_mult = 0.1
 		planet_jobs_food_produces_mult = 0.05
 	}
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			always = yes
 		}
-		modifier = {
-			planet_max_districts_add = 2
-			pop_amenities_usage_mult = -0.05
-			planet_researchers_society_research_produces_add = -2
-		}
+		district_farming_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -2849,21 +3995,43 @@ d_boggy_fens = {
 			is_planet_class = pc_nuked
 		}
 	}
+
+	ai_weight = {
+		weight = @base
+
+		modifier = {
+			add = -0.25
+			owner = {
+				OR = {
+					has_ai_personality = spiritual_seekers	# Swamp Gods
+				}
+			}
+		}
+
+		modifier = {
+			add = -1
+			colony_type = col_research
+		}
+
+		modifier = {
+			add = 0.5
+			free_amenities < -10	# Only if we're in crisis here. AIs don't need any more help having planetary revolts.
+		}
+	}
 }
 
 d_nutritious_mudland = {
-	time = 90
-	
+	category = deposit_cat_food
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_food
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 90
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
 			energy = 600
 		}
@@ -2873,21 +4041,25 @@ d_nutritious_mudland = {
 		planet_max_districts_add = -1
 		district_farming_max = 1
 		planet_farmers_unity_produces_add = 1
-		pop_happiness = -0.05
+		biological_pop_happiness = 0.1
 	}
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			exists = owner
+			owner = { has_trait = trait_lithoid }
 		}
 		modifier = {
-			planet_max_districts_add = 1
-			planet_farmers_unity_produces_add = -1
-			pop_happiness = 0.05
+			habitability_ceil_add = 0.1
 		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_farming_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	drop_weight = {
@@ -2918,24 +4090,65 @@ d_nutritious_mudland = {
 			}
 		}
 	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -0.5
+			owner = {
+				OR = {
+					has_ai_personality = slaving_despots	# Mudders
+					has_ai_personality = spiritual_seekers	# Touching earth
+					has_ai_personality = evangelising_zealots	# Proof of faith
+					has_ai_personality = honorbound_warriors	# Basic training
+				}
+			}
+		}
+
+		modifier = {
+			add = -0.5
+			colony_type = col_farming
+		}
+
+		modifier = {
+			add = 1.5
+			owner = { has_civic = civic_agrarian_idyll }
+		}
+
+		modifier = {
+			add = 1000
+			owner = { has_trait = trait_lithoid }
+		}
+	}
 }
 
 d_fungal_caves = {
-	
+	category = deposit_cat_food
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_food
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	# prerequisites = {
+	# 	"tech_deep_sinkhole"
+	# }
 
-	prerequisites = {
-		"tech_deep_sinkhole"
-	}
+	# on_cleared = {
+	# 	# Add habitable cave?
+	# }
 
-	on_cleared = {
-		# Add habitable cave?
+	time = 480
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 400
+		}
 	}
 
 	planet_modifier = {
@@ -2946,6 +4159,7 @@ d_fungal_caves = {
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -2953,6 +4167,14 @@ d_fungal_caves = {
 		modifier = {
 			planet_colonist_food_produces_add = 1
 		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_farming_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	drop_weight = {
@@ -2974,23 +4196,32 @@ d_fungal_caves = {
 			is_dry = yes
 		}
 	}
+
+	ai_weight = {
+		weight = @keep
+	}
 }
 
 d_lush_jungle = {
-	time = 480
-	
+	category = deposit_cat_food
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_food
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 480
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
-			energy = 400
+			energy = 1200
+		}
+		cost = {
+			trigger = {
+				owner = { has_technology = tech_terrestrial_sculpting }
+			}
+			energy = -600
 		}
 	}
 
@@ -3014,21 +4245,7 @@ d_lush_jungle = {
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
-		}
-		modifier = {
-			planet_max_districts_add = 2
-			planet_researchers_society_research_produces_add = -3
-			planet_researchers_physics_research_produces_add = -3
-			planet_researchers_engineering_research_produces_add = -3
-		}
-	}
-
-	triggered_planet_modifier = {
-		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -3065,21 +4282,77 @@ d_lush_jungle = {
 			has_planet_modifier = pm_lush
 		}
 	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -0.5
+			owner = {
+				OR = {
+					has_ai_personality = erudite_explorers
+					has_ai_personality = federation_builders
+					has_ai_personality = migrating_flock
+					has_ai_personality = harmonious_hierarchy
+					has_ai_personality = spiritual_seekers
+					has_ai_personality = hive_mind
+				}
+			}
+		}
+
+		modifier = {
+			add = 0.5
+			owner = {
+				OR = {
+					has_ai_personality = ruthless_capitalists
+					has_ai_personality = machine_intelligence
+					has_ai_personality = exterminators
+					has_ai_personality = devouring_swarm
+				}
+			}
+		}
+		
+		modifier = {
+			add = -0.6
+			colony_type = col_research
+		}
+
+		modifier = {
+			add = -0.25
+			colony_type = col_farming
+		}
+
+		modifier = {
+			add = -0.33
+			owner_species = {
+				has_trait = trait_plantoid_budding
+			}
+		}
+
+		modifier = {
+			add = 0.33
+			owner_species = {
+				has_trait = trait_plantoid_phototrophic
+			}
+		}
+	}
 }
 
 d_fertile_lands = {
-	time = 90
-	
+	category = deposit_cat_food
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_food
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 90
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
 			energy = 200
 		}
@@ -3093,18 +4366,7 @@ d_fertile_lands = {
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
-		}
-		modifier = {
-			planet_max_districts_add = 1
-		}
-	}
-
-	triggered_planet_modifier = {
-		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -3112,6 +4374,14 @@ d_fertile_lands = {
 		modifier = {
 			planet_colonist_food_produces_add = 2
 		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_farming_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	drop_weight = {
@@ -3148,18 +4418,55 @@ d_fertile_lands = {
 			has_deposit = d_great_river
 		}
 	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -1
+			colony_type = col_farming
+		}
+
+		modifier = {
+			add = -0.75
+			owner = {
+				OR = {
+					has_ai_personality = spiritual_seekers	# Preach, farmer
+					has_ai_personality = evangelising_zealots
+					has_ai_personality = peaceful_traders	# Barter economy
+					has_ai_personality = decadent_hierarchy
+					has_ai_personality = harmonious_hierarchy
+					has_ai_personality = xenophobic_isolationists
+					has_ai_personality = fanatic_befrienders
+					has_ai_personality = fanatic_purifiers
+				}
+			}
+		}
+
+		modifier = {
+			add = -1000
+			owner = { has_civic = civic_agrarian_idyll }
+		}
+	}
 }
 
 d_great_river = {
+	category = deposit_cat_food
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_food
+	should_swap_deposit_on_terraforming = no
+
+	time = 1800
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
-			energy = 10000
+			energy = 2500
 		}
 	}
 
@@ -3172,13 +4479,10 @@ d_great_river = {
 		add_deposit = d_floodplains
 	}
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
-
 	planet_modifier = {
 		planet_farmers_food_produces_mult = 0.1
 		planet_housing_mult = -0.1
-		planet_amenities_add = 5
+		planet_amenities_add = 10
 		trade_value_mult = 0.1
 	}
 
@@ -3217,16 +4521,48 @@ d_great_river = {
 			}
 		}
 	}
+
+	ai_weight = {
+		weight = @keep
+
+		modifier = {
+			add = -1
+			owner = {
+				OR = {
+					has_ai_personality = ruthless_capitalists
+					has_ai_personality = metalhead
+					has_ai_personality = exterminators
+					has_ai_personality = machine_intelligence
+				}
+			}
+		}
+	}
 }
 
 d_black_soil = {
+	category = deposit_cat_food
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_food
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 90
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 400
+		}
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 100
+			}
+		}
+	}
 
 	planet_modifier = {
 		planet_max_districts_add = -1
@@ -3236,14 +4572,10 @@ d_black_soil = {
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			always = yes
 		}
-		modifier = {
-			planet_max_districts_add = 1
-		}
+		district_farming_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	drop_weight = {
@@ -3265,22 +4597,65 @@ d_black_soil = {
 				is_planet_class = pc_nuked
 			}
 		}
+
+		modifier = {
+			factor = 1.5
+			has_volcanic_activity = yes
+		}
+	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -1
+			colony_type = col_farming
+		}
+
+		modifier = {
+			add = -0.75
+			owner = {
+				OR = {
+					has_ai_personality = spiritual_seekers	# Preach, farmer
+					has_ai_personality = evangelising_zealots
+					has_ai_personality = peaceful_traders	# Easy pickings
+					has_ai_personality = decadent_hierarchy
+					has_ai_personality = harmonious_hierarchy
+					has_ai_personality = xenophobic_isolationists
+					has_ai_personality = fanatic_befrienders
+					has_ai_personality = fanatic_purifiers
+				}
+			}
+		}
+
+		modifier = {
+			add = -1000
+			owner = { has_civic = civic_agrarian_idyll }
+		}
 	}
 }
 
 d_teeming_reef = {
-	time = 90
-	
+	category = deposit_cat_food
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_food
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	can_be_cleared = {
+		NOT = { has_planet_flag = reef_eco_preserve }
+	}
+
+	prerequisites = { "tech_toxic_kelp"	}
+
+	time = 180
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
 			energy = 500
 		}
@@ -3292,21 +4667,15 @@ d_teeming_reef = {
 		}
 	}
 
-	can_be_cleared = {
-		NOT = { has_planet_flag = reef_eco_preserve }
-	}
-
-	prerequisites = { "tech_toxic_kelp"	}
-
 	planet_modifier = {
 		planet_max_districts_add = -1
-		district_farming_max = 1
 		planet_researchers_society_research_produces_add = 2
 		planet_amenities_mult = 0.1
 	}
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -3322,28 +4691,15 @@ d_teeming_reef = {
 			owner = { has_origin = origin_ocean_paradise }
 			is_homeworld = yes
 		}
-		modifier = {
-			district_farming_max = 2
-		}
-	}
+		district_farming_max = 1
+		mult = value:district_amount_mastery_of_nature
 
-	triggered_planet_modifier = {
-		potential = {
-			is_planet_class = pc_ocean
-			OR = {
-				is_homeworld = no
-				NOT = { has_planet_flag = lost_colony_homeworld }
-			}
-		}
-		modifier = {
-			planet_max_districts_add = -1
-		}
 	}
 
 	triggered_planet_modifier = {
 		potential = {
 			exists = owner
-			owner.species = {
+			owner = {
 				has_trait = trait_aquatic
 			}
 			OR = {
@@ -3353,6 +4709,21 @@ d_teeming_reef = {
 		}
 		modifier = {
 			planet_max_districts_add = 1
+			district_farming_max = 1
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { 
+				OR = {
+					has_civic = civic_anglers
+					has_civic = civic_corporate_anglers
+				}
+			}
+		}
+		modifier = {
 			district_farming_max = 1
 		}
 	}
@@ -3387,30 +4758,53 @@ d_teeming_reef = {
 			factor = 4
 			is_planet_class = pc_gaia
 		}
-		# Little bonus for aquatics on gaia.
+	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
 		modifier = {
-			factor = 2
-			is_planet_class = pc_gaia
-			owner.species = {
-				has_trait = trait_aquatic
+			add = -1
+			owner = {
+				OR = {
+					has_civic = civic_anglers
+					has_civic = civic_corporate_anglers
+				}
 			}
+		}
+
+		modifier = {
+			add = -1
+			owner = { has_trait = trait_aquatic	}
+			is_homeworld = yes
+		}
+
+		modifier = {
+			add = -0.5
+			colony_type = col_research
 		}
 	}
 }
 
 d_marvelous_oasis = {
-	time = 720
-	
+	category = deposit_cat_food
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_food
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	prerequisites = {
+		"tech_noxious_swamp"
+	}
+
+	time = 720
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
 			energy = 800
 		}
@@ -3430,10 +4824,6 @@ d_marvelous_oasis = {
 		}
 	}
 
-	prerequisites = {
-		"tech_noxious_swamp"	#Xeno-Hydraulic Mastery
-	}
-
 	planet_modifier = {
 		planet_max_districts_add = -1
 		district_farming_max = 1
@@ -3442,18 +4832,15 @@ d_marvelous_oasis = {
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			always = yes
 		}
-		modifier = {
-			planet_max_districts_add = 1
-		}
+		district_farming_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -3487,21 +4874,33 @@ d_marvelous_oasis = {
 			has_deposit = d_searing_desert
 		}
 	}
+
+	ai_weight = {
+		weight = @base
+
+		
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -0.5
+			colony_type = col_farming
+		}
+	}
 }
 
 d_tropical_island = {
-	time = 720
-	
+	category = deposit_cat_food
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_food
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 720
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
 			energy = 1200
 		}
@@ -3519,39 +4918,43 @@ d_tropical_island = {
 	planet_modifier = {
 		planet_max_districts_add = -1
 		district_farming_max = 1
-		district_mining_max = 1
 		planet_amenities_add = 10
 		pop_happiness = 0.1
 	}
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			always = yes
 		}
-		modifier = {
-			planet_max_districts_add = 1
-		}
+		district_farming_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	triggered_planet_modifier = {
 		potential = {
-			exists = planet
+			exists = owner
 			is_planet_class = pc_ocean
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			NOT = { owner = { has_trait = trait_aquatic }}
 		}
 		modifier = {
 			planet_max_districts_add = -2
 		}
 	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { has_trait = trait_aquatic }
+		}
+		modifier = {
+			planet_amenities_add = 1
+			district_farming_max = -1
+		}
+	}
 	
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -3582,21 +4985,43 @@ d_tropical_island = {
 		}
 	}
 
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -1
+			exists = owner
+			owner = { has_trait = trait_aquatic }
+		}
+
+		modifier = {
+			add = -0.5
+			colony_type = col_farming
+		}
+
+		modifier = {
+			add = -0.5
+			exists = owner
+			owner = { has_civic = civic_agrarian_idyll }
+		}
+	}
 }
 
 d_fungal_forest = {
-	time = 720
-	
+	category = deposit_cat_food
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	should_swap_deposit_on_terraforming = no
 
-	category = deposit_cat_food
+	time = 720
 
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
 			energy = 800
 		}
@@ -3620,20 +5045,7 @@ d_fungal_forest = {
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
-		}
-		modifier = {
-			planet_max_districts_add = 2
-			district_farming_max = 3
-			planet_researchers_society_research_produces_add = -1
-		}
-	}
-
-	triggered_planet_modifier = {
-		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -3665,6 +5077,63 @@ d_fungal_forest = {
 			is_dry = yes
 		}
 	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -0.5
+			owner = {
+				OR = {
+					has_ai_personality = erudite_explorers
+					has_ai_personality = federation_builders
+					has_ai_personality = migrating_flock
+					has_ai_personality = harmonious_hierarchy
+					has_ai_personality = spiritual_seekers
+					has_ai_personality = hive_mind
+				}
+			}
+		}
+
+		modifier = {
+			add = 0.5
+			owner = {
+				OR = {
+					has_ai_personality = ruthless_capitalists
+					has_ai_personality = machine_intelligence
+					has_ai_personality = exterminators
+					has_ai_personality = devouring_swarm
+				}
+			}
+		}
+		
+		modifier = {
+			add = -0.6
+			colony_type = col_research
+		}
+
+		modifier = {
+			add = -0.25
+			colony_type = col_farming
+		}
+
+		modifier = {
+			add = -0.33
+			owner_species = {
+				has_trait = trait_plantoid_budding
+			}
+		}
+
+		modifier = {
+			add = 0.33
+			owner_species = {
+				has_trait = trait_plantoid_phototrophic
+			}
+		}
+	}
 }
 
 
@@ -3672,17 +5141,22 @@ d_fungal_forest = {
 ##### SPECIAL #####
 ###################
 
-### The Bloack Mod - Overwrite
 #	Kind of an experiment in fusing technicians and miners to make this deposit more interesting.
 d_betharian_deposit = {			
-	is_for_colonizable = yes
 	category = deposit_cat_rare_blocker
 
+	is_for_colonizable = yes
+	use_for_min_max_adjustments = yes
+
+	should_swap_deposit_on_terraforming = no
+
+	time = 720
+
 	resources = {
-		category = deposit_blockers
+		category = deposit_blockers_natural
 		cost = {
 			energy = 500
-			engineering_research = 1000		#This needs to be tested so it doesn't bug out and cause a definict.
+			engineering_research = 1000		#This needs to be tested so it doesn't bug out and cause a deficit situation to pop.
 		}
 	}
 
@@ -3704,6 +5178,7 @@ d_betharian_deposit = {
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -3714,8 +5189,6 @@ d_betharian_deposit = {
 	}
 
 	potential = {
-		is_homeworld = no
-		NOT = { has_planet_flag = lost_colony_homeworld }
 		can_have_habitable_deposits = yes
 	}
 
@@ -3736,21 +5209,24 @@ d_betharian_deposit = {
 			}
 		}
 	}
+
+	ai_weight = {
+		weight = @keep
+	}
 }
 
 ### Gaia Swaps
 #	The Block Mod changes these to spawn everywhere (for more variety), though they are still somewhat special.
 
 d_buzzing_plains = {
-	time = 90
-	
+	category = deposit_cat_energy_rare
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	should_swap_deposit_on_terraforming = no
 
-	category = deposit_cat_energy
+	time = 90
 
 	resources = {
 		category = deposit_blockers_natural
@@ -3762,24 +5238,20 @@ d_buzzing_plains = {
 	planet_modifier = {
 		planet_max_districts_add = -1
 		district_generator_max = 2
-		planet_researchers_physics_research_produces_add = 1
+		planet_researchers_physics_research_produces_add = 2
 	}
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			always = yes
 		}
-		modifier = {
-			planet_amenities_add = 1
-			planet_researchers_physics_research_produces_add = -1
-		}
+		district_generator_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	triggered_planet_modifier = {
 		potential = {
+			exists = owner
 			any_owned_pop = {
 				has_job = colonist
 			}
@@ -3811,48 +5283,81 @@ d_buzzing_plains = {
 			}
 		}
 	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -0.5
+			colony_type = col_generator
+		}
+
+		modifier = {
+			add = -0.5
+			colony_type = col_research
+		}
+
+		modifier = {
+			add = -0.25
+			always = yes
+		}
+
+		
+	}
 }
 
 d_mineral_striations = {
-	time = 360
-	
+	category = deposit_cat_minerals_rare
+
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_minerals
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 360
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 500
+		}
+	}
+
+	on_cleared = {
+		owner = {
+			add_resource = {
+				minerals = 1000
+				rare_crystals = 100
+			}
+		}
+	}
 
 	planet_modifier = {
 		planet_max_districts_add = -1
 		district_mining_max = 1
-		planet_miners_minerals_produces_mult = 0.05
+		planet_miners_minerals_produces_mult = 0.1
+		planet_miners_physics_research_produces_add = 1
+		planet_researchers_engineering_research_produces_add = 2
 	}
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			always = yes
 		}
-		modifier = {
-			planet_max_districts_add = 1
-		}
+		district_mining_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	triggered_planet_modifier = {
 		potential = {
-			owner.species = { has_trait = trait_aquatic }
-			OR = {
-				is_homeworld = no
-				NOT = { has_planet_flag = lost_colony_homeworld }
-			}
+			exists = owner
+			owner = { has_trait = trait_aquatic }
 		}
-		modifier = {
-			district_mining_max = -1
-		}
+		district_mining_max = -1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	drop_weight = {
@@ -3865,37 +5370,54 @@ d_mineral_striations = {
 				is_planet_class = pc_ocean
 			}
 		}
-		
+	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -0.5
+			colony_type = col_mining
+		}
+
+		modifier = {
+			add = -0.5
+			colony_type = col_research
+		}
+
+		modifier = {
+			add = -0.25
+			always = yes
+		}
 	}
 }
 
 d_natural_farmland = {
-	time = 90
+	category = deposit_cat_food_rare
 	
 	is_for_colonizable = yes
 	use_for_min_max_adjustments = yes
 
-	category = deposit_cat_food_rare
+	should_swap_deposit_on_terraforming = no
 
-	use_weights_for_terraforming_swap_types = yes
-	should_swap_deposit_on_terraforming = yes
+	time = 90
 
 	planet_modifier = {
 		planet_max_districts_add = -1
 		district_farming_max = 1
 		planet_farmers_food_produces_mult = 0.1
+		planet_researchers_society_research_produces_add = 2
 	}
 
 	triggered_planet_modifier = {
 		potential = {
-			OR = {
-				is_homeworld = yes
-				has_planet_flag = lost_colony_homeworld
-			}
+			always = yes
 		}
-		modifier = {
-			planet_max_districts_add = 1
-		}
+		district_farming_max = 1
+		mult = value:district_amount_mastery_of_nature
 	}
 
 	drop_weight = {
@@ -3903,6 +5425,28 @@ d_natural_farmland = {
 		modifier = {
 			factor = 0
 			is_planet_class = pc_nuked
+		}
+	}
+
+	ai_weight = {
+		weight = @base
+
+		inline_script = tbm_personality_weights
+		inline_script = tbm_designation_weights
+
+		modifier = {
+			add = -0.5
+			colony_type = col_farming
+		}
+
+		modifier = {
+			add = -0.5
+			colony_type = col_research
+		}
+
+		modifier = {
+			add = -0.25
+			always = yes
 		}
 	}
 }
