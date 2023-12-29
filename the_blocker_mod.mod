@@ -1,7 +1,7 @@
-version="0.4.1"
+version="0.5.0"
 tags={
 	"Utilities"
 }
-name="The Blocker Mod - Alpha"
-supported_version="3.6.*"
+name="The Blocker Mod - Pre-Beta"
+supported_version="3.10.*"
 path="C:/Users/Dylan/Documents/Paradox Interactive/Stellaris/mod/the_blocker_mod"
