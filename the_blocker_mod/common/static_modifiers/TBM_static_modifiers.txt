@@ -86,6 +86,14 @@ mine_safety_standards = {
 	planet_miners_energy_upkeep_add = 1
 }
 
+### Homeworld Events
+
+beacon_of_hope = {
+	planet_farmers_food_produces_add = 1
+	planet_immigration_pull_add = 100
+	pop_growth_from_immigration = 0.25
+}
+
 
 
 ### Impassable Mountain
