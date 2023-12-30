@@ -5,6 +5,14 @@ namespace = tbm_hw
 ### Index
 #
 # 1. Advanced Geothermal Tap Handler
+#
+# SITUATION - Food Reserves Running Out - Post-Apocalyptic Origin
+#
+# 11. Food Reserves Running Out - Situation Trigger
+# 12. Food Reserves Running Out - Situation Handler
+# 13. Food Riots
+# 14. Malnutrition
+# 15. Privately-Sponsored Colony
 
 
 ### 1. Advanced Geothermal Tap - Handler
@@ -28,6 +36,477 @@ country_event = {
 				has_deposit = d_experimental_geothermal_tap
 			}
 			set_planet_flag = experimental_geothermal_tap
+		}
+	}
+}
+
+### Situation - Food Reserves Running Out - Post-Apocalyptic Origin
+
+###	11. Situation Trigger
+#	on_decade_pulse, homeworld only
+planet_event = {
+	id = tbm_hw.11
+
+	is_triggered_only = yes
+
+	title = tbm_hw.11
+	desc = {
+		trigger = {
+			owner = { is_gestalt = no }
+		}
+		text = tbm_hw.11_desc
+	}
+	desc = {
+		trigger = {
+			owner = { is_gestalt = yes }
+		}
+		text = tbm_hw.12_gestalt_desc
+	}
+	picture = GFX_evt_deficit
+	show_sound = unrest_alert
+
+	pre_triggers = {
+		has_owner = yes
+		is_homeworld = yes
+	}
+
+	trigger = {
+		has_deposit = d_food_rations
+		NOT = {
+			any_targeting_situation = {
+				is_same_value = event_target:food_reserves_situation	# Do not call situation if we already have it.
+			}
+		}
+	}
+
+	immediate = {
+		owner = {
+			start_situation = {
+				type = food_reserves_run_out
+				target = this
+			}
+		}
+	}
+
+	option = {
+		name = tbm_hw.11_strict_rationing
+		custom_tooltip = tbm_hw.11_strict_rationing_tooltip
+
+		exclusive_trigger = {
+			owner = { is_egalitarian = yes }
+		}
+
+		event_target:food_reserves_situation = {
+			set_situation_approach = strict_rationing
+		}
+	}
+
+	option = {
+		name = tbm_hw.11_hoard
+		custom_tooltip = tbm_hw.11_hoard_tooltip
+
+		event_target:food_reserves_situation = {
+			set_situation_approach = hoard_control
+		}
+	}
+
+	option = {
+		name = tbm_hw.11_land
+		custom_tooltip = tbm_hw.11_land_tooltip
+
+		allow = {
+			owner = {
+				any_owned_planet = {
+					NOT = { 
+						is_same_value = event_target:post_apoc_homeworld
+					}
+				}
+			}
+		}
+
+		event_target:food_reserves_situation = {
+			set_situation_approach = colonial_land_grants
+		}
+	}
+
+	after = {
+		event_target:food_reserves_situation = {
+			situation_event = {
+				id = tbm_hw.12
+			}
+		}
+	}
+}
+
+### 12. Situation Handler (Hidden)
+#	on_monthly, food_reserves_run_out
+situation_event = {
+	id = tbm_hw.12
+
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		target = {
+			export_trigger_value_to_variable = {
+				trigger = num_pops
+				variable = @post_apoc_population
+			}	
+		}
+
+		if = {
+			limit = {
+				exists = event_target:colonial_bounty
+			}
+			event_target:colonial_bounty = {
+				export_trigger_value_to_variable = {
+					trigger = num_pops
+					variable = @colonial_population
+				}	
+				export_trigger_value_to_variable = {
+					trigger = num_assigned_jobs
+					parameters = {
+						job = farmer
+					}
+					variable = @colonial_farmsteads
+				}
+			}
+		}
+	}
+}
+
+
+### 13. Food Riots
+#	on_monthly
+situation_event = {
+	id = tbm_hw.13
+	
+	title = tbm_hw.11
+	desc = {
+		trigger = {
+			owner = { is_gestalt = no }
+		}
+		text = tbm_hw.11_desc
+	}
+	desc = {
+		trigger = {
+			owner = { is_gestalt = yes }
+		}
+		text = tbm_hw.11_gestalt_desc
+	}
+	picture = GFX_evt_surrender
+	show_sound = event_public_unrest
+
+	is_triggered_only = yes
+
+	trigger = {
+		OR = {
+			current_situation_approach = strict_rationing
+			current_stage = food_shortages
+			current_stage = widespread_starvation
+		}
+		# owner = { is_gestalt = no }
+	}
+
+	immediate = {
+		set_timed_situation_flag = {
+			flag = food_riots
+			months = 6
+			# job_criminal_add = 3
+			# planet_stability_add - 20
+		}		
+	}
+
+	option = {
+		name = tbm_hw.13_option
+		custom_tooltip = tbm_hw.13_tooltip	# Explain modifier added to Situation; event_target:food_reserves_sitation
+	}
+
+}
+
+### 14. Malnutrition
+situation_event = {
+	id = tbm_hw.14
+
+	title = tbm_hw.14
+	desc = {
+		trigger = {
+			owner = { 
+				is_gestalt = no
+				has_authority = auth_corporate
+			}
+			text = tbm_hw.14_desc_corp
+		}
+	}
+	desc = {
+		trigger = {
+			owner = { 
+				is_gestalt = no
+				NOT = { has_authority = auth_corporate }
+			}
+			text = tbm_hw.14_desc
+		}
+	}
+	desc = {
+		trigger = {
+			owner = { 
+				is_hive_empire = yes
+			}
+			text = tbm_hw.14_desc_hive
+		}
+	}
+	picture = GFX_evt_zro_5
+	show_sound = event_life_support_fail
+
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { owner = { is_machine_empire = yes }}
+		OR = {
+			current_situation_approach = hoard_control
+			current_stage = food_shortages
+			current_stage = widespread_starvation
+		}
+	}
+
+	immediate = {
+		set_timed_situation_flag = {
+			flag = malnutrition
+			months = 60
+			#BIOLOGICAL_pop_growth_speed = -0.5
+			#planet_pops_food_upkeep_mult = -0.5
+		}		
+	}
+
+	option = {
+		name = tbm_hw.14_option
+		custom_tooltip = tbm_hw.14_tooltip	# Explain modifier added to Situation; event_target:food_reserves_sitation
+	}
+}
+
+### 15. Privately-Sponsored Colony (adds blocker to colony)
+situation_event = {
+	id = tbm_hw.15
+
+	title = tbm_hw.15_name
+	desc = tbm_hw.15
+	picture = GFX_evt_unknown_ships
+	show_sound = event_dyson_sphere_build_complete
+
+	is_triggered_only = yes
+
+	trigger = {
+		NOT = { owner = { has_authority = auth_corporate }}
+		owner = {
+			any_owned_planet = {
+				NOT = { 
+					is_same_value = event_target:post_apoc_homeworld
+					is_artificial = no	# PD and other mod compatibility
+				}
+			}
+		}
+	}
+
+	immediate = {
+		set_situation_flag = private_colony
+		#biological_pop_happiness = -0.15
+		#pop_government_ethic_attraction = -0.35	
+		#Adds 0.25 monthly progress for each Private Farming Colony you have
+	}
+
+	option = {
+		name = tbm_hw.15_option
+		custom_tooltip = tbm_hw.15_tooltip	# Explain modifier added to Situation; event_target:food_reserves_sitation
+	}
+
+	after = {
+		owner = {
+			random_owned_planet = {
+				limit = {
+					NOT = {
+						is_same_value = event_target:post_apoc_homeworld
+						is_artificial = no	# PD and other mod compatibility
+					}
+				}
+				add_deposit = d_private_farming_colony
+			}
+		}
+	}
+}
+
+### 16. Homeworld Governor Eaten
+situation_event = {
+	id = tbm_hw.16
+
+	title = tbm_hw.16_name
+	desc = tbm_hw.16_desc
+	picture = GFX_evt_worrying_signal
+	show_sound = event_wind_ruins
+
+	is_triggered_only = yes
+
+	trigger = {
+		target = {
+			exists = leader
+		}
+	}
+
+	immediate = {
+		target.leader = {
+			kill_leader = {
+				show_notification = yes
+			}
+		}
+	}
+
+	option = {
+		name = tbm_hw.16_governor
+	}
+
+	after = {
+		add_situation_progress = 6	# Hey, at least we got a decent meal out of it.
+	}
+}
+
+### 18. Colonial Bounty
+
+### 19. Organism Withers (Fail, gestalt)
+
+### 20. Government in Tatters (Faail, regular)
+situation_event = {
+	id = tbm_hw.20
+
+	title = tbm_hw.20_name
+	desc = {
+		trigger = {
+			owner = { has_authority = auth_corporate }
+		}
+		text = tbm_hw.20_desc_corp
+	}
+	desc = {
+		trigger = {
+			owner = { NOT = { has_authority = auth_corporate }}
+		}
+		text = tbm_hw.20_desc
+	}
+	
+	# Extra for private takeover
+	desc = {
+		trigger = {
+			has_situation_flag = private_colony
+		}
+		text = tbm_hw.20_private_takeover
+	}
+	picture = GFX_evt_undertaker
+	show_sound = event_planetary_riot
+
+	is_triggered_only = yes
+
+	trigger = {
+		owner = { NOT = { is_machine_empire = yes }}
+	}
+
+	# Ruler cedes power to the mob
+	option = {
+		name = tbm_hw.20_cede
+		custom_tooltip = tbm_hw.20_cede_tooltip
+
+		target = {
+			leader = {
+				kill_leader = {
+					show_notification = yes
+					fire = yes
+				}
+			}
+			add_modifier = {
+				modifier = starvation_state
+			}
+			add_modifier = {
+				modifier = convenient_scapegoats
+				years = 10
+			}
+		}
+	}
+
+	# Eat the cockroaches
+	option = {
+		name = tbm_hw.20_cockroaches
+		custom_tooltip = tbm_hw.20_cockroaches_tooltip
+
+		target = {
+			add_modifier = {
+				modifier = starvation_state
+			}
+			add_modifier = {
+				modifier = nutritious_cockroaches
+			}
+		}
+	}
+
+	# Eat the rich
+	option = {
+		name = tbm_hw.20_rich
+		custom_tooltip = tbm_hw.20_rich_tooltip
+
+		target = {
+			add_modifier = {
+				modifier = council_cannibalism
+			}
+		}
+
+		owner = {
+			every_owned_leader = {
+				limit = {
+					is_councilor = yes
+				}
+				add_trait = leader_trait_cannibal_councilor
+			}
+			shift_ethic = ethic_fanatic_egalitarian
+			force_remove_civic = 2
+			force_add_civic = civic_shared_burden
+		}
+	}
+
+	# Sell the government to off-world farming companies
+	option = {
+		name = tbm_hw.20_sell
+		custom_tooltip = tbm_hw.20_sell_tooltip
+
+		allow = {
+			has_situation_flag = private_colony
+			owner = {
+				any_owned_planet = {
+					has_deposit = d_private_farming_colony
+				}
+			}
+		}
+
+		owner = {
+			random_owned_planet = {
+				limit = {
+					has_deposit = d_private_farming_colony
+				}
+				set_capital = yes
+			}
+			owner = {
+				change_government = {
+					authority = auth_corporate
+					civics = {
+						civic = civic_private_prospectors
+						civic = random
+					}
+					remove_invalid_civics = yes
+				}
+			}
+		}
+	}
+
+	# Clean up situation flags and event targets
+	after = {
+		hidden_effect = {
+			clear_global_event_target = post_apoc_homeworld
+			remove_situation_flag = private_colony
+			destroy_situation = this
 		}
 	}
 }

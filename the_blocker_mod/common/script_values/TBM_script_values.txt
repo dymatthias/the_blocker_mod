@@ -11,3 +11,9 @@ megalith_unity_output = {
 	base = 4
 	add = trigger:years_passed
 }
+
+num_private_farms = {
+	base = 0
+	add = trigger:num_private_farms
+	max = 4
+}
