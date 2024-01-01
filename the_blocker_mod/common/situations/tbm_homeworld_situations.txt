@@ -50,7 +50,12 @@ food_reserves_run_out = {
 
 	# 100 = Colonial Bounty
 	on_progress_complete = {
-		# Add positive modifier
+		situation_event = {
+			id = tbm_hw.18
+			target = {
+				remove_deposit = d_food_rations
+			}
+		}
 		# Remove Food Rations, we're autarkic now! (And begin Eco-restimulation Project.)
 	}
 
@@ -261,6 +266,7 @@ food_reserves_run_out = {
 		icon_background = GFX_situation_approach_bg_yellow
 		potential = {
 			owner = { NOT = { is_egalitarian = yes }}
+			#owner = { is_gestalt = no }
 			NOT = { has_situation_flag = widespread_starvation }
 		}
 		target_modifier = {
@@ -275,6 +281,9 @@ food_reserves_run_out = {
 		name = colonial_land_grants
 		icon = GFX_situation_approach_kneel
 		icon_background = GFX_situation_approach_bg_yellow
+		potential = {
+			owner = { is_gestalt = no }
+		}
 		allow = {
 			owner = {
 				any_owned_planet = {
@@ -436,10 +445,5 @@ food_reserves_run_out = {
 			10 = tbm_hw.15	# Privately-Sponsored Colony (adds colony blocker)
 			5 = tbm_hw.16	# Governor Disappears (presumed eaten)
 		}
-
-		# Negative Events
-		
-		
-		# Government Overthrown (Widespread Starvation)
 	}
 }

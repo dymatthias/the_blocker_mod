@@ -61,3 +61,21 @@ leader_trait_cannibal_councilor = {
 	}
 	leader_class = { commander scientist official }
 }
+
+leader_trait_autocannibalistic = {
+	icon = {
+		layer = {
+			icon = "GFX_leader_trait_politician"
+			color = "red"
+		}
+	}
+
+	councilor_modifier = {
+		council_agenda_progress_speed = -0.25	# Proxy for Council Legitimacy, which is not open to modifiers
+		planet_stability_add = -10
+	}
+	leader_potential_add = {
+		always = no
+	}
+	leader_class = all
+}

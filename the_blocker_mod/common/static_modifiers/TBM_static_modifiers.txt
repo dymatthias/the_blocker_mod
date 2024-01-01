@@ -88,6 +88,8 @@ mine_safety_standards = {
 
 ### Homeworld Events
 
+# Post-Apoc Origin - Food Reserves Run Out
+
 beacon_of_hope = {
 	planet_farmers_food_produces_add = 1
 	planet_immigration_pull_add = 100
@@ -115,9 +117,28 @@ council_cannibalism = {
 	pop_cat_worker_happiness = 0.8
 }
 
+autocannibalistic_hive = {
+	country_unity_produces_mult = 0.10
+	country_food_produces_mult = 0.20
+	country_edict_fund_add = -50
+}
+
 starting_anew = {
 	planet_immigration_pull_add = 250
 	biological_pop_happiness = 0.25
+}
+
+colonial_bounty = {
+	planet_jobs_unity_produces_mult = 0.20
+	pop_government_ethic_attraction = 0.25
+}
+
+colonial_tithes = {
+	pop_cat_worker_happiness = -0.25
+}
+
+eased_tithes = {
+	pop_cat_worker_happiness = 0.10
 }
 
 
