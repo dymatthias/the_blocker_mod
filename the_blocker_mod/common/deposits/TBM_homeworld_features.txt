@@ -2329,6 +2329,14 @@ d_scavenger_bands = {
 			energy = 500
 			food = 400
 		}
+		# Additional cost during Scavenger War
+		cost = {
+			trigger = {
+				has_planet_flag = scavenger_war
+			}
+			energy = 1500
+			alloys = 200
+		}
 	}
 
 	on_cleared = {
@@ -2344,6 +2352,20 @@ d_scavenger_bands = {
 		planet_crime_add = 5
 		planet_crime_mult = 0.10
 	}
+
+
+	# Scavenger Bands Declare War modifiers
+	triggered_planet_modifier = {
+		potential = {
+			has_planet_flag = scavenger_conquest
+		}
+		modifier = {
+			district_mining_max = 1
+			planet_miners_energy_upkeep_add = 1
+			planet_crime_add = 10
+		}
+	}
+
 
 	potential = {
 		always = no

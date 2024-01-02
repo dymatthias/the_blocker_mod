@@ -88,6 +88,17 @@ mine_safety_standards = {
 
 ### Homeworld Events
 
+# Post-Apoc Origin
+
+scavenger_wars = {
+	planet_miners_minerals_produces_mult = 0.25
+	planet_stability_add = -10
+}
+
+scavenger_bounties = {
+	planet_miners_energy_upkeep_add = 1
+}
+
 # Post-Apoc Origin - Food Reserves Run Out
 
 beacon_of_hope = {
