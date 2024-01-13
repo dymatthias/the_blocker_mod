@@ -4,10 +4,25 @@
 
 namespace = tbm_handler
 
+planet_event = {
+	id = tbm_handler.1
+
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		create_message = {
+			type = "SLUM_GENERATOR"
+			localization = TBM_MESSAGE_TEST
+			days = value:generator_value
+			target = this
+		}
+	}
+}
 
 
-
-# 2. Power Plant Handler (this needs a better trigger)
+# 2. Power Plant Handler (on_colony_yearly_pulse)
+#	(this needs a better trigger)
 planet_event = {
 	id = tbm_handler.2
 	hide_window = yes
@@ -67,7 +82,7 @@ planet_event = {
 	}
 }
 
-### 4. Slum Handler (on_yearly_pulse)
+### 4. Slum Handler (on_colony_yearly_pulse)
 planet_event = {
 	id = tbm_handler.4
 	hide_window = yes
@@ -195,7 +210,7 @@ planet_event = {
 	
 }
 
-### 6. Industrial Wasteland Handler (on_yearly_pulse)
+### 6. Industrial Wasteland Generator (on_colony_yearly_pulse)
 planet_event = {
 	id = tbm_handler.6
 	hide_window = yes
@@ -274,7 +289,8 @@ planet_event = {
 				create_message = {
 					type = "MESSAGE_TEST"
 					localization = TBM_MESSAGE_TEST
-					days = -1
+					days = 120
+					random = 90
 					target = this
 				}
 			}
@@ -304,6 +320,119 @@ planet_event = {
 		}
 	}
 }
+
+### 8. Colonial Settlement Handler (on_colony_yearly_pulse, colony_age < 20)
+planet_event = {
+	id = tbm_handler.8
+
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	pre_triggers = {
+		has_owner = yes
+		is_occupied_flag = yes	# Occupying forces not so keen on new settlements as they are on new power plants
+		is_homeworld = no
+	}
+
+	trigger = {
+		has_building = building_capital 	# If too much, can change this to is_col_type = col_default for colony des only
+		owner = { is_gestalt = no }
+	}
+
+	immediate = {
+		random_list = {
+			# Colonial Settlement - adds feature, housing, and colonist jobs.
+			10 = {
+				modifier = {
+					factor = 5
+					num_free_districts = {
+						type = any
+						value > 3
+					}
+				}
+				modifier = {
+					factor = 2
+					num_pops > 8	# Should result in a few more settlements at that tight spot right before you get Planetary Admin.
+				}
+
+				# planet_event = {
+				# 	id = tbm_handler.9
+				# 	days =
+				# }
+			}
+			90 = {} 	# No settlement this year, busy having babies.
+		}
+	}
+}
+
+### 9. Colonial Settlement Generator
+planet_event = {
+	id = tbm_handler.9
+
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		add_deposit = d_settlement
+		create_message = {
+			type = "MESSAGE_TEST"
+			localization = TBM_MESSAGE_TEST
+			days = -1
+			target = this
+		}
+	}
+}
+
+### 10. Frontier Farmland Generator (on_colony_yearly_pulse)
+planet_event = {
+	id = tbm_handler.10
+
+	hide_window = yes
+	is_triggered_only = yes
+
+	pre_triggers = {
+		is_homeworld = no
+	}
+
+	trigger = {
+		owner = { is_gestalt = no }
+	}
+
+	immediate = {
+		random_list = {
+			10 = {
+				modifier = {
+					factor = 5
+					num_free_districts = {
+						type = any
+						value > 5
+					}
+				}
+				modifier = {
+					factor = 2
+					# Planets where the ranchin' is good
+					OR = {
+						is_dry = yes
+						is_planet_class = pc_gaia
+					}
+				}
+				modifier = {
+					factor = 10
+					owner = { has_valid_civic = civic_agrarian_idyll }
+				}
+
+				# Message/event
+			}
+			90 = {}
+		}
+	}
+}
+
+
+
+
+
 
 ### 11. Reroll tomb features on nuking via various events (on-action: )
 

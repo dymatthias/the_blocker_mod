@@ -1,0 +1,16 @@
+﻿l_english: 
+
+ ### The Blocker Mod - Message Events
+ #   Used for notifications for dynamic features - see tbm_message_events and tbm_handler_events
+ 
+ # Handlers & Generators
+
+ SLUM_GENERATOR:0 "Cramped and difficult living conditions for the masses have given rise to a £TSprawling Slum£! on [planet.GetName]. If left to fester, it may affect the [planet.GetPlanetMoon]'s attractiveness.\n\nTo avoid future slums, improve local conditions by adding amenities and housing."
+
+ INDUSTRIAL_WASTELAND:9 "Chased away by declining local conditions and a poor economy, businesses and industries are abandoning [planet.GetName], leaving£T Industrial Wasteland£! behind. These derelict regions are dens of crime and corrosive materials are leaking into the surrounding ecosystem.\n\nTo avoid future wastelands, improve local conditions by adding amenities reducing crime."
+
+ URBAN_POWER_PLANT:0 "The growing urban area on [planet.GetName] has long exceeded the planet's own energy supply, and shipments from off-world aren't enough. Local planners have authorized construction of a new£T Urban Power Plant£! in the heart of a new industrial mega-city to meet ballooning energy needs.\n\nTo avoid these unsightly behemoths, ensure the planet has enough£T Generator Districts£!."
+
+ COLONIAL_SETTLEMENT:0 "Enterprising pioneers on [planet.GetName] have settled in a rich region of the frontier in hopes of a new and prosperous life. Although the£T Colonial Settlement£! attracts all kinds, the£T Colonists£! will also help explore and exploit the local terrain.\n\nThese settlements are more likely on worlds with extra district space and a growing population."
+
+ FRONTIER_FARMLAND:0 "Ranchers and farmers are flocking to [planet.GetName] in search of new land and new life, establishing£T Frontier Farmlands£! in outlying regions. These homesteads require ample land but will help provide£T Agricultural Districts£! on the colony.\n\nThese farms are more likely to be created on worlds with lots of free space or ideal grazing conditions."

@@ -1,4 +1,14 @@
 
+# Adds random delay to certain events that otherwise don't support random = x, mainly messages
+generator_value = {
+	base = 120
+	multiply = random_factor
+	min = 90
+	max = 180
+	round = yes
+}
+
+
 # Curreently unused, set up mainly for experiment/test/future use.
 random_feature_value = {
 	base = 1
