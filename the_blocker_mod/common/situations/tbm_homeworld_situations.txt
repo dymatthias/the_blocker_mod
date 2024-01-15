@@ -1,8 +1,8 @@
 ### The Blocker Mod - Homeworld Situations
 
-# @post_apoc_population = 0
-# @colonial_farmsteads = 0
-# @colonial_population = 0
+@post_apoc_population = 0
+@colonial_farmsteads = 0
+@colonial_population = 0
 
 
 ### Index
@@ -14,10 +14,10 @@
 # 01. Food Reserves Running Out - Triggers 15 years after start if Food Rations exists
 food_reserves_run_out = {
 
-	desc = {
-		text = food_reserves_run_out_desc_gestalt	# Loc overwrite for gestalts
-		trigger = { owner = { is_gestalt = yes }}
-	}
+	# desc = {
+	# 	text = food_reserves_run_out_desc_gestalt	# Loc overwrite for gestalts
+	# 	trigger = { owner = { is_gestalt = yes }}
+	# }
 
 	picture = GFX_evt_deficit
 
@@ -52,9 +52,6 @@ food_reserves_run_out = {
 	on_progress_complete = {
 		situation_event = {
 			id = tbm_hw.18
-			target = {
-				remove_deposit = d_food_rations
-			}
 		}
 		# Remove Food Rations, we're autarkic now! (And begin Eco-restimulation Project.)
 	}
@@ -112,11 +109,11 @@ food_reserves_run_out = {
 		}
 
 		# While this is enabled, situation can never fail
-		modifier = {
-			add = 1
-			desc = x
-			situation_progress = 1
-		}
+		# modifier = {
+		# 	add = 1
+		# 	desc = x
+		# 	situation_progress = 1
+		# }
 	}
 
 	stages = {

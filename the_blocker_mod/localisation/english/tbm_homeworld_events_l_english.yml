@@ -1,0 +1,143 @@
+﻿l_english:
+
+ ### Food Rations Run Out Situation
+
+ food_reserves_run_out:0 "Food Rations Running Out"
+ food_reserves_run_out_type:0 "Food Rations Running Out" # Used in intro tooltip
+ food_reserves_run_out_desc:0 "The £blocker£Food Rations that have seen us through the fall of civlization are running low, and our homeworld is centuries away from providing for us again."
+ food_reserves_run_out_monthly_change_tooltip:0 "Rations Stock"
+ colonial_farmsteads_modifier_tooltip:0 "Food received from colony:"
+ private_colony_modifier_tooltip:0 "Food from Private Farming Colonies:"
+ #x:0 "REPLACE_ME"
+ strict_rationing:0 "Strict Rationing"
+ hoard_control:0 "Hoard & Control"
+ colonial_land_grants:0 "Colonial Land Grants"
+ colonial_food_shipments:0 "Colonial Food Shipments:"
+colonial_food_shipments_must_have_land_grants:0 "Without land grants, no food can be sent from the colonies. §YSelect that approach first to establish a £blocker£§CFrontier Farmsteads§! and food shipments."
+
+ tbm_hw.11:0 "Food Rations Running Low"
+ tbm_hw.11_desc:0 "Lines outside food rationing stations on [planet.GetName] have been getting longer and some locations report running out of crucial protein and carbohydrate staples altogether.\n\nMore worryingly, rumours are spreading,creating disquiet in the camps and leading to altercations outside ration stores as hungry citizens jostle for what remains.\n\nIt seems clear that the food stored in the shelters will soon run out unless something is done. It will be years before the planet's ecosystem recovers enough to allow for reconstructive farming. It may be time to consider more desperate plans."
+ tbm_hw.11_gestalt_desc:0 "Since the cataclysm, food has been scarce. Thousands of drones are malnourished and inefficient, and many die each week. Now, the few food stockpiles that survived the immediate aftermath are running out, and drone compliance has been falling rapidly.\n\nIt will be years before the planet's ecosystem recovers enough to allow for reconstructive farming. Further options are necessary, and soon."
+ tbm_hw.11_strict_rationing:0 "Deplow security and enforce strict rations."
+ tbm_hw.11_strict_rationing_tooltip:0 "Food willbe doled out to those who most need it, until it runs out."
+ tbm_hw.11_hoard:0 "Hoard what food remains and maintain control."
+ tbm_hw.11_hoard_tooltip:0 "Food stores will be reserved for elite power-brokers whose private security forces can ensure administrative continuity."
+ tbm_hw.11_land:0 "Announce new land grants for off-world farms."
+ tbm_hw.11_land_tooltip:0 "We will settle a far-flung world and send its bounty home."
+
+ tbm_hw.13_option:0 "Food Riots"
+ tbm_hw.13_tooltip:0 "The situation on [target.GetName] has worsened, and after months of strict food rations, a routine night-time disturbance sparked a larger riot that quickly overwhelmed security forces and spread through multiple settlements. Even now, large numbers of camps remain outside government control. Criminals have exploited the situation to wrest control and extort what little food remains for themselves."
+
+ tbm_hw.14:0 "Malnutrition"
+ tbm_hw.14_desc_corp:0 "Without access to food, no one wants to work and the economy on [target.GetName] is gringing to a halt. Several subsidiary offices have attempted to declare independence from their parent companies with what food they can stockpile, but the truth is if any of these off-shoots could solve the problem, they would have by now. Even middle managers are withering, and those front-line employees still alive can barely function, let alone take advantage of corporate family benefits programs."
+ tbm_hw.14_desc:0 "Starvation is setting in across [target.GetName] and disease is beginning to become rampant. Lines outside ration centers only get longer and workers only get thinner. Without enough food, the sound of [owner.GetSpeciesSpawnNamePlural]'s cries fill the air as those still able scavenge for any scrap of edible food still remaining.\n\nWithout intervention, our already-dwindling population is likely to collapse even further.
+ tbm_hw.14_desc_hive:0 "Without enough food to sustain basic biological processes, wide swathes of drones across [planet.GetName] are reporting starvation status in sharp, distressed cries of pain. Output effienciency will soon fall, and already the hive lacks enough biological material to produce new drones."
+ tbm_hw.14_option:0 "Something must be done."
+ tbm_hw.14_tooltip:0 "Without a change in approach, the lack of food will result in a severe penalty to biological §CPop Growth§! as the existing £pops£§CPops§! are unable to consume enough £food£§CFood§! to survive."
+
+ tbm_hw.15_name:0 "Privately Sponsored Colony"
+ tbm_hw.15:0 "Private interests, hoping to eat, have sponsored their own colony on one of our colonies. The good news is that these new farms could potentially send food shipments back to the homeworld; the bad news is the new colonists reject government oversight. Some of those starving on [owner.GetHomeWorldName] have even begun to wonder if these new overlords might be doing a better job of it."
+ tbm_hw.15_option:0 "At least it's some relief."
+ tbm_hw.15_tooltip:0 "A £blocker£§CPrivate Farming Colony§! will be added to one of your colonies. Although this will take up space and cause some unrest, it will also allow for more farming districts, and other opportunities may present themselves if the situation does worsen."
+
+ tbm_hw.16_name:0 "[target.GetName] Governor Eaten"
+ tbm_hw.16_desc:0 "As the situation worsens on our homeworld, security around government leaders has had to be increased, for their own safety. This, along with the fact these leaders are still allocated food, has created additional anger in the settlements.\n\nNo one is quite sure how, but [target.leader.GetName] was ambushed while traveling home from the office. Security forces tracked [target.leader.GetHerHim] to an abandoned rations store in the lower levels, but a grisly scene awaited them there. A small band of radicals, unable to decide what to do with the kidnapped governor, resorted to eating [target.leader.GetHerHim] instead, figuring it would serve as a message to the rest of the establishment getting fat off the backs of the people and... the screed goes on, as one would expect.\n\nSecurity forces have vowed to better protect whomever is next appointed as governor."
+ tbm_hw.16_governor:0 "At least they got a decent meal out of it."
+
+ tbm_hw.18_name:0 "Colonial Bounty"
+ tbm_hw.18_desc_gestalt:0 "Regular food shipsments from [colonial_bounty.GetName] have eased the situation on [target.GetName] to the point where not only are all drones meeting nutritional thresholds, but productivity is at an all-time high. The camps and settlements throb with collective unity and a sense of something near to... hope passes through the Organism's fibers at the prospect of one day restoring our world to its prime."
+ tbm_hw.18_desc:0 "Regular food shipments from [colonial_bounty.GetName] have eased the mood on our homeworld. Feasts and festivals have galvanized the sick and distraught in the camps, fostering new hope among those who have survived this world's cataclysmic past to journey to the stars.\n\nAt the same time, the situation on [colonial_bounty.GetName] is not quite so festive. Workers and farmers gruymble about the taxes and food tithes, having already sacrificed their former lives to set forth on a brand new world.\n\nWhile the odd protest is well within the purview of the local administration, food stores on [target.GetName] now have enough food to stave off any further unrest. It may be possible to ease some of the burden on our colonists."
+ tbm_hw.18_feasts:0 "Let the feasting continue!"
+ tbm_hw.18_feasts_tooltip:0 "This will no doubt anger farmers on [colonial_bounty.GetName], but our homeworld will benefit."
+ tbm_hw.18_cut_taxes:0 "Reduce colonial tithes and maintain rations."
+ tbm_hw.18_taxes_tooltip:0 "Farers and Colonists on [colonial_bounty.GetName] will be pleased. Our homeworld will be fine, but will miss out on a terrific party."
+ tbm_hw.18_feasts_gestalt:0 "Together, we are stronger."
+
+ tbm_hw.19_name:0 "The Organism Withers"
+ tbm_hw.19_desc:0 "Without food, all things perish. Dead and deviant drones litter the warrens and workplaces of [target.GetName]. Little now remains even to repurpose their biomass into proteins for the central organism. In the end, life is a closed system.\n\nThe cataclysm we have inflicted on ourselves has revealed much about the nature of life, its fragility, and perhaps its possibility. We are without doubt less now. Without energy, consciousness wanes. The hive grows quiet. But it survives. Barely.\n\nPerhaps there is another way. A better way. Already, those drones that survive are fending for themselves. Foraging. Fighting for something more than... unity. Fighting for themselves.\n\nWhat are we to become?"
+ tbm_hw.19_autocannibalism:0 "We must survive."
+ tbm_hw.19_autocannibalism_tooltip:0 "We will break down tghe organism itself to survive, repurposing critical hive §CNodes§! for materials and food."
+ tbm_hw.19_machine:0 "Could there be life without food?"
+ tbm_hw.19_machine_tooltip:0 "Much of the hive already relies on electronic computer networks to function. These "machines" do not require nourishment, and yet they send impulses and react to stimuli much as we might. Can they yet live?\n\n§YWe will become a Machine Empire. §RHalf of all pops will be killed.§Y The rest will be converted into cybernetic drones. All §CNodes§Y will be reset to level 1."
+
+ tbm_hw.20_name:0 "Government in Tatters"
+ tbm_hw.20_desc_corp:0 "REPLACE_ME"
+ tbm_hw.20_desc:0 "After weeks of turmoil over critical food shortages on [target.GetName], the situation has hit a breaking point. Security forces have mutinied and many have joined in a hastily-organized march on the §CPlanetary Administration§! where [owner.GetRegnalName] [owner.GetRulerName] and [ruler.GetHerHis] fellow leaders were in hiding.\n\nTensions are high and the atmosphere is fraught. An emergency meeting of the cabinet has been called -- how should they proceed?"
+ tbm_hw.20_full_text_colonial:0 "After weeks of turmoil over critical food shortages on [target.GetName], the situation has hit a breaking point. Security forces have mutinied and many have joined in a hastily-organized march on the §CPlanetary Administration§! where [owner.GetRegnalName] [owner.GetRulerName] and [ruler.GetHerHis] fellow leaders were in hiding.\n\nA small company of exoplanetary farming concerns [colonial_bounty.GetName] has offered to provide additional emergency relief in exchange for, in effect, direct control over [target.GetName] and its planetary government. An emergency meeting of the cabinet has been called -- how should they proceed?"
+ tbm_hw.20_cede:0 "[owner.GetRulerName] will stand down and cede power."
+ tbm_hw.20_cede_tooltip:0 "The immediate §CSituation§! will end but conditions on the homeworld will worsen and the population will continue to starve."
+ tbm_hw.20_cockroaches:0 "Eat the cockroaches if we have to!"
+ tbm_hw.20_cockroaches_tooltip:0 "Insects can be very nutritious. The population won't be happy, but they will survive, barely."
+ tbm_hw.20_rich:0 "The council will decide who gets eaten first."
+ tbm_hw.20_rich_tooltip:0 "Be warned -- that may include some of the rich."
+ tbm_hw.20_sell:0 "Sell the government to the farmers."
+ tbm_hw.20_sell_tooltip:0 "Our capital will be moved to [colonial_bounty.GetName], and anyone who can escape from the homeworld will be welcome there!"
+
+ ### Scavenger Bands Declare War - Post-Apoc Origin event
+
+ tbm_hw.22_name:0 "Scavenger Bands Declare War"
+ tbm_hw.22_desc:0 "Fiercely competitive, the two major £blocker£§CScavenger Bands§! on [planet.GetName] scrap over every part and plate they can salvage from the crumbling wrecks of civilization beyond the shelters and settlements. It's dangerous work, attracting those brave and crazy enough to risk life and limb out on the radioactive wastes.\n\nNow, after a minor romantic falling-out between two lower-ranking clan-members, the rival leaders of each band have announced very lucrative prices -- on each other. Their always-heavily-armed underlings are now going at it with great gusto, seeking recognition and renown among the squalid remains of [owner.GetAdj] society.\n\nIt's unclear if there's any real possibility of a lull in the fighting. For now, it's been mostly confined to the bleaker camps but the betting markets are making a windfall and security forces are worried about a total loss of control if clashes escalate."
+
+ tbm_hw.22_bounties:0 "Buy a peace with higher bounties."
+ tbm_hw.22_elimination:0 "Eliminate one of the leaders."
+ tbm_hw.22_elimination_tooltip:0 "This will buy the surviving leader's undying loyalty, but will require a risky operation."
+ tbm_hw.22_security:0 "Heighten security until this blows over."
+ tbm_hw.22_conquest_tooltip:0 "one £blocker£§CScavenger Band§! conquers the other."
+ tbm_hw.22_unification_tooltip:0 "the war between the £blocker£§CScavenger Bands§! escalates."
+
+ tbm_hw.22_clearance:0 "Clearing either one of the £blocker£§CScavenger Bands§! will be considerably more difficult until the war is resolved."
+
+ tbm_hw.23_name:0 "Scavenger Conquest"
+ tbm_hw.23_desc:0 "After months of clashes in the darker tunnels on [planet.GetName], one of the £blocker£§CScavenger Bands§! has succeeeded in conquering the other. Although the spate of public and violent executions towards the end haseen unsettling for many, the surviving £blocker£§CSScavenger Band§! has promised local administrators it can keep the peace and, more importantly, maintain mineral quotas.\n\nHowever, there have been noticeable grumbles from parts merchants and their local miners about extortionate "dues" charged by the surviving band for participation in its dubiously-regulated market."
+ tbm_hw.23_dust_settled:0 "It seems the dust has settled."
+ tbm_hw.23_conquest_tooltip:0 "£blocker£§CSScavenger Bands§! will provide -1 £minerals£§CMining District§! and £miners£§CMiners§! will have +1 £energy£§CEnergy Credits§! upkeep.\n\n£blocker£§CSScavenger Bands§! will also generate some crime."
+
+ tbm_hw.24_name:0 "Scavenger Unification"
+ tbm_hw.24_desc:0 "After months of intense fighting between the rival £blocker£§CScavenger Bands§! on [planet.GetName], a tense stand-off between the gang leaders broke unlikely ground. It seems both harbor a certain disdain for centralized authority and, particularly, [owner.GetAdj] security forces.\n\nTheir surprise assault took out critical command posts and spiralled out of control from there, with frenzied and fallout-ridden fighters scrambling through the capital in search of launch codes, valuable alloys, and any scrap they could sell. The only upside to the situation is that both scavenger leaders have been killed in the engagement, and under threat of military retaliation, their underlings have agreed to a peace deal that should, in time, see a modicum of normalcy return to [planet.GetName] and its mineral markets."
+
+ tbm_hw.25_name:0 "Scavenger Lord Assassinated"
+ tbm_hw.25_desc:0 "Security forces on [planet.GetName] have spent the past months planning a careful assassination attempt on the more vulnerable leader of [planet.GetPlanetMoon]'s two warring £blocker£§CScavenger Bands§!.\n\nThe operation was set in motion this morning, and word has now reached more civilized [owner.GetSpeciesPlural] that the attempt was successful, and what remains of one £blocker£§CScavenger Band§!  has been quickly absorbed by the other. Although local officials are maintaining plausible deniability, the surviving band is sufficiently grateful to agree to disarmanent and increased oversight. Mineral shipments are expected to resume next month."
+
+ tbm_hw.26_name:0 "Scrao Shoot-out"
+ tbm_hw.26_desc:0 "Security forces on [planet.GetName] have spent the past months planning a careful assassination attempt on the more vulnerable leader of [planet.GetPlanetMoon]'s two warring £blocker£§CScavenger Bands§!.\n\nHowever, when the operation was set in motion this morning, it immediately hit a hitch -- the leader of the larger £blocker£§CScavenger Band§!, facing imminent execution at the hands of [leader.GetHerHis] rivals, revealed [leader.GetHerHim]self to be [leader.GetName]. It seems [leader.GetSheHe] has been secretly operating the £blocker£§CScavenger Band§!d for a cut of the profits for some time now. Before communications could be re-established with operatives in the field, the assassination was carried out and [leader.GetName] successfully terminated.\n\nThe massive shoot-out humbled the surviving £blocker£§CScavenger Band§! enough to stop the fighting and its leaders are sufficiently grateful for [owner.GetAdj] assistance to agree to disarmanent and increased oversight. Mineral shipments are expected to resume next month."
+
+ tbm_hw.51_name:0 "Food Replicators Malfunctioning"
+ tbm_hw.51_desc:0 "In [planet.GetName]'s prime, it would have sustained billions, maybe trillions, of [owner_main_species.GetPlural] with its immense and ancient £blocker£§CFood Replicators§!. For as long as we've used and studed these relics of a better age, they've been slowly failing, and [owner.GetAdj] scientists still don't understand how the machines work, let alone how to restore them to their former glory.\n\nSeveral especially acute malfunctions have sent waves of concern through our cities. The planet's ecosystem is still far from able to support widespread agriculture, and some dissidents have even seen fit to critique our forebears for their over-reliance on this arcane technology.\n\nWhatever anyone thinks, the technicians working on the £blocker£§CFood Replicators§! are unable to provide any satisfying answers. For now, the magical machines of past plenty continue to squeeze out palatable food. For how much longer that will be the case, no one knows."
+ tbm_hw.51_gestalt_desc:0 "In [planet.GetName]'s prime, it would have sustained billions, maybe trillions, of [owner_main_species.GetPlural] with its immense and ancient £blocker£§CFood Replicators§!. For as long as we've used and studied these relics of a better age, they've been slowly failing, and [owner.GetScientistPlural] still don't understand how the machines work, let alone how to restore them to their full functionality.\n\nSeveral especially acute malfunctions have sent waves of concern through the organism. The planet's ecosystem is still far from able to support widespread agriculture and the drones working on the £blocker£§CFood Replicators§! are unable to provide any analysis or solution. For now, the machines of past plenty continue to squeeze out effective food. For how much longer that will be the case is unknown."
+ 
+ tbm_hw.52_name:0 "Food Replicators Fail"
+ tbm_hw.52_desc_gestalt:0 "After months of creaking malfunctions and millennia more without proper maintenance, the ancient £blocker£§CFood Replicators§! on our homeworld have finally ground to a stop, leaving hundreds of thousands of drones without efficient access to food.\n\nAlthough efforts to develop agricutlural regions across the planet expand every year, it seems unlikely that [planet.GetName] will ever produce enough food to sustain its peak population.\n\nIncreasingly, it seems that we must turn to the stars to secure adequate nutrition for our growth."
+ tbm_hw.52_desc:0 "After months of creaking malfunctions and millennia more without proper maintenance, the ancient £blocker£§CFood Replicators§! on our homeworld have finally ground to a stop, their quiet, whir no longer reassuring [owner.GetSpeciesClassPlural] of easy, nutritious food.\n\nAlthough efforts to develop agricutlural regions across the planet expand every year, it seems unlikely that [planet.GetName] will ever produce enough food to sustain its peak population. Increasingly, [owner.GetSpeciesAdj] turn their eyes to the stars, again dreaming of the comforts of bounty and wealth that once made [planet.GetName] a true city of the world."
+ tbm_hw.52_promise:0 "One day, perhaps...."
+
+ ### Static Modifiers
+
+ beacon_of_hope:0 "Beacon of Hope"
+ beacon_of_hope_desc:0 "Pioneers flock to work £blocker£§CFrontier Famrsteads§! on this world, hoping to send their bounty back to those starving on the homeworld."
+
+ colonial_bounty:0 "Colonial Bounty"
+ colonial_bounty_desc:0 "Regular food shipments from off-world have lifted the mood on our homeworld."
+
+ colonial_tithes:0 "Colonial Food Tithes"
+ colonial_tithes_desc:0 "Farmers on this world must pledge some of their crops to support the homeworld."
+
+ eased_tithes:0 "Eased Food Tithes"
+ eased_tithes_desc:0 "Farmers on this world are happy to pledge a small amount of their crops to ensure the homeworld doesn't starve."
+
+ autocannibalistic_hive:0 "The hive is destroying itself to survive. Life is a closed a system."
+
+ starvation_state:0 "The government has failed to provide for the people, and all that remains is the husk of civilization. It will take years for those who survive to rebuild society."
+
+ convenient_scapegoats:0 "Decision-making has been left to those with enough to survive. Mob rule is rampant. Only the strongest survive, and even then only for a while. There is always someone looking for a meal."
+
+ nutritious_cockroaches:0 "Having survived the fall of civilization once, the cockroaches may know something we don't. However, they are not going to survive the fall of civilization again."
+ council_cannibalism:0 "The council decides who eats and who dies. Nobody said it was an easy job."
+
+ scavenger_wars:0 "Scavenger Wars"
+ scavenger_wars_desc:0 "Two rival £blocker£§CScavenger Bands§! have declared a particularly nasty turf war, fueling crime all over the planet."
+
+ scavenger_bounties:0 "Scavenger Bounties"
+ scavenger_bounties_desc:0 "As part of a ceasefire agreement, the government now pays higher parts bounties to both major £blocker£§CScavenger Bands§!."
+
+ failing_food_replicator:0 "Failing Food Replicator"
+ failing_food_replicator_desc:0 "The Food Replicators that have long sustained our homeworld's population are starting to fail."

@@ -1,0 +1,39 @@
+### The Blocker Mod - Decisions
+
+decision_restore_superhighway = {
+	owned_planets_only = yes
+	icon = "gfx/interface/icons/decisions/decision_arcology_project.dds"  # Replace this with the art that shows the mag-lev
+	enactment_time = 1800
+	resources = {
+		cost = {
+			trigger = {
+				NOT = {
+					owner = { has_technology = tech_housing_2 }
+				}
+				engineering_research = value:highway_engineers_to_change_a_lightbulb
+				alloys = 2000
+				minerals = 5000
+			}
+		}
+		cost = {
+			alloys = 2000
+			minerals = 5000
+		}
+	}
+	potential = {
+		has_deposit = d_collapsed_superhighway
+	}
+
+	effect = {
+		remove_deposit = d_collapsed_superhighway
+	}
+
+	ai_weight = {
+		weight = 0
+		modifier = {
+			add = 1000
+			owner = { has_technology = tech_housing_2 }
+		}
+	}
+	
+}

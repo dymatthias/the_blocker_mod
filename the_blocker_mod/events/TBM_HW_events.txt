@@ -2,6 +2,8 @@
 
 namespace = tbm_hw
 
+@post_apoc_population
+
 ### Index
 #
 # 1. Advanced Geothermal Tap Handler
@@ -42,7 +44,7 @@ country_event = {
 
 ### Situation - Food Reserves Running Out - Post-Apocalyptic Origin
 ###	11. Situation Trigger
-#	on_decade_pulse, homeworld only
+#	on_colony_yearly_pulse, 15 years passed, homeworld only
 planet_event = {
 	id = tbm_hw.11
 
@@ -59,7 +61,7 @@ planet_event = {
 		trigger = {
 			owner = { is_gestalt = yes }
 		}
-		text = tbm_hw.12_gestalt_desc
+		text = tbm_hw.11_gestalt_desc
 	}
 	picture = GFX_evt_deficit
 	show_sound = unrest_alert
@@ -70,6 +72,7 @@ planet_event = {
 	}
 
 	trigger = {
+		years_passed >= 15
 		has_deposit = d_food_rations
 		NOT = {
 			any_targeting_situation = {
@@ -147,6 +150,7 @@ situation_event = {
 
 	immediate = {
 		target = {
+			set_variable = @post_apoc_population
 			export_trigger_value_to_variable = {
 				trigger = num_pops
 				variable = @post_apoc_population
@@ -321,7 +325,7 @@ situation_event = {
 		owner = {
 			random_owned_planet = {
 				limit = {
-					NOT = {
+					NAND = {
 						is_same_value = event_target:post_apoc_homeworld
 						is_artificial = no	# PD and other mod compatibility
 					}
@@ -390,6 +394,10 @@ situation_event = {
 
 	option = {
 		name = tbm_hw.18_feasts
+		custom_tooltip = tbm_hw.18_feasts_tooltip
+		trigger = {
+			owner = { is_gestalt = no }
+		}
 		target = {
 			add_modifier = {
 				modifier = colonial_bounty
@@ -412,7 +420,31 @@ situation_event = {
 	}
 
 	option = {
+		name = tbm_hw.18_feasts_gestalt
+		exclusive_trigger = {
+			owner = { is_gestalt = yes }
+		}
+		target = {
+			add_modifier = {
+				modifier = colonial_bounty
+				years = 20
+			}
+		}
+
+		# Begin first phase of eco-restoration
+
+		hidden_effect = {
+			clear_global_event_target = post_apoc_homeworld
+		}
+		destroy_situation = this
+	}
+
+	option = {
 		name = tbm_hw.18_cut_taxes
+		custom_tooltip = tbm_hw.18_taxes_tooltip
+		trigger = {
+			owner = { is_gestalt = no }
+		}
 		event_target:colonial_bounty = {
 			add_modifier = {
 				modifier = eased_tithes
@@ -543,13 +575,11 @@ situation_event = {
 		}
 		text = tbm_hw.20_desc
 	}
-	
-	# Extra for private takeover
 	desc = {
 		trigger = {
 			has_situation_flag = private_colony
 		}
-		text = tbm_hw.20_private_takeover
+		text = tbm_hw.20_full_text_colonial
 	}
 	picture = GFX_evt_undertaker
 	show_sound = event_planetary_riot
@@ -913,4 +943,85 @@ planet_event = {
 }
 
 
+### 51. Food Replicator Breaks Down - Warning (Remnant Origin)
+#	(on_colony_yearly_pulse, 15 years have to have pased, only called on homeworlds)
+planet_event = {
+	id = tbm_hw.51
 
+	title = tbm_hw.51_name
+	desc = {
+		trigger = {
+			owner = { is_gestalt = yes }
+		}
+		text = tbm_hw.51_gestalt_desc
+	}
+	desc = tbm_hw.51_desc
+	picture = GFX_evt_overt_indoctrination
+	show_sound = event_machinery
+
+	is_triggered_only = yes
+
+	pre_triggers = {
+		has_owner = yes
+		is_homeworld = yes
+	}
+
+	trigger = {
+		years_passed > 15
+		has_deposit = d_homeworld_food_replicators
+		owner = { is_machine_empire = no }
+	}
+
+	option = {
+		name = WORRYING
+	}
+	
+	after = {
+		add_modifier = {
+			modifier = failing_food_replicator
+		}
+		hidden_effect = {
+			planet_event = {
+				id = tbm_handler.101
+				days = 1800
+				random = 720
+			}
+		}
+	}
+}
+
+### 52. Food Replicatgor Fails
+planet_event = {
+	id = tbm_hw.52
+
+	title = tbm_hw.52_name
+	desc = {
+		trigger = {
+			owner = { is_gestalt = yes }
+		}
+		text = tbm_hw.52_desc_gestalt
+	}
+	desc = tbm_hw.52_desc
+	picture = GFX_evt_sapient_AI
+	show_sound = event_life_support_fail
+
+	is_triggered_only = yes
+
+	immediate = {
+		remove_modifier = failing_food_replicator
+		remove_deposit = d_homeworld_food_replicators
+	}
+
+	option = {
+		name = UNDERSTOOD
+	}
+	
+	after = {
+		hidden_effect = {
+			owner = {
+				set_country_flag = replicator_bounty
+			}
+		}
+		custom_tooltip = tbm_hw.52_promise
+	}
+}

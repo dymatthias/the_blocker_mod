@@ -27,3 +27,18 @@ num_private_farms = {
 	add = trigger:num_private_farms
 	max = 4
 }
+
+highway_engineers_to_change_a_lightbulb = {
+	base = @tier4researchreward
+	complex_trigger_modifier = {
+		trigger = resource_income_compare
+		trigger_scope = owner
+		parameters = {
+			resource = engineering_research
+		}
+		mode = set
+		mult = 60	# There're a lot of lightbulbs on an ecumenopolis.
+	}
+	min = @tier4researchmin
+	max = @tier4researchmax
+}

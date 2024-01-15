@@ -3926,7 +3926,7 @@ d_dyke = {
 	}
 }
 
-d_settlement = {	# Currently unused, but will spawn on new colonies, particularly rugged ones to give a boost.
+d_settlement = {
 
 	category = deposit_cat_blockers
 
