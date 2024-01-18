@@ -102,8 +102,8 @@ planet_event = {
 				
 				# Got to have one each of sprawl and poor conditions
 				OR = {
-					free_amenities < 1
-					free_housing < 5
+					free_amenities < 5
+					free_housing > 5
 					#planet_crime > 15
 				}
 				OR = {

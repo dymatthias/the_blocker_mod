@@ -1,5 +1,10 @@
 ### NOTE: May need to set these as blockers = yes to get them to spawn properly; not sure if it has any other effect.
 
+deposit_cat_tbm_legendary = {
+	blocker = yes # Counts as blockers
+	important = yes	# Shows up as rare deposits in planetview
+}
+
 deposit_cat_food = { 
 	blocker = yes
 }

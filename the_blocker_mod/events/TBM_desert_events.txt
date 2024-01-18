@@ -137,7 +137,7 @@ planet_event = {
 				modifier = {
 					factor = 2
 					num_pops > 10
-						free_housing < 3					
+						free_housing > 3					
 				}
 				planet_event = { id = tbm.33 days = 60 random = 30 }
 			}
