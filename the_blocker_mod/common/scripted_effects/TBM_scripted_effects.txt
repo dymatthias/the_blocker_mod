@@ -37,6 +37,7 @@ add_from_barren = {
 	}	
 }
 
+
 # remove_random_district = {
 	
 # 	# Compatibility failsafe for Planetary Diversity

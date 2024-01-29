@@ -4,70 +4,105 @@
 
 namespace = tbm_handler
 
+#1. Scripted Planets Handler
+### Many scripted planets in vanilla call clear_blockers on init, or add vanilla deposits that will either be broken or unbalanced by the mod. This event is fired on_press_begin and checks for specific scripted planets. It may cause a slight lag when the game is first started.
+
+event = {
+	id = tbm_handler.1
+
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		
+		
+		### DISTANT STARS INITIALIZERS
+		# primitive_robot_system
+		# Standard spread
+		every_system_planet = {
+			limit = { has_planet_flag = primitive_robot_planet }
+			reroll_deposits = yes
+			add_deposit = d_failing_infrastructure
+			add_deposit = d_failing_infrastructure
+			add_deposit = d_city_ruins
+			add_deposit = d_city_ruins
+			add_deposit = d_metal_boneyard
+		}
+
+		# superflare_system
+		# Standard spread for now, should get basic tomb features as well
+		every_system_planet = {
+			limit = { has_planet_flag = frozen_in_time_flag }
+			reroll_deposits = yes
+			add_deposit = d_radioactive_wasteland
+			add_deposit = d_radioactive_wasteland
+			add_deposit = d_irradiated_valley
+		}
+
+		# living_planet_system
+		# Standard spread, will eventually do special set
+		every_system_planet = {
+			limit = { has_planet_flag = living_planet }
+			reroll_deposits = yes
+			add_deposit = d_betharian_deposit
+		}
+
+		### FALLEN EMPIRE WORLD### distant_stars_initializers
+		# primitive_robot_system
+		# Standard spread
+		every_system_planet = {
+			limit = { has_planet_flag = primitive_robot_planet }
+			generate_start_deposits_and_blockers = yes
+			add_deposit = d_failing_infrastructure
+			add_deposit = d_failing_infrastructure
+			add_deposit = d_city_ruins
+			add_deposit = d_city_ruins
+			add_deposit = d_metal_boneyard
+		}
+
+		# superflare_system
+		# Standard spread for now, should get basic tomb features as well
+		every_system_planet = {
+			limit = { has_planet_flag = frozen_in_time_flag }
+			generate_start_deposits_and_blockers = yes
+			add_deposit = d_radioactive_wasteland
+			add_deposit = d_radioactive_wasteland
+			add_deposit = d_irradiated_valley
+		}
+
+		# living_planet_system
+		# Standard spread, will eventually do special set
+		every_system_planet = {
+			limit = { has_planet_flag = living_planet }
+			generate_start_deposits_and_blockers = yes
+			add_deposit = d_betharian_deposit
+		}
+
+		
 
 
+	}
+}
 
-# 2. Power Plant Handler (this needs a better trigger)
+### 2. Advanced Start Feature Fixer
+#	Advanced Start empires need to reroll features after vanilla init or else they'll have no features and will be crippled by unemployment. Called on_initialize_advanced_colony
 planet_event = {
 	id = tbm_handler.2
+
 	hide_window = yes
-
-	is_triggered_only = yes
-
-	pre_triggers = {
-		is_homeworld = no
-	}
-
-	trigger = {
-		owner = {
-			any_owned_planet = {
-				is_artificial = no
-				OR = {
-					num_districts = {
-						type = district_city
-						value > 2
-					}
-					num_districts = {
-						type = district_industrial
-						value > 2
-					}
-				}
-				num_districts = {
-					type = district_generator
-					value < 1
-				}
-			}
-		}
-	}
-
-	immediate = {
-		planet_event = {
-			id = tbm_handler.3
-			days = 180
-			random = 90
-		}
-	}
-}
-
-### 3. Power Plant Generator
-planet_event = {
-	id = tbm_handler.3
-	hide_window = yes
-
 	is_triggered_only = yes
 
 	immediate = {
-		add_deposit = d_urban_power_plant
-		create_message = {	# This isn't working yet.
-			type = "MESSAGE_TEST"
-			localization = TBM_MESSAGE_TEST
-			days = -1
-			target = this
-		}
+		clear_blockers = yes
+		clear_deposits = yes
+
+		generate_start_deposits_and_blockers = yes	# Re-runs basic TBM feature init.
+		fix_advanced_start_empire_features = yes
 	}
 }
 
-### 4. Slum Handler (on_yearly_pulse)
+
+### 4. Slum Handler (on_colony_yearly_pulse)
 planet_event = {
 	id = tbm_handler.4
 	hide_window = yes
@@ -87,8 +122,8 @@ planet_event = {
 				
 				# Got to have one each of sprawl and poor conditions
 				OR = {
-					free_amenities < 1
-					free_housing < 5
+					free_amenities < 5
+					free_housing > 5
 					#planet_crime > 15
 				}
 				OR = {
@@ -186,8 +221,8 @@ planet_event = {
 	immediate = {
 		add_deposit = d_tbm_slums	# Gestalts need to get custom slums eventually.
 		create_message = {
-			type = "MESSAGE_TEST"
-			localization = TBM_MESSAGE_TEST
+			type = "SLUM_GENERATOR"
+			localization = SLUM_GENERATOR
 			days = -1
 			target = this
 		}
@@ -195,7 +230,7 @@ planet_event = {
 	
 }
 
-### 6. Industrial Wasteland Handler (on_yearly_pulse)
+### 6. Industrial Wasteland Generator (on_colony_yearly_pulse)
 planet_event = {
 	id = tbm_handler.6
 	hide_window = yes
@@ -270,12 +305,10 @@ planet_event = {
 					planet_crime > 20
 				}
 
-				add_deposit = d_tbm_industrial_wasteland
-				create_message = {
-					type = "MESSAGE_TEST"
-					localization = TBM_MESSAGE_TEST
-					days = -1
-					target = this
+				planet_event = {
+					id = tbm_handler.7
+					days = 180
+					random = 90
 				}
 			}
 			# No slums this time.
@@ -297,13 +330,175 @@ planet_event = {
 	immediate = {
 		add_deposit = d_tbm_industrial_wasteland
 		create_message = {
-			type = "MESSAGE_TEST"
-			localization = TBM_MESSAGE_TEST
+			type = "INDUSTRIAL_WASTELAND"
+			localization = INDUSTRIAL_WASTELAND
 			days = -1
 			target = this
 		}
 	}
 }
+
+### 8. Colonial Settlement Handler (on_colony_yearly_pulse, colony_age < 20)
+planet_event = {
+	id = tbm_handler.8
+
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	pre_triggers = {
+		has_owner = yes
+		is_occupied_flag = yes	# Occupying forces not so keen on new settlements as they are on new power plants
+		is_homeworld = no
+	}
+
+	trigger = {
+		has_building = building_capital 	# If too much, can change this to is_col_type = col_default for colony des only
+		owner = { is_gestalt = no }
+	}
+
+	immediate = {
+		random_list = {
+			# Colonial Settlement - adds feature, housing, and colonist jobs.
+			10 = {
+				modifier = {
+					factor = 5
+					num_free_districts = {
+						type = any
+						value > 3
+					}
+				}
+				modifier = {
+					factor = 2
+					num_pops > 8	# Should result in a few more settlements at that tight spot right before you get Planetary Admin.
+				}
+
+				# Reduce likelihood if we have settlements already, we don't want these getting weedy.
+				modifier = {
+					factor = 0.5
+					count_deposits = {
+						type = d_settlement
+						count > 2
+					}
+				}
+				modifier = {
+					factor = 0.5
+					count_deposits = {
+						type = d_settlement
+						count > 4
+					}
+				}
+
+				 planet_event = {
+				 	id = tbm_handler.9
+				 	days = 180
+					random = 90
+				}
+			}
+			90 = {} 	# No settlement this year, busy having babies.
+		}
+	}
+}
+
+### 9. Colonial Settlement Generator
+planet_event = {
+	id = tbm_handler.9
+
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		add_deposit = d_settlement
+		create_message = {
+			type = "COLONIAL_SETTLEMENT"
+			localization = COLONIAL_SETTLEMENT
+			days = -1
+			target = this
+		}
+	}
+}
+
+### 10. Frontier Farmland Generator (on_colony_yearly_pulse)
+planet_event = {
+	id = tbm_handler.10
+
+	hide_window = yes
+	is_triggered_only = yes
+
+	pre_triggers = {
+		is_homeworld = no
+	}
+
+	trigger = {
+		owner = { is_gestalt = no }
+	}
+
+	immediate = {
+		random_list = {
+			10 = {
+				modifier = {
+					factor = 5
+					num_free_districts = {
+						type = any
+						value > 5
+					}
+				}
+				modifier = {
+					factor = 2
+					# Planets where the ranchin' is good
+					OR = {
+						is_dry = yes
+						is_planet_class = pc_gaia
+					}
+				}
+				modifier = {
+					factor = 10
+					owner = { has_valid_civic = civic_agrarian_idyll }
+				}
+				
+				# Don't spawn rural farmsteads on worlds that are getting denser.
+				modifier = {
+					factor = 0.5
+					num_pops > 20
+				}
+				modifier = {
+					factor = 0
+					OR = {
+						has_building = building_major_capital
+						num_pops > 40
+					}
+				}
+
+				
+			}
+			
+			90 = {}
+		}
+	}
+}
+
+planet_event = {
+	id = tbm_handler.11
+
+	hide_window = yes
+	is_triggered_only = yes
+
+	immediate = {
+		add_deposit = d_frontier_farmstead
+		create_message = {
+			type = "FRONTIER_FARMLAND"
+			localization = "FRONTIER_FARMLAND"
+			days = -1
+			target = this
+		}
+	}
+	
+}
+
+
+
+
+
 
 ### 11. Reroll tomb features on nuking via various events (on-action: )
 
@@ -328,10 +523,12 @@ planet_event = {
 	}
 
 	immediate = {
-		planet_event = {
-			id = tbm_handler.101
-			days = 10
-			random = 5
+		this = {
+			planet_event = {
+				id = tbm_handler.101
+				days = 10
+				random = 5
+			}
 		}
 	}
 
@@ -383,5 +580,67 @@ planet_event = {
 
 	option = {
 		name = tbm_handler.101.option	# This should really be something cooler.
+	}
+}
+
+
+# 12. Power Plant Handler (on_colony_yearly_pulse)
+#	(this needs a better trigger)
+planet_event = {
+	id = tbm_handler.12
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	pre_triggers = {
+		is_homeworld = no
+	}
+
+	trigger = {
+		owner = {
+			any_owned_planet = {
+				is_artificial = no
+				OR = {
+					num_districts = {
+						type = district_city
+						value > 2
+					}
+					num_districts = {
+						type = district_industrial
+						value > 2
+					}
+				}
+				num_districts = {
+					type = district_generator
+					value < 1
+				}
+			}
+		}
+	}
+
+	immediate = {
+		planet_event = {
+			id = tbm_handler.13
+			days = 180
+			random = 90
+		}
+	}
+}
+
+### 13. Power Plant Generator
+planet_event = {
+	id = tbm_handler.13
+	hide_window = yes
+
+	is_triggered_only = yes
+
+	immediate = {
+		add_deposit = d_urban_power_plant
+		create_message = {
+			type = "URBAN_POWER_PLANT"
+			localization = "URBAN_POWER_PLANT"
+			days = -1
+			target = this
+		}
 	}
 }

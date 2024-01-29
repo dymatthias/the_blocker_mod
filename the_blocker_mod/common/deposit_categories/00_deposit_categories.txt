@@ -1,5 +1,15 @@
 ### NOTE: May need to set these as blockers = yes to get them to spawn properly; not sure if it has any other effect.
 
+deposit_cat_tbm_legendary = {
+	blocker = yes # Counts as blockers
+	important = yes	# Shows up as rare deposits in planetview
+}
+
+deposit_cat_advanced = {
+	blocker = yes
+	important = yes
+}
+
 deposit_cat_food = { 
 	blocker = yes
 }
@@ -54,6 +64,6 @@ deposit_cat_artificial = {
 	blocker = yes
 }
 
-deposit_category_final = {
+deposit_cat_final = {
 	
 }

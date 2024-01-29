@@ -5,7 +5,7 @@ is_lost_colony_starting_planet = {
 	AND = {
 		owner = { has_origin = origin_lost_colony }
 		AND = {
-			is_capitalist = yes
+			is_capital = yes
 			is_custom_capital_location = no
 		}
 	}
@@ -116,6 +116,15 @@ num_miners = {
 
 num_mines = {
 	has_district = district_mining
+}
+
+num_private_farms = {
+	any_owned_planet = {
+		count_deposit = {
+			count = all
+			limit = { is_deposit_type = d_private_farming_colony }
+		}
+	}
 }
 
 tree_feature = {

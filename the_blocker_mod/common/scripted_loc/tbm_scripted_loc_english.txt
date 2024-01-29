@@ -210,6 +210,28 @@ defined_text = {
 	}
 }
 
+defined_text = {
+	name = GovernmentType # Used mainly for Situations to aovid gestalt weirdness.
+	text = {
+		trigger = {
+			owner = { is_hive_empire = yes }
+		}
+		localization_key = tbm_gov_hive
+	}
+	text = {
+		trigger = {
+			owner = { is_machine_empire =  yes }
+		}
+		localization_key = tbm_gov_machine
+	}
+	text = {
+		trigger = {
+			owner = { is_gestalt = no }
+		}
+		localization_key =tbm_gov_reg
+	}
+}
+
 
 ### General Terms
 

@@ -42,12 +42,20 @@
  mod_planet_colonist_unity_produces_add:0 "$r_unity$ from $icon_job_colonists$:"
 
  mod_planet_farmers_energy_produces_add:0 "$r_food$ from $job_farmer_plural$"
+ mod_planet_farmers_alloys_upkeep_add:0 "$r_alloys$ Upkeep for $job_farmer_plural$"
+ mod_planet_farmers_consumer_goods_upkeep_add:0 "$r_consumer_goods Upkeep for $job_farmer_plural$"
+ mod_planet_farmers_unity_upkeep_add:0 "$r_unity$ Upkeep for $job_farmer_plural$"
  
  mod_planet_miners_unity_produces_add:0 "$r_minerals$ from $job_miner_plural$"
+ mod_planet_miners_physics_research_produces_add:0 "$r_physics_research$ from $job_miner_plural$"
+ mod_planet_miners_society_research_produces_add:0 "$r_society_research$ from $job_miner_plural$"
+ mod_planet_miners_engineering_research_produces_add:0 "$r_engineering_research$ from $job_miner_plural$"
 
  mod_planet_technician_food_produces_add:0 "£food£ from $job_technician_plural$:"
  mod_planet_technician_minerals_produces_add:0 "$r_minerals$ from $job_technician_plural$"
+ mod_planet_technician_minerals_upkeep_add:0 "$r_minerals$ for $job_technician_plural$"
  mod_planet_technician_alloys_produces_add:0 "$r_alloys$ from $job_technician_plural$"
+ mod_planet_technician_alloys_upkeep_add:0 "$r_energy$ Upkeep for $job_technician_plural$"
 
  mod_planet_priests_unity_produces_mult:0 "$r_unity$ from $job_priest_plural$"
 
@@ -207,8 +215,8 @@
  d_hydro_plant:0 "Hydro Power Plant"
  d_hydro_plant_desc:0 "These £blocker£ Rushing Waterfalls have been diverted to power a nearby city."
 
- d_dyke:0 "REPLACE_ME"
- d_dyke_desc:0 "REPLACE_ME"
+ d_dyke:0 "Dyke"
+ d_dyke_desc:0 "Tall mounds of earth hold back the tides on this world and protect nearby cities from flooding."
 
  #  d_ruler_mountain:0 "Mt. [planet.owner.ruler_at_the_time.GetFirstName]"
  #  d_ruler_mountain_desc:0 "This particularly colossal and auspicious mountain has been named for our glorious leader, [planet.owner.ruler_at_the_time.GetName]!"
@@ -220,10 +228,37 @@
  #  d_colonist_mountain_desc:0 "This marvelous and resplendent mountain was named by a particularly intrepid member of the expedition team after [planet.owner.colonist_name.GetHerHis] [planet.owner.ColonistSpecialFriend] who tragically perished in a climbing accident on [planet.owner.colony_homeworld.GetName] shortly before [planet.owner.colonist_name.GetHerHis] return to civilization."
 
  d_submerged_zro_seam:0 "Submerged Zro Seam"
- d_submerged_zro_seam_desc:0 "A seam of pure Zro is buried at the bottom of a deep-sea trench where the pressure has densified it to never-before-seen concentrations."
+ d_submerged_zro_seam_desc:0 "A vein of pure Zro is buried at the bottom of a deep-sea trench where the pressure has densified it to never-before-seen concentrations."
 
- d_prototype_gas_generator:0 "REPLACE_ME"
- d_prototype_gas_generator_desc:0 "REPLACE_ME"
+ d_prototype_gas_generator:0 "Prototype Gas Generator"
+ d_prototype_gas_generator_desc:0 "Experimental processes are used to harvest alien thermal gases here. The resulting power fuels much of the colony, though residents have raised concerns about its safety."
+
+ d_settlement:0 "Pioneer Settlement"
+ d_settlement_desc:0 "A frontier settlement on this world attracts £colonist£§CColonists§! and new settlers of all kinds to this world, as well as a handful of scurrilous types who enjoy being free of centralized authority."
+
+ d_frontier_farmstead:0 "Frontier Farmsteads"
+ d_frontier_farmstead_desc:0 "New land grants on this world have drawn settlers seeking a new life on the frontier, where they can raze livestock and grow crops on sprawling ranches and estates."
+
+ d_dustbowl:0 "Dustbowl"
+ d_dustbowl_desc:0 "Industrial development or overfarming has led to the development of a dustbowl effect in this region, leaving the land desiccated and dry, useless for any agriculture."
+
+ d_moisture_farms:0 "Moisture Farms"
+ d_moisture_farms_desc:0 "Though little grows in these dusty, sandy wastelands, local farmers manage to trap ground water to irrigate small hydroponic bays or maintain hardy livestock herds."
+
+ d_black_market:0 "Black Market"
+ d_black_market_desc:0 "An underworld market has developed across this world, trading in all manner of illicit goods, substances, and even people."
+
+ d_collapsed_tunnel:0 "Collapsed Tunnel"
+ d_collapsed_tunnel_desc:0 "A tunnel has collapsed here." # Don't know what this is?
+
+ d_dormant_supervolcano:0 "Dormant Supervolcano"
+ d_dormant_supervolcano_desc:0 "Stretching across much of a continent's plainsland, a thin planetary crust in this region allows easy energy extraction. If it were to erupt, however, it could easily destroy much of the planet."
+
+ ### The Block Mod - Event Features - English
+
+ d_private_farming_colony:0 "Private Farming Colony"
+ d_private_farming_colony_desc:0 "Hungry workers on our homeworld have flocked to the wealthy benefactors behind these remote farmsteads on the colonies."
+
 
  ### The Blocker Mod - A City of the Desert - Features - English
 

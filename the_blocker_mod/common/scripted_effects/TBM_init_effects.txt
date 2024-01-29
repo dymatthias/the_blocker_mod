@@ -1,0 +1,73 @@
+### TBM Advanced Start Fixer-Upper
+#	Advanced Starts wipe all blockers in game_start.20. In vanilla, this is good. in TBM, this is very very bad, and causes advanced empires do de-advance rather quickly. This effect is called from an event on_action_initialize_advanced_colony and wipes out everything above in order to re-seeds all features on those starts after everything else is done.
+
+fix_advanced_start_empire_features = {
+
+	optimize_memory
+
+	### Regular Advanced Empire Homewords (is_capital = yes)
+	# Vanilla: +1 mining, +2 energy, +2 city
+	# Vanilla Machines: +2 nexus, +1 mining, +4 generators
+	# Vanilla Hive: +2 hive
+	# Vanilla Angler Extra: +2 farming
+	# Vanilla Subterranean Extra: +2 mining
+
+	### URBAN (for building slots, so they dopn't ruin their own advanced buildings)
+	add_deposit = d_homeworld_cleared_land
+	add_deposit = d_homeworld_cleared_land
+
+	### ENERGY: +2 jobs, +1 district
+	add_deposit = d_experimental_fusion_reactor
+	add_deposit = d_fossil_fuel_reserves
+
+	### MINING:
+	add_deposit = d_tbm_strip_mine
+
+	### MACHINES
+	if = {
+		limit = {
+			owner = { is_machine_empire = yes  }
+		}
+		add_deposit = d_battery_farms			# Replace
+		add_deposit = d_fossil_fuel_reserves	# Replace
+		add_deposit = d_mine_shafts
+		
+	}
+
+	### ANGLERS
+	if = {
+		limit = {
+			owner = {
+				OR = {
+					has_civic = civic_anglers
+					has_civic = civic_corporate_anglers
+				}
+			}
+		}
+		add_deposit = d_fish_plants
+		add_deposit = d_fish_shoals
+	}
+
+	### SUBTERRANEAN
+	if = {
+		limit = {
+			owner = { has_origin = origin_subterranean }
+		}
+		add_deposit = d_crystal_outcrops
+		add_deposit = d_crumbling_mountain
+	}
+
+	### OTHER JOBS
+	add_deposit = d_space_academy
+
+
+	
+	### Regular Advanced Empire *COLONIES* - these are called in game_start.22 after colonies are initialzied
+	# Vanilla: +1 city, +1 energy, +1 mining, +1 farming
+	#Vanilla Industrial: 
+	# Vanilla Machine: +1 nexus, +2 energy
+	# Vanilla Hive: +1 hive, +1 farming
+	# Vanilal Anglers: +1 farming
+
+
+}

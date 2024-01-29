@@ -81,7 +81,7 @@
  d_gestlat_experimental_geothermal_tap_desc:0 "Designed to combat fossil fuel dependency, this network of experimental subsurface taps failed to meet the projected power needs by 2107. Analysis of the system revealed much of its science to be based on faulty reasoning."
 
  d_inaugural_spaceport:0 "Inaugural Spaceport"
- d_inaugural_spaceport_desc:0 "Everyone remembers the first shuttle launched from the futuristic launchpad of our first interplanetary spaceport. But that was in 2063 and despite obvious sentimental value, its shipping docks are cramped, its passenger terminals falling apart, and no one is quite sure what next year's safety inspection will bring."
+ d_inaugural_spaceport_desc:0 "Everyone remembers the first shuttle launched from this futuristic launchpad. But that was in 2063 and despite obvious sentimental value, its shipping docks are cramped, its passenger terminals falling apart, and no one is quite sure what bad news next year's safety inspection will bring."
 
  d_gestalt_inaugural_spaceport:0 "Inaugural Spaceport"
  d_gestalt_inaugural_spaceport_desc:0 "This futuristic launchpad for interplanetary construction craft was a landmark achievement -- in 2063. After nearly 150 years of continuous use, its cargo docks are falling apart and its maintenance budget has been identified as a strategic liability."
@@ -172,7 +172,7 @@
  d_seed_banks:0 "Seed Banks"
  d_seed_banks_desc:0 "Before the fall, scientists scrambled to create secure stores of our world's crops and plant-life. What little remains is patchwork, but holds the blueprints to rebuild civilization. Unfortunately, much of the material requires the maintenance of expensive cryo-systems and serviceable parts are constantly in short supply."
 
- d_scavenger_bands:0 "Scavenger Bands"
+ d_scavenger_bands:0 "Scavenger Band"
  d_scavenger_bands_desc:0 "This large, loose band of scavengers is closer to a gang than any organized concern, but the parts and materials they're able to salvage from what remains of our world will be critical in rebuilding it."
 
  d_hive_scavengers:0 "Scavenger Drones"
@@ -193,8 +193,8 @@
  d_homeworld_black_market:0 "Black Market"
  d_homeworld_black_market_desc:0 "What little government remained after society's collapse was quickly forced to deal with the crime lords and brokers running black markets in various refugee camps and ruined cities across the world. Over time, these markets evolved into a de-factor banking system, selling power cores, food, and supplies to anyone who can pay."
 
- d_broken_transformer_station:0 "Broken Transformer Station"
- d_broken_transformer_station_desc:0 "Miraculously, much of our world's global power system survived its makers' armageddon. Larger facilities, unfortunately, did not, but survival planners have long identified this key sub-station as the missing piece required to get the beginnings of a global energy system back online."
+ d_broken_transformer:0 "Broken Transformer Station"
+ d_broken_transformer_desc:0 "Miraculously, much of our world's global power system survived its makers' armageddon. Larger facilities, unfortunately, did not, but survival planners have long identified this key sub-station as the missing piece required to get the beginnings of a global energy system back online."
 
  d_homeworld_derelict_reactors:0 "Derelict Reactors"
  d_homeworld_derelict_reactors_desc:0 "These dark towers loom over the blasted landscape, their furnaces having fuelled the heady days leading up to the fall. Not all are brave enough to see the old reactors fired up once more, no matter how urgent the need for power sources becomes. That way, death and madness lie."
@@ -323,5 +323,5 @@
  d_warm_lagoon_desc:0 "The turn of the tide in this warm bay is widely agreed to be among the gentlest on the planet, making it an ideal spot to settle down, raise a family, and start a small seaweed farm."
 
  d_broken_mag_lev_network:0 "Broken Mag-Lev Network"
- d_broken_mag_lev_network_desc:0 "Once a beaming ideal of utopian transportation, this global ring of high-speed trains quickly became a money pit rife with mismanagement and corruption and now serves mainly as a market asset and a testament to dreams gone awry.
+ d_broken_mag_lev_network_desc:0 "Once a beaming ideal of utopian transportation, this global ring of high-speed trains quickly became a money pit rife with mismanagement and corruption and now serves mainly as a market asset and a testament to dreams gone awry."
 

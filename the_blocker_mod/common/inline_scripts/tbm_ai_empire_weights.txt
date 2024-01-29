@@ -1,0 +1,12 @@
+### TBM - AI Feature Clearing Archetypes
+
+### AI Types - Subjects, Overlords, and other Special AIs
+
+# Prospectoria
+modifier = {
+	add = -1	
+	owner = {
+		is_subject = yes
+		has_active_specialization = specialist_prospectorium
+	}
+}

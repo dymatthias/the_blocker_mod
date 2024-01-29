@@ -1964,7 +1964,7 @@ d_searing_desert = {
 		}
 		owner = {
 			OR = {
-				has_technology = tech_housing_2
+				has_technology = tech_housing_1
 				has_technology = tech_terrestrial_sculpting
 			}
 		}
@@ -5448,5 +5448,484 @@ d_natural_farmland = {
 			add = -0.25
 			always = yes
 		}
+	}
+}
+
+
+### Earth Deposits
+#	AI will generally keep these for flavor
+d_scandinavian_reclamation_sector = {
+	is_for_colonizable = yes
+	icon = d_radioactive_wasteland
+	category = deposit_cat_food
+
+	use_for_min_max_adjustments = yes
+
+	should_swap_deposit_on_terraforming = no
+
+	time = 360
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 500
+			society_research = 100
+		}
+	}
+
+	planet_modifier = {
+		district_farming_max = 1
+		BIOLOGICAL_pop_growth_speed = -0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_farming_max = 1
+		mult = value:district_amount_mastery_of_nature
+	}
+
+	potential = {
+		always = no
+	}
+
+	drop_weight = {
+		weight = 0
+	}
+
+	ai_weight = {
+		weight = @always_keep
+	}
+}
+
+d_pacific_algae_tracts = {
+	is_for_colonizable = yes
+	icon = d_toxic_kelp
+	category = deposit_cat_food
+
+	use_for_min_max_adjustments = yes
+
+	should_swap_deposit_on_terraforming = no
+
+	time = 360
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 600
+			consumer_goods = 250
+		}
+	}
+
+	planet_modifier = {
+		district_farming_max = 1
+		trade_value_mult = -0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_farming_max = 1
+		mult = value:district_amount_mastery_of_nature
+	}
+
+	potential = {
+		always = no
+	}
+
+	drop_weight = {
+		weight = 0
+	}
+
+	ai_weight = {
+		weight = @always_keep
+	}
+}
+
+d_saharan_irrigation_project = {
+	is_for_colonizable = yes
+	icon = d_green_hills
+	category = deposit_cat_blockers
+
+	use_for_min_max_adjustments = yes
+
+	should_swap_deposit_on_terraforming = no
+
+	time = 1080
+
+	resources = {
+		category = deposit_blockers_natural
+		cost = {
+			energy = 200
+			engineering_research = 100
+		}
+	}
+
+	planet_modifier = {
+		district_farming_max = 1
+		planet_farmers_consumer_goods_upkeep_add = 1
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_farming_max = 1
+		mult = value:district_amount_mastery_of_nature
+	}
+
+	potential = {
+		always = no
+	}
+
+	drop_weight = {
+		weight = 0
+	}
+
+	ai_weight = {
+		weight = @always_keep
+	}
+}
+
+d_mesopotamian_urban_corridor = {
+	is_for_colonizable = yes
+	icon = d_marvelous_oasis
+	category = deposit_cat_minerals
+
+	use_for_min_max_adjustments = yes
+
+	should_swap_deposit_on_terraforming = no
+
+	time = 720
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			energy = 1500
+			consumer_goods = 800
+		}
+	}
+
+	planet_modifier = {
+		district_mining_max = 1
+		trade_value_mult = -0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_mining_max = 1
+		mult = value:district_amount_mastery_of_nature
+	}
+
+	potential = {
+		always = no
+	}
+
+	drop_weight = {
+		weight = 0
+	}
+
+	ai_weight = {
+		weight = @always_keep
+	}
+}
+
+d_delhi_sprawl = {
+	is_for_colonizable = yes
+	icon = d_city
+	category = deposit_cat_blockers
+
+	use_for_min_max_adjustments = yes
+
+	should_swap_deposit_on_terraforming = no
+
+	time = 720
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			energy = 800
+			minerals = 600
+			alloys = 100
+		}
+	}
+
+	planet_modifier = {
+		district_generator_max = 1
+		planet_crime_mult = 0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_generator_max = 1
+		mult = value:district_amount_mastery_of_nature
+	}
+
+	potential = {
+		always = no
+	}
+
+	drop_weight = {
+		weight = 0
+	}
+
+	ai_weight = {
+		weight = @always_keep
+	}
+}
+
+d_boswash_metropolitan_axis = {
+	is_for_colonizable = yes
+	icon = d_city
+	category = deposit_cat_blockers
+
+	time = 1260
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			consumer_goods = 1000
+			society_research = 500
+		}
+	}
+
+	planet_modifier = {
+		district_generator_max = 1
+		planet_housing_mult = -0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_generator_max = 3
+		mult = value:district_amount_mastery_of_nature
+	}
+
+	potential = {
+		always = no
+	}
+
+	drop_weight = {
+		weight = 0
+	}
+
+	ai_weight = {
+		weight = @always_keep
+	}
+}
+
+d_pearl_river_agglomerate = {
+	is_for_colonizable = yes
+	icon = d_building_complex
+	category = deposit_cat_blockers
+
+	use_for_min_max_adjustments = yes
+
+	should_swap_deposit_on_terraforming = no
+
+	time = 1260
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			consumer_goods = 1000
+			society_research = 500
+		}
+	}
+
+	planet_modifier = {
+		district_generator_max = 1
+		planet_amenities_mult = -0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_generator_max = 3
+		mult = value:district_amount_mastery_of_nature
+	}
+
+	potential = {
+		always = no
+	}
+
+	drop_weight = {
+		weight = 0
+	}
+
+	ai_weight = {
+		weight = @always_keep
+	}
+}
+
+d_mauritanian_security_zone = {
+	is_for_colonizable = yes
+	icon = d_quarantine_zone
+	category = deposit_cat_blockers
+
+	use_for_min_max_adjustments = yes
+
+	should_swap_deposit_on_terraforming = no
+
+	time = 720
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			energy = 1200
+			engineering_research = 500
+		}
+	}
+
+	planet_modifier = {
+		district_mining_max = 1
+		planet_amenities_mult = -0.05
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_mining_max = 1
+		mult = value:district_amount_mastery_of_nature
+	}
+
+	potential = {
+		always = no
+	}
+
+	drop_weight = {
+		weight = 0
+	}
+
+	ai_weight = {
+		weight = @always_keep
+	}
+}
+
+d_great_albertan_crater = {
+	is_for_colonizable = yes
+	icon = d_crater
+	category = deposit_cat_blockers
+
+	use_for_min_max_adjustments = yes
+
+	should_swap_deposit_on_terraforming = no
+
+	time = 360
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			minerals = 1000
+			unity = 400
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		district_mining_max = 1
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			always = yes
+		}
+		district_mining_max = 1
+		mult = value:district_amount_mastery_of_nature
+	}
+
+	potential = {
+		always = no
+	}
+
+	drop_weight = {
+		weight = 0
+	}
+
+	ai_weight = {
+		weight = @always_keep
+	}
+}
+
+# Blockers
+d_great_pacific_garbage_patch = {
+	is_for_colonizable = yes
+	icon = d_boggy_fens
+	category = deposit_cat_blockers
+
+	use_for_min_max_adjustments = yes
+
+	should_swap_deposit_on_terraforming = no
+
+	use_weights_for_blocker_swap_types = no
+	blocker_swap_types = {
+		d_pacific_algae_tracts
+	}
+
+	time = 720
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			energy = 800
+			consumer_goods = 250
+		}
+	}
+
+	planet_modifier = {
+		planet_researchers_society_research_produces_add = 1
+		planet_jobs_unity_produces_mult = -0.05
+	}
+
+	potential = { always = no }
+
+	ai_weight = {
+		weight = @always_keep
+	}
+}
+
+d_failing_infrastructure_earth = {
+	is_for_colonizable = yes
+	icon = d_metal_boneyard
+	category = deposit_cat_blockers
+
+	use_for_min_max_adjustments = yes
+
+	should_swap_deposit_on_terraforming = no
+
+	use_weights_for_blocker_swap_types = no
+
+	blocker_swap_types = {
+		d_delhi_sprawl
+	}
+
+	time = 270
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			energy = 800
+		}
+	}
+
+	planet_modifier = {
+		planet_max_districts_add = -1
+		pop_happiness = -0.05
+		trade_value_mult = 0.02
+	}
+
+	potential = { always = no }
+
+	ai_weight = {
+		weight = @clear
 	}
 }

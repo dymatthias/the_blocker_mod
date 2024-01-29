@@ -31,18 +31,44 @@ d_homeworld_bandit_camp = {
 
 	should_swap_deposit_on_terraforming = no
 
+	#all_blocker_swap_types = yes
+	#use_weights_for_blocker_swap_types = yes
+	blocker_swap_types = {
+		d_gaia_homeworld_fossil_fuels
+		d_fossil_fuel_reserves
+		d_gestalt_fossil_fuel_reserves
+	}
+
 	time = 180
 
 	resources = {
 		category = deposit_blockers
 		cost = {
 			energy = 300
-			unity = 20
+			unity = 200
+		}
+	}
+
+	on_cleared = {
+		if = {
+			limit = {
+				planet = { is_planet_class = pc_gaia }
+			}
+			add_deposit = d_gaia_homeworld_fossil_fuels
+		}
+		else_if = {
+			limit = {
+				owner = { is_gestalt = yes }
+			}
+			add_deposit = d_gestalt_fossil_fuel_reserves
+		}
+		else = {
+			add_deposit = d_fossil_fuel_reserves
 		}
 	}
 
 	planet_modifier = {
-		planet_crime_add = 0.15
+		planet_crime_add = 15
 	}
 
 	potential = {
@@ -61,6 +87,12 @@ d_impact_memorial = {
 	use_for_min_max_adjustments = yes
 
 	should_swap_deposit_on_terraforming = no
+	#all_blocker_swap_types = yes
+	#use_weights_for_blocker_swap_types = yes
+	blocker_swap_types = {
+		d_major_impact_site
+		#d_gestalt_major_impact_site
+	}
 
 	time = 180
 
@@ -69,6 +101,18 @@ d_impact_memorial = {
 		cost = {
 			energy = 150
 			unity = 100
+		}
+	}
+
+	on_cleared = {
+		if = {
+			limit = {
+				owner = { is_gestalt = yes }
+			}
+			add_deposit = d_gestalt_major_impact_site
+		}
+		else = {
+			add_deposit = d_major_impact_site
 		}
 	}
 
@@ -101,6 +145,10 @@ d_homeworld_deep_trench = {
 	use_for_min_max_adjustments = yes
 
 	should_swap_deposit_on_terraforming = no
+	all_blocker_swap_types = yes
+	blocker_swap_types = {
+		d_submerged_ore_veins
+	}
 
 	time = 480
 
@@ -113,6 +161,10 @@ d_homeworld_deep_trench = {
 		cost = {
 			energy = 1000
 		}
+	}
+
+	on_cleared = {
+		add_deposit = d_submerged_ore_veins
 	}
 
 	### Should add on_cleared event for exploration.
@@ -165,7 +217,8 @@ d_mine_shafts = {
 
 	planet_modifier = {
 		district_mining_max = 1
-		planet_amenities_mult = -0.02
+		planet_crime_mult = 0.1
+		
 	}
 
 	ai_weight = {
@@ -279,7 +332,7 @@ d_tbm_strip_mine = {
 
 	planet_modifier = {
 		district_mining_max = 1
-		planet_crime_mult = 0.10
+		planet_amenities_mult = -0.1
 	}
 
 	potential = {
@@ -319,7 +372,7 @@ d_tbm_gestalt_strip_mine = {
 
 	planet_modifier = {
 		district_mining_max = 1
-		planet_crime_mult = 0.10
+		planet_amenities_mult = -0.1
 	}
 
 	potential = {
@@ -360,7 +413,7 @@ d_recycling_programs = {
 
 	planet_modifier = {
 		district_mining_max = 1
-		planet_pops_consumer_goods_upkeep_mult = 0.05
+		planet_building_build_speed_mult = -0.25
 	}
 
 	potential = {
@@ -415,7 +468,7 @@ d_recycling_processes = {
 
 d_major_impact_site = {
 	icon = d_crater
-	category = deposit_cat_blockers
+	category = deposit_cat_minerals
 
 	use_for_min_max_adjustments = yes
 
@@ -437,7 +490,10 @@ d_major_impact_site = {
 	}
 
 	potential = {
-		always = no
+		#always = no
+		exists = owner
+		owner = { is_gestalt = yes }
+		###is_homeworld = yes
 	}
 
 	ai_weight = {
@@ -571,7 +627,7 @@ d_homeworld_dustbowl = {
 	use_for_min_max_adjustments = yes
 
 	should_swap_deposit_on_terraforming = no
-
+	#all_blocker_swap_types = yes
 	blocker_swap_types = {
 		d_reclaimed_land
 	}
@@ -584,6 +640,10 @@ d_homeworld_dustbowl = {
 			energy = 500
 			minerals = 100
 		}
+	}
+
+	on_cleared = {
+		add_deposit = d_reclaimed_land
 	}
 
 	planet_modifier = {
@@ -653,7 +713,8 @@ d_high_wire_network = {
 
 	planet_modifier = {
 		district_generator_max = 1
-		planet_technician_energy_upkeep_add = 1
+		planet_technician_alloys_upkeep_add = 0.25
+		planet_technician_minerals_upkeep_add = 0.5
 	}
 
 	potential = {
@@ -813,7 +874,7 @@ d_homeworld_extreme_weather = {
 	}
 
 	prerequisites = {
-		"tech_housing_2"
+		"tech_housing_1"
 	}
 
 	planet_modifier = {
@@ -955,7 +1016,10 @@ d_fossil_fuel_reserves = {
 	}
 
 	potential = {
-		always = no
+		#always = no
+		NOT = { is_planet_class = pc_gaia }
+		exists = owner
+		owner = { is_gestalt = no }
 	}
 
 	ai_weight = {
@@ -993,7 +1057,10 @@ d_gestalt_fossil_fuel_reserves = {
 	}
 
 	potential = {
-		always = no
+		#always = no
+		NOT = { is_planet_class = pc_gaia }
+		exists = owner
+		owner = { is_gestalt = yes }
 	}
 
 	ai_weight = {
@@ -1325,7 +1392,7 @@ d_homeworld_urban_aeroponics = {
 	planet_modifier = {
 		district_farming_max = 1
 		planet_farmers_energy_upkeep_add = 1
-		planet_farmers_consumer_goods_upkeep_add = 0.25	# Mostly to avoid overwriting the farmer job for compat, is slightly less harsh than +1 but will hurt more if you have a lot of city-farming going on, rent is pricey these days.
+		planet_farmers_consumer_goods_upkeep_add = 0.1	# Mostly to avoid overwriting the farmer job for compat, is slightly less harsh than +1 but will hurt more if you have a lot of city-farming going on, rent is pricey these days.
 	}
 
 	potential = {
@@ -1508,8 +1575,9 @@ d_food_banks = {
 
 	planet_modifier = {
 		district_farming_max = 1
-		pop_cat_specialist_happiness = -0.1
-		planet_pops_food_upkeep_mult = 0.2
+		planet_jobs_specialist_food_upkeep_mult = 0.2
+		planet_jobs_worker_food_upkeep_mult = -0.05
+		planet_jobs_worker_produces_mult = -0.05
 	}
 
 	potential = {
@@ -1705,7 +1773,7 @@ d_crystal_outcrops = {
 	planet_modifier = {
 		district_mining_max = 1
 		planet_miners_minerals_produces_add = 0.25
-		planet_miners_consumer_goods_upkeep_add = 0.25
+		planet_miners_consumer_goods_upkeep_add = 0.1
 	}
 
 	potential = {
@@ -2079,7 +2147,7 @@ d_unclaimed_cave_complex = {	# Mine Shafts (at least there wasn't a gap)
 }
 
 d_library_of_before = {
-	category = deposit_cat_rare_blocker
+	category = deposit_cat_tbm_legendary
 
 	use_for_min_max_adjustments = yes
 
@@ -2115,11 +2183,12 @@ d_library_of_before = {
 }
 
 d_chapel_of_the_fall = {
-	category = deposit_cat_blockers
+	category = deposit_cat_tbm_legendary
 
 	use_for_min_max_adjustments = yes
 
 	should_swap_deposit_on_terraforming = no
+	
 
 	time = 360
 
@@ -2195,7 +2264,7 @@ d_food_rations = {
 	planet_modifier = {
 		district_farming_max = 1
 		pop_happiness = 0.05
-		planet_crime_add = 0.05
+		planet_crime_add = 5
 	}
 
 	potential = {
@@ -2292,6 +2361,16 @@ d_seed_banks = {
 	planet_modifier = {
 		district_farming_max = 1
 		planet_farmers_alloys_upkeep_add = 2
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = {
+				is_machine_empire = yes
+				has_civic = civic_machine_servitor
+			}
+		}
 		pop_cat_bio_trophy_happiness = 0.05
 	}
 
@@ -2329,6 +2408,14 @@ d_scavenger_bands = {
 			energy = 500
 			food = 400
 		}
+		# Additional cost during Scavenger War
+		cost = {
+			trigger = {
+				has_planet_flag = scavenger_war
+			}
+			energy = 1500
+			alloys = 200
+		}
 	}
 
 	on_cleared = {
@@ -2344,6 +2431,20 @@ d_scavenger_bands = {
 		planet_crime_add = 5
 		planet_crime_mult = 0.10
 	}
+
+
+	# Scavenger Bands Declare War modifiers
+	triggered_planet_modifier = {
+		potential = {
+			has_planet_flag = scavenger_conquest
+		}
+		modifier = {
+			district_mining_max = 1
+			planet_miners_energy_upkeep_add = 1
+			planet_crime_add = 10
+		}
+	}
+
 
 	potential = {
 		always = no
@@ -2402,6 +2503,44 @@ d_unexploded_munitions = {
 	use_for_min_max_adjustments = yes
 
 	should_swap_deposit_on_terraforming = no
+	blocker_swap_types = {
+		d_black_soil
+		d_fertile_lands
+		d_fertile_delta
+		d_geothermal_vent
+		d_nutritious_mudland
+		d_ore_rich_caverns
+		d_basaltic_outcrops
+		d_boggy_fens
+		d_bountiful_plains
+		d_buzzing_plains
+		d_fungal_caves
+		d_drylands
+		d_dunelands
+		d_forgiving_tundra
+		d_frozen_gas_lake
+		d_fungal_forest
+		d_glacier_lake
+		d_green_hills
+		d_highlands
+		d_highland_lake
+		d_lichen_fields
+		d_lakelands
+		d_mineral_fields
+		d_mineral_striations
+		d_rich_mountain
+		d_prosperous_mesa
+		d_rugged_woods
+		d_salt_flats
+		d_sandstone_cliffs
+		d_scrubland
+		d_hot_springs
+		d_taiga
+		d_tempestous_mountain
+		d_tidal_marshes
+		d_dunelands
+	}
+	use_weights_for_blocker_swap_types = yes
 
 	time = 480
 
@@ -2411,19 +2550,21 @@ d_unexploded_munitions = {
 			energy = 300
 			physics_research = 100
 		}
+		produces = {
+			alloys = 2
+		}
 	}
 
 	on_cleared = {
 		owner = {
 			add_resource = {
-				alloys = 100
+				energy = 1000
 			}
 		}
 	}
 
 	planet_modifier = {
-		district_generator_max = 1
-		district_mining_max = 1
+		planet_max_districts_add = -1
 	}
 
 	potential = {
@@ -2623,6 +2764,10 @@ d_broken_transformer = {
 		always = no
 	}
 
+	on_cleared = {
+		add_deposit = d_high_wire_network
+	}
+
 	ai_weight = {
 		weight = @always_clear
 	}
@@ -2779,7 +2924,8 @@ d_gaia_homeworld_fossil_fuels = {
 	}
 
 	potential = {
-		always = no
+		#always = no
+		is_planet_class = pc_gaia
 	}
 
 	ai_weight = {
@@ -3546,7 +3692,7 @@ d_renewable_energy_programs = {
 
 	planet_modifier = {
 		district_generator_max = 1
-		pop_category_workers_consumer_goods_upkeep_add = 0.1
+		pop_category_specialists_energy_upkeep_add = 0.5
 	}
 
 	triggered_planet_modifier = {
@@ -3556,8 +3702,8 @@ d_renewable_energy_programs = {
 				country_uses_consumer_goods = no
 			}
 		}
-		pop_category_workers_consumer_goods_upkeep_add = -0.1
-		pop_category_drones_energy_upkeep_add = 0.1
+		pop_category_workers_food_upkeep_add = -0.25
+		pop_category_drones_energy_upkeep_add = 0.25
 	}
 
 	potential = {
@@ -4076,6 +4222,7 @@ d_surface_spaceport = {
 				value = 120
 			}
 		}
+		add_deposit = d_subsurface_spaceport
 	}
 
 	planet_modifier = {
@@ -4185,7 +4332,7 @@ d_heavy_weather = {
 	}
 
 	prerequisites = {
-		"tech_housing_2"
+		"tech_housing_1"
 	}
 
 	planet_modifier = {
@@ -4230,6 +4377,7 @@ d_the_abyss = {
 				value = 12
 			}
 		}
+		add_deposit = d_endless_chasm
 	}
 
 	potential = {
@@ -4488,4 +4636,140 @@ d_inefficient_energy = {	# Currently unused, probably nix.
 	potential = {
 		always = yes
 	}
+}
+
+
+### Advanced Start Features - They have to get something special, they're "advanced"!
+#	Mostly, though, these just help make sure their extra pops have enough jobs and they have enough districts, while also giving them a little extra boost (and, potentially, a little extra reward if you conquer one--as such, the AI will tend to keep these around).
+
+# This is mostly a placeholder to ensure Advanced Starts get enough building slots.
+d_homeworld_cleared_land = {
+	is_for_colonizable = yes
+	icon = d_fertile_lands
+	category = deposit_cat_final
+
+	use_for_min_max_adjustments = yes
+
+	should_swap_deposit_on_terraforming = no
+
+	triggered_planet_modifier = {
+		potential = {
+			is_original_owner = owner		# No stealing the debug feature!
+		}
+		planet_max_buildings_add = 1
+	}
+	
+	potential = {
+		always = no
+	}
+}
+
+d_experimental_fusion_reactor = {
+	is_for_colonizable = yes
+	icon = d_station_reactor
+	category = deposit_cat_blockers
+
+	use_for_min_max_adjustments = yes
+
+	should_swap_deposit_on_terraforming = no
+
+	time = 720
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			minerals = 800
+		}
+		produces = {
+			# Advanced Starts will get a little rubber-banding effect for their extra bonus.
+			engineering_research = -1
+			physics_research = -1
+		}
+	}
+
+	planet_modifier = {
+		planet_technician_energy_produces_add = 1
+		planet_researchers_alloys_upkeep_add = 2	# Partly as a downside for the player, partly to rubber-band Advanced Starts
+		job_technician_add = 2
+		job_researcher_add = 2
+	}
+
+	potential = {
+		always = no
+	}
+
+	ai_weight = {
+		weight = @always_keep
+	}
+}
+
+d_space_academy = {
+	is_for_colonizable = yes
+	icon = d_boswash_metropolitan_axis
+	category = deposit_cat_advanced
+
+	use_for_min_max_adjustments = yes
+	
+	should_swap_deposit_on_terraforming = no
+
+	time = 360
+
+	resources = {
+		category = deposit_blockers
+		cost = {
+			energy = 1200
+		}
+	}
+
+	planet_modifier = {
+		job_soldier_add = 2		# Really gotta be space cadets, though
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_xenophile = yes }
+		}
+		planet_amenities_mult = 0.25
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			OR = {
+				owner = { is_militarist = yes }
+				owner = { is_xenophobe = yes }
+			}
+		}
+		planet_soldiers_alloys_produces_add = 2		# Helps militarist be militaristic.
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_authoritarian = yes }
+		}
+		planet_stability_add = 5
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			OR = {
+				owner = { is_spiritualist = yes }
+				owner = { is_egalitarian = yes }
+			}
+		}
+		pop_government_ethic_attraction = 0.25
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_materialist = yes }
+		}
+		trade_value_mult = 0.15
+	}
+
+
 }
