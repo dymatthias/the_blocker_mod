@@ -1562,7 +1562,7 @@ d_frozen_wasteland = {
 	can_be_cleared = {
 		owner = {
 			OR = {
-				has_technology = tech_housing_2
+				has_technology = tech_housing_1
 				has_technology = tech_terrestrial_sculpting
 			}
 		}
@@ -3518,7 +3518,7 @@ d_tbm_slums = {
 
 	planet_modifier = {
 		planet_max_districts_add = -1
-		planet_researchers_society_research_produces_add = 1
+		#planet_researchers_society_research_produces_add = 1
 		
 		### Reduces amenities but also amenities usage; you'll get more of these on big worlds with lots of worker pops. At large populations, the percentage will outweigh the flat hit.
 		### Egalitarian empires will struggle with the happiness penalties, but slums may be a useful buff for some ethic types (e.g., Authoritarian).
@@ -3809,7 +3809,8 @@ d_urban_power_plant = {
 	planet_modifier = {
 		planet_max_districts_add = -1
 		district_generator_max = 1
-		planet_technician_energy_produces_add = 1
+		planet_technician_consumer_goods_upkeep_mult = -0.1 # Convenient commuting
+		planet_amenities_mult = -0.1
 	}
 
 	potential = {

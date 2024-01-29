@@ -2,7 +2,7 @@
 
 namespace = tbm_hw
 
-@post_apoc_population = 0
+#@post_apoc_population = 0
 
 ### Index
 #
@@ -17,9 +17,9 @@ namespace = tbm_hw
 # 15. Privately-Sponsored Colony
 
 
-### 1. Advanced Geothermal Tap - Handler
-#	Sets flag and calls future tap events
-#	Called on_press_begin
+### 1. Fallen Empire Init
+#	Vanilla solar_system_initializers call clear_blockers on all FE colonies, leaving them without any resource districts. This doesn't matter for the FEs but does for the player if any are conquered.
+#	This script is called on_press_begin and rerolls FE colonies. At the moment it does not touch FE homeworlds but may in the future.
 country_event = {
 	id = tbm_hw.1
 
@@ -27,20 +27,29 @@ country_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		any_owned_planet = {
-			has_deposit = d_experimental_geothermal_tap
-		}
+		is_fallen_empire = yes
 	}
 
 	immediate = {
+		
 		every_owned_planet = {
 			limit = {
-				has_deposit = d_experimental_geothermal_tap
+				has_planet_flag = fallen_empire_world
+				NOT = {
+					is_planet_class = pc_city	# These will eventually be dealt with but for now don't need features
+				}
 			}
-			set_planet_flag = experimental_geothermal_tap
+			reroll_deposits = yes
 		}
+		
+		
+
 	}
+
 }
+
+### 2. Precursor Planet Features
+
 
 ### Situation - Food Reserves Running Out - Post-Apocalyptic Origin
 ###	11. Situation Trigger
@@ -85,7 +94,7 @@ planet_event = {
 		owner = {
 			start_situation = {
 				type = food_reserves_run_out
-				target = this
+				target = prev
 			}
 		}
 	}
@@ -150,7 +159,10 @@ situation_event = {
 
 	immediate = {
 		target = {
-			set_variable = @post_apoc_population
+			# set_variable = {
+			# 	variable = @post_apoc_population
+			# 	#value = 
+			# }
 			export_trigger_value_to_variable = {
 				trigger = num_pops
 				variable = @post_apoc_population
@@ -183,18 +195,18 @@ situation_event = {
 situation_event = {
 	id = tbm_hw.13
 	
-	title = tbm_hw.11
+	title = tbm_hw.13
 	desc = {
 		trigger = {
 			owner = { is_gestalt = no }
 		}
-		text = tbm_hw.11_desc
+		text = tbm_hw.13_desc
 	}
 	desc = {
 		trigger = {
 			owner = { is_gestalt = yes }
 		}
-		text = tbm_hw.11_gestalt_desc
+		text = tbm_hw.13_gestalt_desc
 	}
 	picture = GFX_evt_surrender
 	show_sound = event_public_unrest
@@ -202,21 +214,25 @@ situation_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		OR = {
-			current_situation_approach = strict_rationing
-			current_stage = food_shortages
-			current_stage = widespread_starvation
+		root = {
+			OR = {
+				current_situation_approach = strict_rationing
+				current_stage = food_shortages
+				current_stage = widespread_starvation
+			}
 		}
 		# owner = { is_gestalt = no }
 	}
 
 	immediate = {
-		set_timed_situation_flag = {
-			flag = food_riots
-			months = 6
-			# job_criminal_add = 3
-			# planet_stability_add - 20
-		}		
+		root = {
+			set_timed_situation_flag = {
+				flag = food_riots
+				months = 6
+				# job_criminal_add = 3
+				# planet_stability_add - 20
+			}		
+		}
 	}
 
 	option = {
@@ -263,7 +279,12 @@ situation_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		NOT = { owner = { is_machine_empire = yes }}
+		NOR = {
+			owner = { is_machine_empire = yes }
+			root = {
+				has_situation_flag = malnutrition
+			}
+		}
 		OR = {
 			current_situation_approach = hoard_control
 			current_stage = food_shortages
@@ -272,12 +293,14 @@ situation_event = {
 	}
 
 	immediate = {
-		set_timed_situation_flag = {
-			flag = malnutrition
-			months = 60
-			#BIOLOGICAL_pop_growth_speed = -0.5
-			#planet_pops_food_upkeep_mult = -0.5
-		}		
+		root = {
+			set_timed_situation_flag = {
+				flag = malnutrition
+				months = 60
+				#BIOLOGICAL_pop_growth_speed = -0.5
+				#planet_pops_food_upkeep_mult = -0.5
+			}		
+		}
 	}
 
 	option = {
@@ -298,7 +321,12 @@ situation_event = {
 	is_triggered_only = yes
 
 	trigger = {
-		NOT = { owner = { has_authority = auth_corporate }}
+		NOR = { 
+			owner = { has_authority = auth_corporate }
+			root = {
+				has_situation_flag = private_colony
+			}
+		}
 		owner = {
 			any_owned_planet = {
 				NOT = { 
@@ -346,7 +374,13 @@ situation_event = {
 	show_sound = event_wind_ruins
 
 	is_triggered_only = yes
-
+	weight_multiplier = {
+		factor = 1
+		modifier = {
+			factor = 0.25	# Security does at least a slightly better job the second time.	
+			has_situation_flag = ate_governor
+		}
+	}
 	trigger = {
 		target = {
 			exists = leader
@@ -357,6 +391,11 @@ situation_event = {
 		target.leader = {
 			kill_leader = {
 				show_notification = yes
+			}
+		}
+		hidden_effect = {
+			root = {
+				set_situation_flag = ate_governor
 			}
 		}
 	}
@@ -411,12 +450,6 @@ situation_event = {
 		}
 
 		# Begin first phase of eco-restoration
-
-		hidden_effect = {
-			clear_global_event_target = post_apoc_homeworld
-			remove_situation_flag = private_colony
-		}
-		destroy_situation = this
 	}
 
 	option = {
@@ -432,11 +465,6 @@ situation_event = {
 		}
 
 		# Begin first phase of eco-restoration
-
-		hidden_effect = {
-			clear_global_event_target = post_apoc_homeworld
-		}
-		destroy_situation = this
 	}
 
 	option = {
@@ -451,11 +479,16 @@ situation_event = {
 				years = 10
 			}
 		}
+	}
+
+	after = {
+		# Clean-up
 		hidden_effect = {
-			clear_global_event_target = post_apoc_homeworld
 			remove_situation_flag = private_colony
 			remove_situation_flag = food_riots
 			remove_situation_flag = malnutrition
+			clear_global_event_target = colonial_bounty
+			clear_global_event_target = post_apoc_homeworld
 		}
 		destroy_situation = this
 	}
@@ -556,6 +589,17 @@ situation_event = {
 		}
 	}
 
+	after = {
+		# Clean-up
+		hidden_effect = {
+			remove_situation_flag = private_colony
+			remove_situation_flag = food_riots
+			remove_situation_flag = malnutrition
+			clear_global_event_target = colonial_bounty
+			clear_global_event_target = post_apoc_homeworld
+		}
+		destroy_situation = this
+	}
 }
 
 ### 20. Government in Tatters (Fail, regular)
@@ -687,9 +731,13 @@ situation_event = {
 
 	# Clean up situation flags and event targets
 	after = {
+		# Clean-up
 		hidden_effect = {
-			clear_global_event_target = post_apoc_homeworld
 			remove_situation_flag = private_colony
+			remove_situation_flag = food_riots
+			remove_situation_flag = malnutrition
+			clear_global_event_target = colonial_bounty
+			clear_global_event_target = post_apoc_homeworld
 		}
 		destroy_situation = this
 	}
@@ -766,6 +814,7 @@ planet_event = {
 	# Higher bounties, buy them off
 	option = {
 		name = tbm_hw.22_bounties
+		custom_tooltip = tbm_hw.22_bounties_tooltip
 		owner = {
 			add_resource = {
 				energy = -1500
@@ -789,16 +838,14 @@ planet_event = {
 					# Scavenger Lord Successfully Asassinated
 					planet_event = {
 						id = tbm_hw.25
-						days = 14
-						random = 7
+						days = 90
 					}
 				}
 				50 = {
 					# Scrap Shoot-out - Turns out to be one of your leaders
 					planet_event = {
 						id = tbm_hw.26
-						days = 14
-						random = 7
+						days = 90
 					}
 				}
 			}
@@ -819,15 +866,21 @@ planet_event = {
 			70 = {
 				# Conquest - one gang takes over the other
 				custom_tooltip = tbm_hw.22_conquest_tooltip
-				planet_event = {
-					id = tbm_hw.23
+				hidden_effect = {
+					planet_event = {
+						id = tbm_hw.23
+						days = 90
+					}
 				}
 			}
 			30 = {
 				# Unification - gangs unify and declare war on government
 				custom_tooltip = tbm_hw.22_unification_tooltip
-				planet_event = {
-					id = tbm_hw.24
+				hidden_effect = {
+					planet_event = {
+						id = tbm_hw.24
+						days = 90
+					}
 				}
 			}
 		}

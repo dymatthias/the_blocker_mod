@@ -50,26 +50,32 @@ food_reserves_run_out = {
 
 	# 100 = Colonial Bounty
 	on_progress_complete = {
-		situation_event = {
-			id = tbm_hw.18
+		custom_tooltip = food_reserves_complete_tooltip
+		hidden_effect = {
+			# Remove Food Rations, we're autarkic now! (And begin Eco-restimulation Project.)
+			situation_event = {
+				id = tbm_hw.18
+			}
 		}
-		# Remove Food Rations, we're autarkic now! (And begin Eco-restimulation Project.)
 	}
 
 	# 0 = Widespread Starvation
 	on_fail = {
-		target = {
-			remove_deposit = d_food_rations
-		}
-		if = {
-			limit = { owner = { is_hive_empire = yes }}
-			situation_event = {
-				id = tbm_hw.19
+		custom_tooltip = food_reserves_fail_tooltip
+		hidden_effect = {
+			target = {
+				remove_deposit = d_food_rations
 			}
-		}
-		else = {
-			situation_event = {
-				id = tbm_hw.20
+			if = {
+				limit = { owner = { is_hive_empire = yes }}
+				situation_event = {
+					id = tbm_hw.19
+				}
+			}
+			else = {
+				situation_event = {
+					id = tbm_hw.20
+				}
 			}
 		}
 	}
@@ -94,6 +100,9 @@ food_reserves_run_out = {
 		modifier = {
 			add = @colonial_farmsteads	# This will be 0 until you create some.
 			desc = colonial_farmsteads_modifier_tooltip
+			this = {
+				has_situation_flag = shipments
+			}
 		}
 
 		# Some food added by private farming colony (up to x4)
@@ -279,7 +288,10 @@ food_reserves_run_out = {
 		icon = GFX_situation_approach_kneel
 		icon_background = GFX_situation_approach_bg_yellow
 		potential = {
-			owner = { is_gestalt = no }
+			OR = {
+				owner = { is_gestalt = no }
+				NOT = { has_situation_flag = land_grants }
+			}
 		}
 		allow = {
 			owner = {
@@ -305,7 +317,7 @@ food_reserves_run_out = {
 							}
 						}
 						
-						save_event_target_as = colonial_bounty
+						save_global_event_target_as = colonial_bounty
 	
 						add_deposit = d_frontier_farmstead
 						add_deposit = d_frontier_farmstead
@@ -342,7 +354,13 @@ food_reserves_run_out = {
 		icon = GFX_situation_approach_fleet
 		icon_background = GFX_situation_approach_bg_green
 		allow = {
-			#has_situation_flag = land_grants	# Cannot start shipping without the land grants; also, we need to make sure we have the colony as a scope.
+			custom_tooltip = {
+				fail_text = colonial_food_shipments_must_have_land_grants	# This has to show if a planet hasn't been given land grants.
+			}
+			OR = {
+				has_situation_flag = land_grants	# Cannot start shipping without the land grants; also, we need to make sure we have the colony as a scope.
+				owner = { is_gestalt = yes } # Gestalts cannot use land grants and just have to find enough ag districts some other way. May eventually add an equivalent feature for them when gestalts are more fully integrated into the mod overall.
+			}
 			OR = {
 				owner = {
 					any_owned_planet = {
@@ -356,9 +374,6 @@ food_reserves_run_out = {
 					}
 				}
 				owner = {
-					custom_tooltip = {
-						fail_text = colonial_food_shipments_must_have_land_grants	# This has to show if a planet hasn't been given land grants.
-					}
 					any_owned_planet = {
 						exists = owner
 						is_same_value = event_target:colonial_bounty
@@ -368,6 +383,7 @@ food_reserves_run_out = {
 		}
 		on_select = {
 			hidden_effect = {
+				set_situation_flag = shipments # Mainly for showing tooltip on progress.
 				owner = {
 					random_owned_planet = {
 						limit = {

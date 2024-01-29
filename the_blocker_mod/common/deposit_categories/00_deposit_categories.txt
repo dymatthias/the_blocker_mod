@@ -5,6 +5,11 @@ deposit_cat_tbm_legendary = {
 	important = yes	# Shows up as rare deposits in planetview
 }
 
+deposit_cat_advanced = {
+	blocker = yes
+	important = yes
+}
+
 deposit_cat_food = { 
 	blocker = yes
 }
@@ -59,6 +64,6 @@ deposit_cat_artificial = {
 	blocker = yes
 }
 
-deposit_category_final = {
+deposit_cat_final = {
 	
 }

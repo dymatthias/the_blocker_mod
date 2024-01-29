@@ -4,16 +4,43 @@
 #	This also helps avoid too many things happening on January 1st.
 #	Most TBM events have handlers that handle randomness and/or add more more limited triggers.
 
+### Initialization Handlers
+on_initialize_advanced_colony = {
+	events = {
+		tbm_handler.2	# Fixes features for Advanced Start empires
+	}
+}
+
+on_press_begin = {
+	events = {
+		tbm_handler.1	# Fixes features for scripted system planets
+		tbm_hw.1 		# Fixes features on Fallen Empire worlds and colonies
+	}
+}
+
 
 ### Main Feature Events
 #	Note: events only get registered here after being tested!
 
 on_colony_yearly_oulse = {
 	events = {
+		
+		### FEATURE GENERATORS
+		tbm_handler.2 	# Urban Power Plant
+		tbm_handler.4	# Sprawling Slums
+		tbm_handler.6	# Industrial Wasteland
+		tbm_handler.8	# Colonial Settlement
+		tbm_handler.10	# Frontier Farmland
+
+		
+		### FEATURE EVENTS
+
 		tbm.31	# A City of the Desert
 		tbm.101	# A Shiny Rock
 		tbm.51 # Toxic Kelp
 		tbm.52 # Kelp Insights
+
+		
 	}
 }
 
@@ -29,6 +56,6 @@ on_colonized = {
 on_district_complete = {
 	random_events = {
 		50 = 0
-		50 = tbm.21 # Proposed Marina (must 
+		50 = tbm.21
 	}
 }

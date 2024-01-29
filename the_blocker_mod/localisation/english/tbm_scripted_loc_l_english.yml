@@ -50,5 +50,9 @@
 
  tbm_unruly_peasants:0 "unruly peasants"
  tbm_organized_environmentalists:0 "organized environmentalists"
-
+ 
+ tbm_gov_hive:0 "the Organism"
+ tbm_gov_machine:0 "the Machine"
+ tbm_gov_reg:0 "our government"
+ 
  

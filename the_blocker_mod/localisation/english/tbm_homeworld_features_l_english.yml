@@ -81,7 +81,7 @@
  d_gestlat_experimental_geothermal_tap_desc:0 "Designed to combat fossil fuel dependency, this network of experimental subsurface taps failed to meet the projected power needs by 2107. Analysis of the system revealed much of its science to be based on faulty reasoning."
 
  d_inaugural_spaceport:0 "Inaugural Spaceport"
- d_inaugural_spaceport_desc:0 "Everyone remembers the first shuttle launched from the futuristic launchpad of our first interplanetary spaceport. But that was in 2063 and despite obvious sentimental value, its shipping docks are cramped, its passenger terminals falling apart, and no one is quite sure what next year's safety inspection will bring."
+ d_inaugural_spaceport_desc:0 "Everyone remembers the first shuttle launched from this futuristic launchpad. But that was in 2063 and despite obvious sentimental value, its shipping docks are cramped, its passenger terminals falling apart, and no one is quite sure what bad news next year's safety inspection will bring."
 
  d_gestalt_inaugural_spaceport:0 "Inaugural Spaceport"
  d_gestalt_inaugural_spaceport_desc:0 "This futuristic launchpad for interplanetary construction craft was a landmark achievement -- in 2063. After nearly 150 years of continuous use, its cargo docks are falling apart and its maintenance budget has been identified as a strategic liability."
@@ -323,5 +323,5 @@
  d_warm_lagoon_desc:0 "The turn of the tide in this warm bay is widely agreed to be among the gentlest on the planet, making it an ideal spot to settle down, raise a family, and start a small seaweed farm."
 
  d_broken_mag_lev_network:0 "Broken Mag-Lev Network"
- d_broken_mag_lev_network_desc:0 "Once a beaming ideal of utopian transportation, this global ring of high-speed trains quickly became a money pit rife with mismanagement and corruption and now serves mainly as a market asset and a testament to dreams gone awry.
+ d_broken_mag_lev_network_desc:0 "Once a beaming ideal of utopian transportation, this global ring of high-speed trains quickly became a money pit rife with mismanagement and corruption and now serves mainly as a market asset and a testament to dreams gone awry."
 

@@ -679,8 +679,146 @@ generate_start_deposits_and_blockers = {
 
 
 }
-# END
 
-# generate_earth_deposits_and_blockers = {
+### TBM Earth overwrite
+#	Earth gets a split of its special vanilla features and typical TBM homeworld features. The vanilla features remain mostly the same but have a light TBM flavor to allow UNE to be a slightly easier start.
+generate_earth_deposits_and_blockers = {
+	optimize_memory
+	clear_deposits = yes
 
-# }
+	### Vanilla Stuff (3 of each)
+	add_deposit = d_mesopotamian_urban_corridor			# 1 mining
+	add_deposit = d_boswash_metropolitan_axis			# 1 generator
+	add_deposit = d_mauritanian_security_zone			# 1 mining
+	add_deposit = d_great_albertan_crater				# 1 mining
+	add_deposit = d_scandinavian_reclamation_sector		# 1 farming
+	add_deposit = d_saharan_irrigation_project			# 1 farming
+	add_deposit = d_pearl_river_agglomerate				# 1 generator
+	add_deposit = d_great_pacific_garbage_patch			# 1 food (blocked)
+	add_deposit = d_failing_infrastructure_earth		# 1 generator (blocked)
+
+	### TBM Homeworld Features
+
+	# Energy (3, equal to vanilla)
+	add_deposit = d_homeworld_extreme_weather
+	add_deposit = d_homeworld_bandit_camp
+	add_deposit = d_inaugural_spaceport
+
+	# Mining (3, equal to vanilla)
+	add_deposit = d_stasis_prison
+	add_deposit = d_recycling_programs
+	add_deposit = d_dustbowl
+
+	# Farming (5, +1 from vanilla)
+	add_deposit = d_homestead_farms
+	add_deposit = d_factory_slaughterhouses
+	add_deposit = d_homeworld_urban_aeroponics
+	add_deposit = d_food_banks
+	# 1 via Reclaimed Land (blocked by Dustbowl)
+
+	
+	### SPECIAL STUFF
+	
+	if = {
+		limit = {
+			owner = { is_machine_empire = yes }
+		}
+		add_deposit = d_battery_farms
+	}
+
+	if = {
+		limit = {
+			owner = { has_valid_civic = civic_machine_servitor }
+		}
+		add_deposit = d_nutrient_terminals
+		#add_deposit = d_strip_mine
+		add_deposit = d_unsupervised_settlement
+	}
+	else = {
+		add_deposit = d_decrepit_dwellings
+	}
+
+	if = {
+		limit = {
+			owner = {
+				is_lithoid_empire = yes
+				NOT = { has_valid_civic = civic_hive_devouring_swarm }
+			}
+		}
+		while = {
+			count = 4
+			add_deposit = d_hibernating_lithoids
+		}
+		add_deposit = d_crumbling_mountain
+		add_deposit = d_megaliths
+		add_deposit = d_crystal_outcrops
+	}
+
+	if = {
+		limit = {
+			owner = {
+				is_lithoid_empire = yes
+				has_valid_civic = civic_hive_devouring_swarm
+			}
+		}
+		while = {
+			count = 2
+			add_deposit = d_hibernating_lithoids
+		}
+	}
+
+	if = {
+		limit = {
+			owner = {
+				has_origin = origin_life_seeded
+			}
+		}
+
+		set_planet_size = 30
+
+		# This needs to get moved to a scripted_effect
+		clear_deposits = yes
+
+		# Energy - 8 total, -3 districts, 2 blocked	
+		add_deposit = d_fertile_delta	# Provies 1 farming as well
+		add_deposit = d_inaugural_spaceport
+		add_deposit = d_high_wire_network
+		add_deposit = d_hot_springs
+		add_deposit = d_homeworld_bandit_camp
+		add_deposit = d_sandsea	# Mainly to give two generators, but also gives Aquatics a reason to take Life-Seeded
+		
+		# Mining - 8 total, 1 blocked, -3 districts
+		add_deposit = d_recycling_programs
+		add_deposit = d_mine_shafts
+		add_deposit = d_mine_shafts
+		add_deposit = d_homeworld_deep_trench
+		add_deposit = d_rare_metals_lab
+		add_deposit = d_mineral_striations
+		add_deposit = d_betharian_deposit
+		add_deposit = d_homeworld_sculpted_mountains
+
+		# Farming - 8 total, 1 blocked, -7 districts (have to maintain that utopian landscape)
+		add_deposit = d_lakelands
+		add_deposit = d_lush_jungle
+		add_deposit = d_black_soil
+		add_deposit = d_fish_shoals
+		add_deposit = d_homestead_farms
+		add_deposit = d_homestead_farms
+		add_deposit = d_homeworld_utopian_hills
+		add_deposit = d_idyllic_pastorale
+		add_deposit = d_ancient_forests
+
+		# Special (same as vanilla)
+		add_deposit = d_bubbling_swamp
+		add_deposit = d_crystalline_caverns
+		add_deposit = d_dust_caverns
+	}
+
+	if = {
+		limit = {
+			is_planet_class = pc_desert # Just in case players cause trouble
+		}
+		set_planet_flag = tasty_desert
+	}
+}
+
