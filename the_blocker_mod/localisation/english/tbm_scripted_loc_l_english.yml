@@ -51,4 +51,12 @@
  tbm_unruly_peasants:0 "unruly peasants"
  tbm_organized_environmentalists:0 "organized environmentalists"
 
+ tbm_eruption_has_terraforming:0 "It will take years of work to repair this damage."
+ tbm_eruption_no_terraforming:0 "Atmospheric scientists on [root.GetHomeworldName] believe it may be possible to repair the damage through large-scale "terraforming". Though largely untested in practice, §CNew Worlds§! specialists have long theorized about the possibility, and [head_of_research.GetName] believes [head_of_research.GetSheHe] may be close to breakthrough."
+
+ tbm_infrastructure_destroyed:0 "unfortunately destroying some of our infrastructure in the process"
+
+ tbm_carbon_coal:0 "§Y£blocker£Coal Bed§!"
+ tbm_carbon_oil:0 "§Y£blocker£Oil Field§!"
+ tbm_carbon_gas:0 "§Y£blocker£Subterraenean Gas Lake§!"
  

@@ -1,6 +1,23 @@
-### The Blocker Mod - Events - Two
+### The Blocker Mod - Events #2
 
 namespace = tbm
+
+### INDEX ###
+#
+#	51. Poisoned By Kelp
+#	52. Kelp Insights
+#	53. Fish Attack
+#	62. Plugging It Up
+#	66. Scraping the Bottom of the Barrell (disabled, WIP)
+#	76. Shifting Sands
+#	81. Sudden Sinkhole
+#	84. Vicious Sandstorm
+#	86. Struck the Motherlode
+#	88. False Prospects
+#	89. Mine-shaft Collapse
+#	
+
+### Variables
 
 @mines = 0
 @miners = 1
@@ -131,6 +148,11 @@ planet_event = {
 
 	# Handler
 	immediate = {
+
+		this = {
+			save_event_target_as = fish_planet
+		}
+
 		random_list = {
 			15 = {
 				modifier = {
@@ -139,7 +161,7 @@ planet_event = {
 				}
 				modifier = {
 					factor = 2
-					owner.species = {
+					owner_main_species = {
 						has_trait = trait_aquatic
 					}
 				}
@@ -168,7 +190,7 @@ planet_event = {
 					50 = {
 						modifier = {
 							factor = 2
-							owner.species = { has_trait = trait_aquatic	}
+							owner_main_species = { has_trait = trait_aquatic	}
 						}
 						set_planet_flag = crew_escaped
 					}
@@ -195,6 +217,9 @@ planet_event = {
 		text = tbm.54.escapes
 	}
 	desc = {
+		exclusive_trigger = {
+			NOT = { has_planet_flag = crew_escaped }
+		}
 		text = tbm.54.eaten
 	}
 	picture = GFX_evt_unspeakable_horror
@@ -205,7 +230,6 @@ planet_event = {
 	option = {
 		name = tbm.54.name
 		custom_tooltip = tbm.54.worse
-
 
 		# Figure out how much was in the sub (1 month worth of minerals from planet)
 		hidden_effect = {
@@ -220,7 +244,7 @@ planet_event = {
 					}
 					variable = @miner_monthly
 				}
-				change_variable = {		# This does increment
+				change_variable = {		# increment
 					which = @miner_output_add
 					value = @miner_monthly
 				}
@@ -253,7 +277,7 @@ planet_event = {
 			}
 		}
 
-		# They say there's worse down there somwhere...
+		# They say there's worse down there...
 		hidden_effect = {
 			random_list = {
 			
@@ -286,7 +310,7 @@ planet_event = {
 					}
 				}
 	
-				# Rumours of a Great Mopnster
+				# Rumours of a Great Monster
 				10 = {
 					modifier = {
 						factor = 0		# Until I finish writing it
@@ -321,7 +345,6 @@ planet_event = {
 				minerals = @miner_monthly
 			}
 		}
-		save_event_target_as = fish_planet@this
 		enable_special_project = {
 			name = "XENOFISH_STUDY"
 		}
@@ -349,7 +372,7 @@ planet_event = {
 				40 = {
 					planet_event = { 
 						id = tbm.56 
-						days = 3600 
+						days = 1800
 						random = 720 
 					}
 				}
@@ -801,71 +824,74 @@ planet_event = {
 	}
 }
 
-### 80. Sand Tides (Shifting Sands)
-planet_event = {
-	id = tbm.80
+### XX. Sand Tides (Shifting Sands)
+# planet_event = {
+# 	id = tbm.80
 
-	title = tbm.80.name
-	desc = tbm.80.desc
-	desc = {
-		trigger = {
-			owner = { has_technology = tech_noxious_swamp }
-		}
-		text = tbm.80.desc.swamp
-	}
-	desc = {
-		trigger = {
-			owner = {
-				OR = {
-					has_ethic = ethic_spiritualist
-					has_ethic = ethic_fanatic_spiritualist
-				}
-			}
-		}
-		text = tbm.80.desc.superstitions
-	}
-	picture = GFX_evt_landing_ship
-	show_sound = event_scanner
+# 	title = tbm.80.name
+# 	desc = tbm.80.desc
+# 	desc = {
+# 		trigger = {
+# 			owner = { has_technology = tech_noxious_swamp }
+# 		}
+# 		text = tbm.80.desc.swamp
+# 	}
+# 	desc = {
+# 		trigger = {
+# 			owner = {
+# 				OR = {
+# 					has_ethic = ethic_spiritualist
+# 					has_ethic = ethic_fanatic_spiritualist
+# 				}
+# 			}
+# 		}
+# 		text = tbm.80.desc.superstitions
+# 	}
+# 	picture = GFX_evt_landing_ship
+# 	show_sound = event_scanner
 
-	is_triggered_only = yes
+# 	is_triggered_only = yes
 
-	option = {
-		name = tbm.80.climate
-		allow = {
-			owner = { has_technology = tech_noxious_swamp }
-		}
-		add_modifier = {
-			modifier = shifting_sands
-		}
-	}
+# 	option = {
+# 		name = tbm.80.climate
+# 		allow = {
+# 			owner = { has_technology = tech_noxious_swamp }
+# 		}
+# 		add_modifier = {
+# 			modifier = shifting_sands
+# 		}
+# 	}
 
-	option = {
-		name = tbm.80.fascinating
-		owner = {
-			add_resource = {
-				physics_research = @tier4researchreward
-				society_research = @tier4researchreward
-				engineering_research = @tier4researchreward
-			}
-		}
-	}
+# 	option = {
+# 		name = tbm.80.fascinating
+# 		owner = {
+# 			add_resource = {
+# 				physics_research = @tier4researchreward
+# 				society_research = @tier4researchreward
+# 				engineering_research = @tier4researchreward
+# 			}
+# 		}
+# 	}
 
-	option = {
-		name = tbm.80.miracle
-		custom_tooltip = tbm.80.tooltip
-		trigger = {
-			owner = {
-				OR = {
-					has_ethic = ethic_spiritualist
-					has_ethic = ethic_fanatic_spiritualist
-				}
-			}
-		}
-		set_planet_flag = sand_tides	# Not a trigger flag--adds unity from colonists/clerks to Quicksand Basin.
-	}
-}
+# 	option = {
+# 		name = tbm.80.miracle
+# 		custom_tooltip = tbm.80.tooltip
+# 		trigger = {
+# 			owner = {
+# 				OR = {
+# 					has_ethic = ethic_spiritualist
+# 					has_ethic = ethic_fanatic_spiritualist
+# 				}
+# 			}
+# 		}
+# 		set_planet_flag = sand_tides	# Not a trigger flag--adds unity from colonists/clerks to Quicksand Basin.
+# 	}
+# }
+
+### 80. Sudden Sinkhole Spawner
 
 ### 81. Sudden Sinkhole (Deep Sinkhole)
+#	Triggered from tbm_handler.17 (Sinkhole Spawner)
 planet_event = {
 	id = tbm.81
 
@@ -875,20 +901,6 @@ planet_event = {
 	show_sound = event_collapsing_ruins
 
 	is_triggered_only = yes
-	fire_only_once = yes
-
-	trigger = {
-		OR = {		
-			# Sinkholes make more sinkholes
-			has_deposit = d_deep_sinkhole
-
-			# But can also be called after you clear them.
-			has_planet_flag = occasional_sinkholes
-		}
-		NOT = { 
-			owner = { has_country_flag = first_sinkhole }
-		}
-	}
 
 	immediate = {
 		
@@ -900,34 +912,41 @@ planet_event = {
 					value > 0
 				}
 			}
-			remove_last_built_district = yes	# Ideally, this would be random but you run into problems with special districts.
+			remove_random_district = yes
+			
 		}
 		else = {
 			add_planet_devastation = 10
 		}
-	}
 
-	option = {
-		name = OK
-	}
-
-	after = {
-		hidden_effect = {
-			owner = { set_country_flag = first_sinkhole }
-			random_list = {
-				33 = {
-					save_event_target_as = sinkholes
-					planet_event = {
-						id = tbm.82
-						days = 7200
-						random = 3600
-					}
-					owner = { set_country_flag = sinkhole_causes }
-				}
-				66 = {}
-			}
+		create_message = {
+			type = "SUDDEN_SINKHOLE"
+			localization = tbm_message_sudden_sinkhole
+			days = -1
 		}
 	}
+
+	# option = {
+	# 	name = OK
+	# }
+
+	# after = {
+	# 	hidden_effect = {
+	# 		owner = { set_country_flag = first_sinkhole }
+	# 		random_list = {
+	# 			33 = {
+	# 				save_event_target_as = sinkholes
+	# 				planet_event = {
+	# 					id = tbm.82
+	# 					days = 7200
+	# 					random = 3600
+	# 				}
+	# 				owner = { set_country_flag = sinkhole_causes }
+	# 			}
+	# 			66 = {}
+	# 		}
+	# 	}
+	# }
 }
 
 ### 82. Sinkhole Causes
@@ -950,7 +969,7 @@ planet_event = {
 					value > 0
 				}
 			}
-			remove_last_built_district = yes	# Ideally, this would be random but you run into problems with special districts.
+			remove_random_district = yes
 		}
 		else = {
 			add_planet_devastation = 10
@@ -962,6 +981,7 @@ planet_event = {
 		enable_special_project = {
 			name = "SOMETHING_IN_THE_PIPES"
 		}
+		set_planet_flag = sinkhole_causes
 	}
 	
 	option = {
@@ -980,7 +1000,14 @@ planet_event = {
 	id = tbm.83
 
 	title = tbm.83.name
-	desc = tbm.83.desc
+	desc = {
+		trigger = { owner = { is_gestalt = no }}
+		text = tbm.83.desc
+	}
+	desc = {
+		trigger = { owner = { is_gestalt = no }}
+		text = tbm.83.desc_gestalt
+	}
 	picture = GFX_evt_in_the_dark
 	show_sound = aqu_dragon_attack_mouth_deluge
 
@@ -988,15 +1015,16 @@ planet_event = {
 
 	option = {
 		name = tbm.83.safe
-		owner = {
-			remove_country_flag = sinkhole_causes
-		}
-		set_planet_flag = safe_from_sinkholes
+		remove_planet_flag = sinkhole_causes
+		set_country_flag = safe_from_sinkholes
 	}
 
 	option = {
 		name = tbm.83.cruises
 		custom_tooltip = tbm.83.sinkholes
+		trigger = {
+			owner = { is_gestalt = no }
+		}
 		set_planet_flag = occasional_sinkholes
 		add_modifier = {
 			modifier = subterranean_river_cruises
@@ -1024,22 +1052,9 @@ planet_event = {
 
 	immediate = {
 		hidden_effect = {		
-			export_trigger_value_to_variable = {
-				trigger = count_deposit
-				parameters = {
-					count = all
-					limit = {
-						OR = {
-							is_deposit_type = d_dense_jungle
-							is_deposit_type = d_rugged_woods
-							is_deposit_type = d_lush_jungle
-							is_deposit_type = d_taiga
-							is_deposit_type = d_mountain_jungle
-							is_deposit_type = d_scrubland
-						}
-					}
-				}
-				variable = @trees
+			set_variable = {
+				which = @trees
+				value = value:forestation
 			}
 		}
 		
@@ -1049,7 +1064,7 @@ planet_event = {
 					factor = 2	
 					check_variable = {
 						which = @trees
-						value > 2
+						value < 2
 					}
 				}
 				planet_event = {
@@ -1067,8 +1082,8 @@ planet_event = {
 planet_event = {
 	id = tbm.85
 
-	title = tbm.84.name
-	desc = tbm.84.desc
+	title = tbm.85.name
+	desc = tbm.85.desc
 	picture = GFX_evt_landing_ship
 	show_sound = event_wind_ruins
 
@@ -1094,8 +1109,7 @@ planet_event = {
 	}
 }
 
-### 86. Struck The Motherlode (Handler) (Various mining)
-# Called in on_district_complete, this = planet
+### 86. Struck The Motherlode (Handler) (on_district_complete)
 planet_event = {
 	id = tbm.86
 
@@ -1110,9 +1124,7 @@ planet_event = {
 	trigger = {
 		last_district_changed = district_mining
 		OR = {
-			has_deposit = d_ore_rich_caverns
-			has_deposit = d_veiny_cliffs
-			has_deposit = d_rich_mountain
+			has_mineral_seam = yes
 		}
 		is_artificial = no
 	}
@@ -1127,12 +1139,37 @@ planet_event = {
 			variable = @miners
 		}
 
+		# Get deposit with the seam
+		random_deposit = {
+			limit = {
+				has_mineral_seam = yes
+			}
+			save_event_target_as = mineral_seam
+		}
+
 		random_list = {			
 			# Struck the Motherlode
 			1 = {
 				modifier = {
 					factor = 0
-					owner = { has_country_flag = struck_the_motherlode }	#Can only strike so many motherlodes... and we don't want every planet in the galaxy to get High-Quality Minerals eventually.
+					OR = {
+						owner = { has_country_flag = struck_the_motherlode }	#Can only strike so many motherlodes... and we don't want every planet in the galaxy to get High-Quality Minerals eventually.
+						has_planet_flag = motherlode
+						has_planet_modifier = pm_mineral_poor
+						has_planet_modifier = pm_mineral_rich
+						has_planet_modifier = pm_ultra_rich
+						has_modifier = mineral_rich # See above
+						has_modifier = ultra_rich
+					}
+				}
+				modifier = {
+					factor = 2
+					OR = {
+						has_planet_modifier = pm_asteroid_impacts
+						has_planet_modifier = pm_carbon_world
+						has_planet_modifier = pm_high_gravity
+					}
+					
 				}
 				modifier = {
 					add = @miners
@@ -1142,6 +1179,7 @@ planet_event = {
 					days = 60
 					random = 30
 				}
+				set_planet_flag = motherlode
 			}
 			# Failed Prospects
 			9 = {
@@ -1164,15 +1202,15 @@ planet_event = {
 planet_event = {
 	id = tbm.87
 
-	title = tbm.86.name
-	desc = tbm.86.desc
+	title = tbm.87.name
+	desc = tbm.87.desc
 	picture = GFX_evt_hidden_door
 	show_sound = event_machinery
 
 	is_triggered_only = yes
 
 	option = {
-		name = tbm.86.wonderful
+		name = WONDERFUL
 		this = {
 			owner = { set_country_flag = struck_the_motherlode }
 			random_list = {
@@ -1193,7 +1231,8 @@ planet_event = {
 					hidden_effect = {
 						planet_event = {
 							id = tbm.88
-							days = 30
+							days = 180
+							random = 360
 						}
 					}
 				}
@@ -1207,7 +1246,18 @@ planet_event = {
 	id = tbm.88
 
 	title = tbm.88.name
-	desc = tbm.88.desc
+	desc = {
+		trigger = {
+			owner = { is_gestalt = no }
+		}
+		text = tbm.88.desc
+	}
+	desc = {
+		trigger = {
+			owner = { is_gestalt = yes }
+		}
+		text = tbm.88.desc_gestalt
+	}
 	picture = GFX_evt_discovered_hidden_door
 	show_sound = event_wind_ruins
 
@@ -1217,6 +1267,9 @@ planet_event = {
 		add_modifier = {
 			modifier = false_prospects
 			years = 5
+		}
+		event_target:mineral_seam = {
+			remove_deposit = yes
 		}
 		create_pop = {
 			species = owner_main_species
@@ -1247,7 +1300,6 @@ planet_event = {
 
 	pre_triggers = {
 		has_owner = yes
-		is_homeworld = no
 	}
 
 	trigger = {
@@ -1277,16 +1329,28 @@ planet_event = {
 					add = @mines
 				}
 				modifier = {
-					factor = 0.1
-					owner = { has_modifier = mine_safety_standards }
+					factor = 1.15
+					owner = {
+						OR = {
+							is_capitalist = yes
+							is_industrialist = yes
+						}
+					}
 				}
 
 				random_deposit = {
 					limit = {
-						can_collapse = yes
+						has_mine_shafts = yes
 					}
 					save_event_target_as = collapsed_mine
 				}
+
+				set_variable_to_random_value = {
+					which = @casualty_chance
+					min = 1
+					max = 100
+				}
+
 				planet_event = {
 					id = tbm.90
 					days = 60
@@ -1302,305 +1366,108 @@ planet_event = {
 planet_event = {
 	id = tbm.90
 
+	is_triggered_only = yes
+
 	title = tbm.90.name
-	
-	# Warning: this event has a LOT of conditional desc, ye be warned
 	desc = {
+		text = tbm.90_desc_robotic_deaths
 		trigger = {
-			owner = {
-				is_gestalt = yes
+			check_variable = {
+				which = @casualty_chance
+				value > 50
 			}
-		}
-		text = tbm.90.desc.gestalt
-	}
-	desc = {
-		trigger = {
-			owner = { 
-				OR = {
-					has_policy_flag = robots_outlawed
-				}
-			}
-		}
-		text = tbm.90.desc.outlawed
-	}
-	desc = {
-		trigger = {
 			owner = {
 				OR = {
 					has_policy_flag = ai_servitude
-					has_policy_flag = ai_outlawed
+					is_gestalt = yes
 				}
 			}
-			planet = {
-				any_owned_pop = {				
-					is_robotic_species = yes
-					has_job = miner
-				}
+			count_owned_pops = {
+				has_job = miner
+				is_robotic_species = yes
+				count >= 2
 			}
 		}
-		text = tbm.90.desc.servitude
 	}
 	desc = {
+		text = tbm.90_desc_miner_deaths
 		trigger = {
-			owner = {
-				has_policy_flag = ai_full_rights
-			}
-			planet = {
-				any_owned_pop = {
-					is_robotic_species = yes
-					has_job = miner
-				}
-			}
-		}
-		text = tbm.90.desc.rights
-	}
-	desc = {
-		trigger = {
-			owner = {
-				has_policy_flag = ai_full_rights
-				NOT = { has_ascension_perk = ap_synthetic_evolution }
-			}
-			planet = {
-				any_owned_pop = {
-					has_job = miner
-					NOT = { is_robotic_species = yes }
-				}
-			}
-		}
-		text = tbm.90.desc.shorthanded
-	}
-	desc = {
-		trigger = {
-			owner = {
-				has_ascension_perk = ap_synthetic_evolution
-			}
-			planet = {
-				any_owned_pop = {
-					has_job = miner
-				}
-			}
-		}
-		text = tbm.90.desc.mechas
-	}
-	desc = tbm.90.desc.all
-	desc = {
-		trigger = {
-			owner = { has_policy_flag = robots_outlawed }
-		}
-		text = tbm.90.desc.deadworkers
-	}
-	desc = {
-		trigger = {
-			owner = {
-				OR = {
-					has_policy_flag = ai_outlawed
-					has_policy_flag = ai_servitude
-				}
-			}
-			planet = {
-				any_owned_pop = {
-					has_job = miner
-					is_robotic_species = yes
-				}
-			}
 			check_variable = {
 				which = @casualty_chance
 				value > 50
 			}
 		}
-		text = tbm.90.desc.botskilled
 	}
 	desc = {
+		text = tbm.90_desc_no_deaths
 		trigger = {
-			owner = {
-				OR = {
-					has_policy_flag = ai_outlawed
-					has_policy_flag = ai_servitude
-				}
-			}
-			planet = {
-				any_owned_pop = {
-					has_job = miner
-					is_robotic_species = yes
-				}
-			}
 			check_variable = {
-				which = casualty_chance
-				value < 50
-			}
-		}
-		text = tbm.90.desc.citizenskilled
-	}
-	desc = {
-		trigger = {
-			owner = {
-				OR = {
-					has_policy_flag = ai_outlawed
-					has_policy_flag = ai_servitude
-				}
-			}
-			planet = {
-				any_owned_pop = {
-					has_job = miner
-					NOT = { is_robotic_species = yes }
-				}
-			}
-		}
-		text = tbm.90.desc.minersdie
-	}
-	desc = {
-		trigger = {
-			owner = {
-				has_policy_flag = ai_full_rights
-			}
-			planet = {
-				any_owned_pop = {
-					has_job = miner
-					is_robotic_species = yes
-				}
-			}
-		}
-		text = tbm.90.desc.synthsdie
-	}
-	desc = {
-		trigger = {
-			owner = {
-				has_policy_flag = ai_full_rights
-				NOT = { has_ascension_perk = ap_synthetic_evolution }
-			}
-			planet = {
-				any_owned_pop = {
-					has_job = miner
-					NOT = { is_robotic_species = yes }
-				}
-			}
-		}
-		text = tbm.90.desc.minersdie	#re-used
-	}
-	desc = {
-		trigger = {
-			owner = { has_ascension_perk = ap_synthetic_evolution }
-		}
-		text = tbm.90.desc.minersdie
-	}
-	#Whew
-
-	picture = "GFX_evt_crusher_droid"
-	show_sound = event_collapsing_ruins
-
-	is_triggered_only = yes
-
-	immediate = {
-		hidden_effect = {
-			set_variable_to_random_value = {
 				which = @casualty_chance
-				min = 1
-				max = 100
+				value <= 50
 			}
 		}
 	}
+	
+	immediate = {
 
-	option = {
-		name = tbm.90.safetyfirst
-		allow = {
-			NOT = {
-				owner = {
-					OR = {
-						has_authority = auth_corporate
-						NOR = {
-							has_ethic = ethic_egalitarian
-							has_ethic = ethic_fanatic_egalitarian
-						}
-					}
-				}
-			}
-		}
-		owner = {
-			add_modifier = {
-				modifier = mine_safety_standards
-			}
-		}
-	}
-
-	option = {
-		name = tbm.90.tragedy
-		random_list = {
-			60 = {
-				modifier = {
-					factor = 1.5
-					check_variable = {
-						which = @casualty_chance
-						value > 50
-					}
-				}
-				add_modifier = {
-					modifier = mass_protest
-				}
-			}
-			20 = {
-				modifier = {
-					factor = 2
-					check_variable = {
-						which = @casualty_chance
-						value > 50
-					}
-				}
-				add_modifier = {
-					modifier = miners_strike
-				}
-			}
-			20 = {
-				custom_tooltip = tbm.90.tooltip.nothingelse
-			}
-		}
-	}
-
-	after = {
-		add_planet_devastation = 10
+		### Damage
 		event_target:collapsed_mine = {
-			if = {
-				limit = {
-					can_collapse = yes
-				}
-				event_target:collapsed_mine = {
-					remove_deposit = yes
-				}
-			}
-			else = {
-				root = { remove_district = district_mining }
-			}
+			remove_deposit = yes
 		}
 		
-		#Casualties
+		### Casualties
 		if = {
 			limit = {
-				owner = {
-					has_policy_flag = ai_servitude
-				}
 				check_variable = {
 					which = @casualty_chance
 					value > 50
 				}
 			}
-			random_owned_pop = {
+			if = {
 				limit = {
-					has_job = miner
-					is_robotic_species = yes
+					owner = {
+						OR = {
+							has_policy_flag = ai_servitude
+							is_gestalt = yes
+						}
+					}
+					count_owned_pops = {
+						has_job = miner
+						is_robotic_species = yes
+						count >= 2
+					}
 				}
-				kill_pop = yes
-				kill_pop = yes
+				random_owned_pop = {
+					limit = {
+						has_job = miner
+						OR = {
+							AND = {
+								is_robotic_species = yes
+								owner = { is_gestalt = no }
+							}
+							owner = { is_gestalt = yes }
+						}
+					}
+					kill_pop = yes
+					kill_pop = yes
+				}
+			}
+			else = {
+				random_owned_pop = {
+					limit = {
+						has_job = miner
+					}
+					kill_pop = yes
+					kill_pop = yes
+				}
+
+				add_modifier = {
+					modifier = miners_strike
+					days = 720
+				}
 			}
 		}
 		else = {
-			random_owned_pop = {
-				limit = {
-					has_job = miner
-				}
-				kill_pop = yes
-				kill_pop = yes
-			}
 		}
 	}
 }
-
-### 91. This Town's Not A Mining Town No More (Clearance)

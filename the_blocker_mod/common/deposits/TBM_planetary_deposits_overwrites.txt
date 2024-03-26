@@ -1194,6 +1194,9 @@ d_massive_glacier = {
 				minerals = 1000
 			}
 		}
+
+		# Climate Control Network Malfunctions
+		inline_script = climate_control_activate
 	}
 
 	planet_modifier = {

@@ -4,21 +4,16 @@
 #	This also helps avoid too many things happening on January 1st.
 #	Most TBM events have handlers that handle randomness and/or add more more limited triggers.
 
-
-### Main Feature Events
-#	Note: events only get registered here after being tested!
-
-on_colony_yearly_oulse = {
+### Init Events
+on_press_begin = {
 	events = {
-		tbm.31	# A City of the Desert
-		tbm.101	# A Shiny Rock
-		tbm.51 # Toxic Kelp
-		tbm.52 # Kelp Insights
+		tbm_handler.102 # Add Wild World to planets that need it
 	}
 }
 
 
-### Handler Events
+
+### Main Feature Events
 
 on_colonized = {
 	events = {
@@ -26,9 +21,32 @@ on_colonized = {
 	}
 }
 
+on_colony_yearly_oulse = {
+	events = {
+		#tbm.101	# A Shiny Rock
+		tbm.51 # Toxic Kelp
+		tbm.52 # Kelp Insights
+
+
+		### Handler Events
+		tbm_handler.103 # Removes Wild World when colony developed
+	}
+}
+
+on_colony_five_yearly_pulse = {
+	events = {
+		tbm.46	# A City of the Desert
+		tbm.301 # Fossil Fuel Discovery
+	}
+}
+
 on_district_complete = {
+	events = {
+		tbm.88	# False Prospects
+	}
+	
 	random_events = {
 		50 = 0
-		50 = tbm.21 # Proposed Marina (must 
+		50 = tbm.21 # Proposed Marina
 	}
 }

@@ -5,6 +5,7 @@
 # Not all AIs are represented here--some will just follow the base. This is for those who need shift in their general approach.
 
 # Likes a room with a view - Aesthetic types, into romantic poetry about mountains, forests, swamps, whatever really.
+
 modifier = {
 	add = -0.75
 	owner = {

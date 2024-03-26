@@ -1,0 +1,111 @@
+### The Blocker Mod - Buildings
+#	Mostly, the mod tries to avoid adding a lot of buildings since many other mods add them and this mod is primarily concerned with features.
+
+building_xeno_synaptic_node = {
+	
+	can_build = yes
+	can_demolish = yes
+	can_be_ruined = yes
+	can_be_disabled = yes
+
+	position_priority = 2
+
+	category = research
+
+	empire_limit = 1
+
+	potential = {
+		is_capital = yes
+		exists = owner
+		owner = { is_gestalt = no }
+	}
+
+	abort_trigger = {
+		exists = owner
+		owner = { is_gestalt = no }
+	}
+
+	ruined_trigger = {
+		exists = owner
+		owner = { is_gestalt = no }
+	}
+
+	resources = {
+		category = planet_buildings
+		upkeep = {
+			energy = 10		# Who said thinking hard was easy?
+		}
+		cost = {
+			minerals = 400
+		}
+		produces = {
+			physics_research = value:feature_research_gestalt_phys
+			society_research = value:feature_research_gestalt_soc
+			engineering_research = value:feature_research_gestalt_eng
+		}
+	}
+
+	# on_built = {
+	# 	owner = {
+	# 		set_country_flag = xeno_synaptic_node  	# Is this thing on?
+	# 	}
+		
+	# 	# Call production updater event
+	# 	# This will also fire on_monthly_pulse and sets variables for output.
+	# }
+}
+
+
+
+building_science_outposts = {
+	
+	can_build = yes
+	can_demolish = yes
+	can_be_ruined = yes
+	can_be_disabled = yes
+
+	position_priority = 2	# These are colonial buildings intended to built early and eventually removed
+
+	category = resource
+
+	potential = {
+		has_upgraded_capital = no
+	}
+
+	ruined_trigger = {
+		has_upgraded_capital = yes
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_regular_empire = yes }
+		}
+		modifier = {
+			job_xeno_naturalist_add = 1
+			job_colonist_add = 1	# Somewhat a prototype, may replace with special job (e.g., Explorer?) Depends a bit on gestalt balancing.
+		}
+	}
+
+	triggered_planet_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_gestalt = yes }
+		}
+		modifier = {
+			job_xeno_analysis_drone_add = 2
+		}
+	}
+
+	triggered_country_modifier = {
+		potential = {
+			exists = owner
+			owner = { is_gestalt = yes }
+		}
+		modifier = {
+			# Neuro-Analysis
+
+		}
+	}
+	
+}

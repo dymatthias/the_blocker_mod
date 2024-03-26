@@ -11,17 +11,21 @@ deposit_cat_minerals = {
 }
 deposit_cat_blockers = {
 	blocker = yes # Counts as blockers
+	# This is used in vanilla to distinguish certain clearance costs (e.g., for leader traits or country modifiers) and TBM mostly respects this. TBM features that are natural are usually set to deposit_cat_blockers_natural; feaqtures that reflect local conditions (but can be cleared) usually go here.
 }
 
-deposit_cat_blockers_natural = {	# Currently unused in TBM but needed for certain vanilla 
+deposit_cat_blockers_natural = {
 	blocker = yes # Counts as blockers
+	# All natural features go here so vanilla checks for certain events, costs, and scripts (such as Park Rangers) work properly. Where TBM adds new landscape features, they get this category.
+}
+
+deposit_cat_artificial = {
+	# This category is used by TBM to designate features that are created either by player actions or as a result of local conditions and which DO NOT need to be cleared for ecus.
 }
 
 deposit_cat_rare_resource = {	# Needed for some vanilla event features, not used by TBM.
 	important = yes	# Shows up as rare deposits in planetview
 }
-
-
 
 deposit_cat_food_rare = {
 	blocker = yes
@@ -48,10 +52,6 @@ deposit_cat_rare_blocker = {
 
 # This is only blockers that don't have to be cleared for ecus.
 deposit_cat_gaia = {	
-}
-
-deposit_cat_artificial = {
-	blocker = yes
 }
 
 deposit_category_final = {

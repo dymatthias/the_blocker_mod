@@ -10,7 +10,6 @@ message_type = {
 	ping = "ping_notification_yellow"
 }
 
-
 message_type = {
 	key = "SUDDEN_SINKHOLE"
 	icon = "TBM_message_bad_thing"
@@ -18,4 +17,40 @@ message_type = {
 	sound = alert_negative
 	auto_opens = none
 	ping = "ping_notification_yellow"
+}
+
+message_type = {
+	icon = "TBM_message_bad_thing"
+	key = "FLOODING_DAMAGE"
+	icon_frame = 1
+	sound = alert_negative
+	auto_opens = none
+	ping = "ping_notification_red"
+}
+
+message_type = {
+	icon = "TBM_message_bad_thing"
+	key = "DUSTBOWL_GENERATOR"
+	icon_frame = 1
+	sound = alert_negative
+	auto_opens = none
+	ping = "ping_notification_red"
+}
+
+message_type = {
+	icon = "TBM_message_bad_thing"
+	key = "MINE_SHAFT_COLLAPSE"
+	icon_frame = 1
+	sound = alert_negative
+	auto_opens = none
+	ping = "ping_notification_red"
+}
+
+message_type = {
+	icon = "TBM_message_bad_thing"
+	key = "LANDSLIDE"
+	icon_frame = 1
+	sound = alert_negative
+	auto_opens = none
+	ping = "ping_notification_red"
 }
