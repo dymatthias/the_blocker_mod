@@ -2,11 +2,24 @@
 
 ### General
 
+wild_world = {
+	icon = gfx/interface/icons/planet_modifiers/pm_tropical_planet.dds
+	icon_frame = 2
+	planet_max_districts_add = 2
+	job_colonist_add = 2
+	planet_colonist_unity_produces_add = 2
+	planet_researchers_physics_research_produces_mult = 0.2
+	planet_researchers_society_research_produces_mult = 0.2
+	planet_researchers_engineering_research_produces_mult = 0.2
+	planet_jobs_upkeep_mult = 0.05
+
+}
+
 pioneering_colonists = {
-	icon = gfx/interface/planet_modifiers/pm_victorious_army.dds
+	icon = gfx/interface/icons/planet_modifiers/pm_victorious_army.dds
 	icon_frame = 1
 	deposit_blockers_cost_mult = -0.2
-	planet_clear_blocker_speed_mult = 0.2
+	planet_clear_blocker_speed_mult = -02
 	job_colonist_add = 2
 	planet_colonist_produces_mult = 0.1
 }
@@ -84,76 +97,6 @@ mine_safety_standards = {
 	planet_miners_minerals_produces_mult = -0.1
 	planet_miners_unity_produces_add = 1
 	planet_miners_energy_upkeep_add = 1
-}
-
-### Homeworld Events
-
-# Post-Apoc Origin
-
-scavenger_wars = {
-	planet_miners_minerals_produces_mult = 0.25
-	planet_stability_add = -10
-}
-
-scavenger_bounties = {
-	planet_miners_energy_upkeep_add = 1
-}
-
-# Post-Apoc Origin - Food Reserves Run Out
-
-beacon_of_hope = {
-	planet_farmers_food_produces_add = 1
-	planet_immigration_pull_add = 100
-	pop_growth_from_immigration = 0.25
-}
-
-starvation_state = {
-	planet_emigration_push_add = 1000
-	biological_pop_happiness = -0.5
-	BIOLOGICAL_pop_growth_speed = -0.75
-}
-
-convenient_scapegoats = {
-	biological_pop_happiness = 0.25
-	job_criminal_add = 4
-}
-
-nutritious_cockroaches = {
-	BIOLOGICAL_pop_growth_speed = 0.25
-	biological_pop_happiness = -0.25
-}
-
-council_cannibalism = {
-	pop_cat_ruler_happiness = -0.8
-	pop_cat_worker_happiness = 0.8
-}
-
-autocannibalistic_hive = {
-	country_unity_produces_mult = 0.10
-	country_food_produces_mult = 0.20
-	country_edict_fund_add = -50
-}
-
-starting_anew = {
-	planet_immigration_pull_add = 250
-	biological_pop_happiness = 0.25
-}
-
-colonial_bounty = {
-	planet_jobs_unity_produces_mult = 0.20
-	pop_government_ethic_attraction = 0.25
-}
-
-colonial_tithes = {
-	pop_cat_worker_happiness = -0.25
-}
-
-eased_tithes = {
-	pop_cat_worker_happiness = 0.10
-}
-
-failing_food_replicator = {
-	planet_farmers_food_produces_add = -2
 }
 
 

@@ -1,5 +1,15 @@
 # ### THe Blocker Mod - Scripted Effects
 
+is_ecu = {
+	OR = {
+		is_planet_class = pc_city
+		is_planet_class = pc_machine
+		is_planet_class = pc_hive
+		
+		# PD Compat
+	}
+}
+
 
 # Should usually be hidden.
 add_from_barren = {
@@ -38,95 +48,247 @@ add_from_barren = {
 }
 
 
-# remove_random_district = {
+remove_city_if_poss_and_other_if_not_regular = {
+	if = {
+		limit = {
+			num_districts = {
+				type = district_city
+				value < 0
+			}
+			remove_district = district_city
+		}
+	}
+	else_if = {
+		limit = {
+			is_ecu = yes
+		}
+		remove_last_built_building = yes
+		if = {
+			limit = {
+				num_districts = {
+					type = any
+					value = 0
+				}
+			}
+			add_planet_devastation = 25
+		}
+	}
+	else_if = {
+		limit = {
+			num_districts = {
+				type = district_industrial
+				value < 0
+			}
+		}
+		remove_district = district_industrial
+	}
+	else_if = {
+		limit = {
+			num_districts = {
+				type = any
+				value < 0
+			}
+		}
+		remove_last_built_building = yes
+	}
+	else = {
+		add_planet_devastation = 20
+	}
+}
+
+
+remove_random_district = {
 	
-# 	# Compatibility failsafe for Planetary Diversity
-# 	# Reverst to removing last-built district.
-# 	if = {
-# 		limit = {
-# 			has_global_flag = planetarydiversity
-# 		}
-# 		remove_last_built_district = yes
-# 	}
+	# Compatibility failsafe for Planetary Diversity
+	# Revert to removing last-built district.
+	if = {
+		limit = {
+			has_global_flag = planetarydiversity
+		}
+		remove_last_built_district = yes
+	}
 	
-# 	# Deal with ecus, usual
-# 	if = {
-# 		limit = {
-# 			is_planet_class = pc_city
-# 			owner = { 
-# 				is_gestalt = {
-# 					no
-# 				}
-# 			}
-# 		}
+	# Deal with ecus, usual
+	if = {
+		limit = {
+			is_planet_class = pc_city
+			owner = { 
+				is_regular_empire = yes
+			}
+		}
 		
-# 		### Ecumenopoleis Districtae
-# 		random_list = {
-# 			20 = {
-# 				remove_district = district_arcology_administrative
-# 			}
-# 			20 = {
-# 				remove_district = district_arcology_arms_industry
-# 			}
-# 			20 = {
-# 				remove_district = district_arcology_civilian_industry
-# 			}
-# 			20 = {
-# 				remove_district = district_arcology_housing
-# 			}
-# 			20 = {
-# 				remove_district = district_arcology_leisure
-# 			}
-# 		}
-# 	}
+		### Ecumenopoleis Districts
+		random_list = {
+			20 = {
+				remove_district = district_arcology_administrative
+			}
+			20 = {
+				remove_district = district_arcology_arms_industry
+			}
+			20 = {
+				remove_district = district_arcology_civilian_industry
+			}
+			20 = {
+				remove_district = district_arcology_housing
+			}
+			20 = {
+				remove_district = district_arcology_leisure
+			}
+		}
+	}
 
-# 	# Deal with ecus, usual
-# 	elseif = {
-# 		limit = {
-# 			is_planet_class = pc_city
-# 			owner = { 
-# 				is_gestalt = {
-# 					no
-# 				}
-# 			}
-# 		}
+	# Deal with ecus, hive
+	else_if = {
+		limit = {
+			is_planet_class = pc_city
+			owner = { 
+				is_hive_empire = yes
+			}
+		}
 		
-# 		### Ecumenopoleis Districtae
-# 		random_list = {
-# 			20 = {
-# 				remove_district = district_arcology_administrative
-# 			}
-# 			20 = {
-# 				remove_district = district_arcology_arms_industry
-# 			}
-# 			20 = {
-# 				remove_district = district_arcology_civilian_industry
-# 			}
-# 			20 = {
-# 				remove_district = district_arcology_housing
-# 			}
-# 			20 = {
-# 				remove_district = district_arcology_leisure
-# 			}
-# 		}
-# 	}
+		### Ecumenopoleis Districts - Hive
+		random_list = {
+			20 = {
+				remove_district = district_arcology_housing
+			}
+			20 = {
+				remove_district = district_arcology_arms_industry
+			}
+			20 = {
+				remove_district = district_arcology_administrative
+			}
+			20 = {
+				remove_district = district_arcology_leisure
+			}
+		}
+	}
+
+	# Deal with ecus - servitor
+	else_if = {
+		limit = {
+			owner = { 
+				has_valid_civic = civic_machine_servitor
+			}
+		}
+
+		random_list = {
+			20 = {
+				remove_district = district_arcology_housing
+			}
+			20 = {
+				remove_district = district_arcology_arms_industry
+			}
+			20 = {
+				remove_district = district_arcology_organic_housing
+			}
+			20 = {
+				remove_district = district_arcology_civilian_industry
+			}
+			20 = {
+				remove_district = district_arcology_leisure
+			}
+		}
+	}
 	
-# 	# Deal with ecus, machine
-# 	else_if = {
-# 		limit = {
-# 			is_planet_class = pc_city
-# 			owner = { 
-# 				is_machine_empire = {
-# 					yes
-# 				}
-# 			}
-# 		}
+	# Deal with ecus, machine
+	else_if = {
+		limit = {
+			is_planet_class = pc_city
+			owner = { 
+				is_machine_empire = yes
+			}
+		}
 
-# 		random_list = {
-# 			20 = {
-# 				remove_district = district_arcology_organic_housing
-# 			}
-# 		}
+		# Ecumenopolis Districts - Machine
+		random_list = {
+			20 = {
+				remove_district = district_arcology_housing
+			}
+			20 = {
+				remove_district = district_arcology_arms_industry
+			}
+			20 = {
+				remove_district = district_arcology_administrative
+			}
+			20 = {
+				remove_district = district_arcology_leisure
+			}
+		}
 
-# 	}
-# }
+	}
+
+	else = {
+		random_list = {
+			20 = {
+				remove_district = district_city
+			}
+			20 = {
+				remove_district = district_industrial
+			}
+			20 = {
+				remove_district = district_generator
+			}
+			20 = {
+				remove_district = district_mining
+			}
+			20 = {
+				remove_district = district_farming
+			}
+		}
+	}
+}
+
+climate_control_activate = {
+	this = {
+		save_global_event_target_as = melted_deposit
+	}
+	random_list = {
+		50 = {
+			modifier = {
+				factor = 0.5
+				owner = { has_technology = tech_terrestrial_sculpting }
+			}
+			modifier = {
+				factor = 0.5
+				owner = { has_technology = tech_ecological_adaptation }
+			}
+			modifier = {
+				factor = 0
+				owner = { has_ascension_perk = ap_mastery_of_nature }
+			}
+			planet_event = {
+				id = tbm.30
+				days = 1
+			}
+		}
+		50 = {}
+	}
+}
+
+melt_something = {
+	if = {
+		limit = {
+			event_target:melted_deposit = {
+				is_deposit_type = d_massive_glacier
+			}
+		}
+		add_deposit = d_glacier_lake
+	}
+
+	else_if = {
+		limit = {
+			event_target:melted_deposit = {
+				is_deposit_type = d_frozen_wasteland
+			}
+		}
+		add_deposit = d_rough_plains
+	}
+
+	else = {
+		add_deposit = d_rough_plains
+	}
+
+
+
+	clear_global_event_target = melted_deposit
+}

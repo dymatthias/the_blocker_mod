@@ -361,3 +361,77 @@ defined_text = {
 		localization_key = tbm_sunset_dependent_plural	# Unary sun sets
 	}
 }
+
+defined_text = {
+	name = EruptionTerraforming
+	text = {
+		trigger = {
+			owner = {
+				has_technology = tech_terrestrial_sculpting
+			}
+		}
+		localization_key = tbm_eruption_has_terraforming
+	}
+	text = {
+		trigger = {
+			NOT = {
+				owner = {
+					has_technology = tech_terrestrial_sculpting
+				}
+			}
+		}
+		localization_key = tbm_eruption_no_terraforming
+	}
+}
+
+defined_text = {
+	name = sinkhole_destruction
+	text = {
+		trigger = {
+			from = {
+				num_free_districts = {
+					type = any
+					value < 1
+				}
+			}
+		}
+		localization_key = tbm_infrastructure_destroyed
+	}
+}
+
+defined_text = {
+	name = carbon_economy
+	text = {
+		trigger = {
+			from = {
+				check_variable = {
+					which = @carbon_economy
+					value = 1
+				}
+			}
+		}
+		localization_key = tbm_carbon_coal
+	}
+	text = {
+		trigger = {
+			from = {
+				check_variable = {
+					which = @carbon_economy
+					value = 2
+				}
+			}
+		}
+		localization_key = tbm_carbon_oil
+	}
+	text = {
+		trigger = {
+			from = {
+				check_variable = {
+					which = @carbon_economy
+					value = 3
+				}
+			}
+		}
+		localization_key = tbm_carbon_gas
+	}
+}

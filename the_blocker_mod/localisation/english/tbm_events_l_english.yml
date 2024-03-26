@@ -38,15 +38,19 @@
  tbm.8.desc:0 "REPLACE_ME"
  tbm.8.a:0 "REPLACE_ME"
  tbm.9.a:0 "REPLACE_ME"
- tbm.11.name:0 "REPLACE_ME"
- tbm.11.desc:0 "REPLACE_ME"
- tbm.11.a:0 "REPLACE_ME"
- tbm.11.b:0 "REPLACE_ME"
- tbm.12.name:0 "REPLACE_ME"
- tbm.12.desc:0 "REPLACE_ME"
- tbm.12.a:0 "REPLACE_ME"
- tbm.13.name:0 "REPLACE_ME"
- tbm.13.desc:0 "REPLACE_ME"
+
+ # 11. Volcanic Eruption
+ tbm.11.name:0 "Volcanic Eruption"
+ tbm.11.desc:0 "Settling on [planet.GetName] was always a risk. Several towering volcanoes smoulder over our settlements and a sudden volcanic eruption not far from a major population centre has disrupted [planet.GetPlanetMoon]side activity. All non-essential personnel have been forced to evacuate to a safe area and supplies will need to be shipped in from off-world as ash clouds cover large portions of the [planet.GetPlanetMoon]'s main continent.\n\nMost activity on the world will be delayed until the eruption is over."
+ tbm.11.a:0 "The colony will pull through."
+ tbm.11.b:0 "Ensure the refugees are provided for."
+
+ tbm.12.name:0 "Volcanic Instability - Warning Signs"
+ tbm.12.desc:0 "A [owner.GetScientist] known for alarmist seismological theories has come forward with a worrying report about the £blocker£§YActive Volcano§! on [planet.GetName]. Our understanding of the exact seismology of alien planets has advanced considerably with our research into §CDeep Crust Engineering§!, and indeed our §CHead of Research§! [head_of_research.GetName] has acknowledged there may be cause for concern."
+ tbm.12.a:0 "Evacuate all non-essential colonists."
+
+ tbm.13.name:0 "Volcanic Ash Chokes Atmosphere"
+ tbm.13.desc:0 "A massive amount of ash from the eruption of the £blocker§YActive Volcano§! on [planet.GetName] has spewed into the atmosphere and is expected to linger for several years. It is already causing significant climate alteration and ecological collapse across the [planet.GetMoon].\n\n[EruptionTerraforming]"
 
  # Xenofauna Attacks Settlement
  tbm.17.name:0 "Xenofauna Attacks Settlement"
@@ -123,28 +127,32 @@
  tbm.52.weapons:0 "Our fleets will benefit from this new technology."
  tbm.52.breakfast:0 "This will save on food costs across all our colonies!"
 
- tbm.54.title:0 "REPLACE_ME"
- tbm.54.escapes:0 "REPLACE_ME"
- tbm.54.eaten:0 "REPLACE_ME"
- tbm.54.name:0 "REPLACE_ME"
- tbm.54.worse:0 "REPLACE_ME"
- tbm.55.name:0 "REPLACE_ME"
- tbm.55.desc:0 "REPLACE_ME"
- tbm.55.a:0 "REPLACE_ME"
- tbm.55.strike:0 "REPLACE_ME"
- tbm.56.name:0 "REPLACE_ME"
- tbm.56.desc:0 "REPLACE_ME"
- tbm.57.name:0 "REPLACE_ME"
- tbm.57.begin:0 "REPLACE_ME"
- tbm.57.zro:0 "REPLACE_ME"
- tbm.57.psionic:0 "REPLACE_ME"
- tbm.57.end:0 "REPLACE_ME"
- tbm.57.fix:0 "REPLACE_ME"
- tbm.57.study:0 "REPLACE_ME"
- tbm.57.c:0 "REPLACE_ME"
- tbm.57.nozro:0 "REPLACE_ME"
- tbm.58.name:0 "REPLACE_ME"
- tbm.58.desc:0 "REPLACE_ME"
+ tbm.54.title:0 "Fish Attack!"
+ tbm.54.escapes:0 "Our miners on [planet.GetName] have been making regular trips to the §Y£blocker£Submerged Ore Veins§! to prospect and extract the valuable £r_minerals£ hidden beneath the [GetPlanetMoon]'s oceans. On their way to the depths, these vessels dive through seabeds and trenches filled with all manner of alien fish.\n\nWhile carrying a load of £r_minerals£ back to the surface, a particularly large xenofish attacked one submersible, causing a critical power failure and pressure breach.\n\nThe crew were able to escape but a particularly valuable payload is now a seafood supper."
+ tbm.54.eaten:0 "Our miners on [planet.GetName] have been making regular trips to the §Y£blocker£Submerged Ore Veins§! to prospect and extract the valuable £r_minerals£ hidden beneath the [GetPlanetMoon]'s oceans. On their way to the depths, these vessels dive through seabeds and trenches filled with all manner of alien fish.\n\nWhile carrying a load of £r_minerals£ back to the surface, a particularly large xenofish attacked one submersible, causing a critical power failure and pressure breach.\n\nIt's not a job for the faint of heart. The ore-hauling submersible tankers are slow and maneuver poorly in the extreme depths where the deposits are located. The massive pressure differences mean any breach is instantly fatal, and there is worse still lurking in the dark....\n\nTerrified [owner_main_species.GetPlural] tell of a phantom fish, an alien monstrosity of the deep that preys on our submarines. Another ore shipment is late and miners on the docksides fear the worst."
+ tbm.54.name:0 "Unfortunate."
+ tbm.54.worse:0 "There are worse things still...."
+
+ tbm.55.name:0 "Fish Attacks Continue"
+ tbm.55.desc:0 "More and more alien fish on [planet.GetName] are following our mining submersibles to the §Y£blocker£Submerged Ore Veins§! on the [GetPlanetMoon]. Sometimes they merely congregate around the vessel's lights. But sometimes, they try to steal the £r_mionerals£, even displaying signs of limited pack intelligence in their attacks.\n\nLocal authorities briefly and unsuccessfully tried arming the submarines, but the sheer number of xenofish has become unmanageable, and they risk impeding mining operations entirely unless something is done. The miners have petitioned for a scientific inquiry."
+ tbm.55.a:0 "Send one of our xenobiology teams."
+ tbm.55.strike:0 "Ignore them. Miners mine, no matter the fish."
+
+ tbm.56.name:0 "Bigger Fish Attack"
+ tbm.56.desc:0 "While navigating a particularly animated shoal of xenofish on [planet.GetName], a logistics vessel was witness to a truly terrifying marvel: an even more massive, teeth-filled, and tendentious fish feasting on the local shoals.\n\nSailors were spilled over the sides and many were lost, presumed consumed in the thrashing blood-filled water when the beast attacked. As soon as it had come, the great monster disappeared back down into the murky depths.\n\nGrainy vid-feeds are already flying around local news and several extreme thrill-seekers have landed hoping to sight -- or kill -- the monster, which is said to be the size of a small settlement and live near the §Y£blocker£Submerged Ore Veins§!\n\nSo far, none have returned."
+
+ tbm.57.name:0 "Xenofish Attraction"
+ tbm.57.begin:0 "In an interview with local news channel, [leader.GetName] confessed [leader.GetSheHe]'d never contemplated anything like it: the hordes of alien fish on [planet.GetName] appear to have a telekinetic relationship with the ore mined in the [planet.GetPlanetMoon]'s' §Y£blocker£Submerged Ore Veins§!, or rather, a particular seam running through the broader vein.\n\nWhen sampled and purified, this ore behaved like nothing previously encountered. In solid form, it is particulate and easily inhaled -- though doing so typically produces hallucinations in [owner.GetSpeciesPlural]. It seems that, when ingested by the xenofish, they gain limited hive-like telepathy -- and a strong addiction to the substance, causing them to attack any of our submersibles that comes into contact with it.\n\nNow that prospectors have identified the £r_zro£ seams, it should be possible to avoid mining them -- and avoid attracting the wrong sort of attention."
+ tbm.57.zro:0 "In an interview with local news channel, [leader.GetName] confessed [leader.GetSheHe]'d never contemplated anything like it: the hordes of alien fish on [planet.GetName] appear to have a telekinetic relationship with the ore mined in the [planet.GetPlanetMoon]'s' §Y£blocker£Submerged Ore Veins§!, or rather, a particular seam running through the broader vein.\n\nWhen sampled and purified, this ore behaved like nothing previously encountered. In solid form, it is particulate and easily inhaled -- though doing so typically produces hallucinations in [owner.GetSpeciesPlural]. It seems that, when ingested by the xenofish, they gain limited hive-like telepathy -- and a strong addiction to the substance, causing them to attack any of our submersibles that comes into contact with it.\n\nNow that prospectors have identified the £r_zro£ seams, it should be possible to avoid mining them -- and avoid attracting the wrong sort of attention."
+ tbm.57.psionic:0 "In an interview with local news channel, [leader.GetName] confessed [leader.GetSheHe]'d never contemplated anything like it: the hordes of alien fish on [planet.GetName] appear to have a telekinetic relationship with the ore mined in the [planet.GetPlanetMoon]'s' §Y£blocker£Submerged Ore Veins§!, or rather, a particular seam running through the broader vein.\n\nWhen sampled and purified on [owner.capital_scope.GetName], the ore veins in the §Y£blocker£Submerged Ore Veins§! on [planet.GetName] were confirmed to contain a derivative of £r_zro£. While this will prove very lucraive for the local economy, it also seems that, when ingested by the xenofish, they gain limited hive-like telepathy -- and a strong addiction to the substance, causing them to attack any of our submersibles that comes into contact with it.\n\n[leader.GetName] has devised a means of disguising our submersibles to avoid the xenofish, but the technology involved is military-grade and procurement may be costly. Alternatively, now that prospectors have identified the £r_zro£ seams, it should be possible to avoid mining it--and avoid attracting the wrong sort of attention."
+ tbm.57.fix:0 "We need our fix, fish be damned!"
+ tbm.57.study:0 "Study the seam, no matter the fish!"
+ tbm.57.c:0 "Make sure the seam is sealed off."
+ tbm.57.nozro:0 "The £r_zro£ seam will be sealed off, harmless but forever inaccessible."
+
+ tbm.58.name:0 "Xenofish Specialist Eaten by Fish"
+ tbm.58.desc:0 "The investigation of the strangely aggressive alien fish on [planet.GetName] failed spectacularly when [leader.GetName] ventured too close to a xenofish only to discover a much bigger fish stalking the bed from the depths beyond the ocean shelf.\n\nThis fish ate [leader.GetName]'s submersible and now no one wants anything to do with the fish on the [planet.GetPlanetMoon], not even to know how or why they're so ill-tempered. Mining operations have come to a standstill while local officials promise anything and everything that has a chance of getting rid of the fish.\n\nSeveral expensive seafood restaurants have already relocated to the [planet.GetPlanetMoon] hoping to take advantage of the feeding frenzy."
+
  tbm.62.name:0 "REPLACE_ME"
  tbm.62.desc:0 "REPLACE_ME"
  tbm.62.a:0 "REPLACE_ME"
@@ -171,24 +179,44 @@
  tbm.80.fascinating:0 "REPLACE_ME"
  tbm.80.miracle:0 "REPLACE_ME"
  tbm.80.tooltip:0 "REPLACE_ME"
- tbm.81.name:0 "REPLACE_ME"
+ tbm.81.name:0 "Sudden Sinkhole"
  tbm.81.desc:0 "REPLACE_ME"
  tbm.82.name:0 "REPLACE_ME"
- tbm.82.desc:0 "REPLACE_ME"
- tbm.82.investigate:0 "REPLACE_ME"
- tbm.82.clear:0 "REPLACE_ME"
- tbm.83.name:0 "REPLACE_ME"
- tbm.83.desc:0 "REPLACE_ME"
- tbm.83.safe:0 "REPLACE_ME"
- tbm.83.cruises:0 "REPLACE_ME"
- tbm.83.sinkholes:0 "REPLACE_ME"
- tbm.84.name:0 "REPLACE_ME"
- tbm.84.desc:0 "REPLACE_ME"
- tbm.86.name:0 "REPLACE_ME"
- tbm.86.desc:0 "REPLACE_ME"
- tbm.86.wonderful:0 "REPLACE_ME"
- tbm.88.name:0 "REPLACE_ME"
- tbm.88.desc:0 "REPLACE_ME"
+
+ # 82. Sinkhole Causes
+
+ tbm.82.name:0 "Sinkhole Causes"
+ tbm.82.desc:0 "Another Deep Sinkhole has opened up on [planet.GetName], taking another settlement with it.\n\nThe rapid reappearance of §Y£blocker£Deep Sinkholes across [planet.GetName] suggests we don't yet know everything there is to know about the [planet.GetPlanetMoon]'s geology.\n\nHowever, the recent discovery of yet another sinkhole has offered some insight into what is causing the collapses: a large subterranean river system runs several kilometres beneath the surface of the largest landmass If we could map the river system using a combination of orbital sensors and surveying teams on the ground, it might be possible to determine what causes the changes in soil density that keep engulfing our settlements, but such a project will take time and organization."
+ tbm.82.investigate:0 "Investigate the waterways."
+ tbm.82.clear:0 "Just fill it in again."
+
+ tbm.83.name:0 "Caverns Beneath"
+ tbm.83.desc:0 "Excavation and a pleasant-enough cruise on the subterranean river system beneath [planet.GetName] has revealed a much larger network of tunnels and caverns causing the sinkholes to appear.\n\nIt should be possible, with some precise distribution of pumping stations, to control the formation of new sinkholes to avoid larger population centers. Alternatively, local administrators have suggested regular subterranean river cruises might make an interesting tourist trap."
+ tbm.83.desc_gestalt:0 "Excavation of the subterranean river system beneath [planet.GetName] has revealed a much larger network of tunnels and caverns causing the sinkholes to appear.\n\nIt should now be possible, with some precise distribution of pumping stations, to control the formation of new sinkholes to avoid larger population cneters."
+ tbm.83.safe:0 "Ensure our settlements remain safe."
+ tbm.83.cruises:0 "River cruises sound very good for business."
+ tbm.83.sinkholes:0 "Many a pleasant afternoon can be spent aboard, but the odd §Y£blocker£Deep Sinkhole§! may still appear."
+
+ # 84. Vicious Sandstorm
+ tbm.85.name:0 "Vicious Sandstorm"
+ tbm.85.desc:0 "A wild sandstorm brewing for several days has rolled in over a major city on [planet.GetName]. The alien sands, made up of larger and harder particulates than those on our homeworld, seem innocent enough at a distance, but whipped up by high summer winds they can rip through plasteel beams and decimate energy grids, causing destruction and damage to the [planet.GetPlanetMoon]'s infrastructure."
+
+ # Struck the Motherlode
+ tbm.87.name:0 "Struck the Motherlode"
+ tbm.87.desc:0 "Miners on [planet.GetName] have reported the discovery of a massive seam of gold, platinum, and other heavy metals deep beneath [mineral_seam.GetName]. The exact scale and composition of the find is not yet entirely known, but prospectors and engineers from all over [owner.GetAdj] space are flocking to [planet.GetName]'s mining districts to cash in."
+ 
+ # 88. False Prospects
+ tbm.88.name:0 "False Prospects"
+ tbm.88.desc:0 "During development of mining operations on [planet.GetName], prospectors made a startling and disappointing discovery: a mineral seam previously thought to be rich in heavy metals and other elements essential to construction and alloy production was revealed to be riddled with impurities and instabilities, making any attempt to mine the region both dangerous and cost-ineffective.\n\nNot all is lost, however! The prospecting boom brought many new faces to [planet.GetName], some of whom have chosen to stay and contribute to colonial development in other ways. And trade through the [planet.GetPlanetMoon]'s spaceport has been brisk for the past several months."
+ text = tbm.88.desc_gestalt:0 "During development of mining operations on [planet.GetName], drones analyzing survey data made a disappointing discovery: a mineral seam previously though tto be rich in heavy metals and other elements essential to construction and alloy production was revealed to be riddled with impurities and instabilitiers, making any attempt to mine the region both dangerous and cost-ineffective.\n\nNow all is lost, however, as the preparatory development on the planet can be efficiently repurposed into colonial infrastructure and drone housing, allowing for a larger-than-normal cycle of drone production."
+
+ # 90. Mine Shaft Collapse
+ tbm.90_name:0 "Mine Shaft Collapse"
+ tbm.90_desc_robotic_deaths:0 ""A mine shaft at the §Y£blcoker£[collapsed_mine]§! on [planet.GetName] has collapsed, trapping several mining units inside. Fortunately, there has been no loss of life, but the mining units will have to be replaced."
+ tbm.90_desc_miner_deaths:0 ""A mine shaft at the §Y£blcoker£[collapsed_mine]§! on [planet.GetName] has collapsed, trapping several miners inside. Local miners' cooperatives are outraged at what they perceive as lax safety standards and a poorly-coordinated rescue effort, and have announced a strike until conditions improve."
+ tbm.90_desc_no_deaths:0 ""A mine shaft at the §Y£blcoker£[collapsed_mine]§! on [planet.GetName] has collapsed. Fortunately, there has been no loss of life, but the mine has been destroyed.""
+
+
  tbm.90.name:0 "REPLACE_ME"
  tbm.90.desc.gestalt:0 "REPLACE_ME"
  tbm.90.desc.outlawed:0 "REPLACE_ME"
@@ -205,3 +233,51 @@
  tbm.90.safetyfirst:0 "REPLACE_ME"
  tbm.90.tragedy:0 "REPLACE_ME"
  tbm.90.tooltip.nothingelse:0 "REPLACE_ME"
+
+
+ # 300. New Prospects
+ tbm.300_title:0 "New Prospects"
+ tbm.300_desc:0 "Prospectors on §Y[planet.GetName]§! have discovered a new mineral seam previously undetected on orbital surveys.\n\nPartially for this reason, the new deposit is located well away from previously developed population centers. Enterprising mining concerns on [owner_main_species.GetHomeworldName] are offering to develop it in exchange for tax breaks and public handouts.\n\nIt bears noting, however, that the region in which the seam was discovered is one of particular natural beauty and exploiting it would ruin a perfectly nice view."
+ tbm.300.mining:0 "Excellent -- we need those minerals!"
+ tbm.300.sell:0 "Sell the mine to the highest bidder."
+ tbm.300.tooltip:0 "The mine will provide some tax revenue, but could also be a heavy polluter."
+ tbm.300.preserve_landscape:0 "Protect the sanctity of the land."
+ tbm.300.preserve_landscape_tooltip:0 "A £d_nature_preserve£ will be established to protect the region, but the mineral seam will be forever inaccessible."
+
+ # 302. Fossil Fuel Discovery
+ tbm.302_name:0 "Fossil Fuel Discovery on §Y[planet.GetName]§!"
+ tbm.302_desc_coal:0 "When we colonized [planet.GetName], the [planet.GetPlanetMoon] was pristine, untouched since the galaxy's formation. As a result, it had developed, as all planets do, large deposits of carbon buried deep beneath its crust.\n\nThe processing of these fuels is outdated and inefficient, leading to their often being missed on orbital surveys. A particularly savvy group of geologists, sponsored by energy conglomerates on [owner.capital_scope.GetName], has announced their discovery of a massive new [tbm_carbon_coal].\n\nThough inefficient, the output could power a new £district£$district_generator$ and several cities.\n\nEnvironmental groups are steadfastly opposed to any reliance on such old-fashioned and carbon-intensive fuels, but something has to keep the lights on and the ships flying."
+ tbm.302_desc_coal_gestalt:0 "When we colonized [planet.GetName], the [planet.GetPlanetMoon] was pristine, untouched since the galaxy's formation. As a result, it had developed, as all planets do, large deposits of carbon buried deep beneath its crust.\n\nThe processing of these fuels is outdated and inefficient, leading to their often being missed on orbital surveys. A particularly astute group of drones has identified a massive new [tbm_carbon_coal] and a means to access it.\n\nAlthough the process isn't efficient, it will allow for the construction of new £district£$district_generator_plural$ that can provide much-needed energy for growth and security."
+ tbm.302_desc_oil:0 "When we colonized [planet.GetName], the [planet.GetPlanetMoon] was pristine, untouched since the galaxy's formation. As a result, it had developed, as all planets do, large deposits of carbon buried deep beneath its crust.\n\nThe processing of these fuels is outdated and inefficient, leading to their often being missed on orbital surveys. A particularly savvy group of geologists, sponsored by energy conglomerates on [owner.capital_scope.GetName], has announced their discovery of a massive new [tbm_carbon_oil].\n\nThough harvesting it will require a lot of space, the output could power a new £district£$district_generator$ and several cities.\n\nEnvironmental groups are steadfastly opposed to any reliance on such old-fashioned and carbon-intensive fuels, but something has to keep the lights on and the ships flying."
+ tbm.302_desc_oil_gestalt:0 "When we colonized [planet.GetName], the [planet.GetPlanetMoon] was pristine, untouched since the galaxy's formation. As a result, it had developed, as all planets do, large deposits of carbon buried deep beneath its crust.\n\nThe processing of these fuels is outdated and inefficient, leading to their often being missed on orbital surveys. A particularly astute group of drones has identified a massive new [tbm_carbon_oil] and a means to access it.\n\nAlthough harvesting it will require a lot of space, it will allow for the construction of new £district£$district_generator_plural$ that can provide much-needed energy for growth and security."
+ tbm.302_desc_gas:0 "When we colonized [planet.GetName], the [planet.GetPlanetMoon] was pristine, untouched since the galaxy's formation. As a result, it had developed, as all planets do, large deposits of carbon buried deep beneath its crust.\n\nThe processing of these fuels is outdated and inefficient, leading to their often being missed on orbital surveys. A particularly savvy group of geologists, sponsored by energy conglomerates on [owner.capital_scope.GetName], has announced their discovery of a massive new [tbm_carbon_gas].\n\nThough accessing it will be costly, the output could power a new £district£$district_generator$ and several cities.\n\nEnvironmental groups are steadfastly opposed to any reliance on such old-fashioned and carbon-intensive fuels, but something has to keep the lights on and the ships flying."
+ tbm.302_desc_gas_gestalt:0 "When we colonized [planet.GetName], the [planet.GetPlanetMoon] was pristine, untouched since the galaxy's formation. As a result, it had developed, as all planets do, large deposits of carbon buried deep beneath its crust.\n\nThe processing of these fuels is outdated and inefficient, leading to their often being missed on orbital surveys. A particularly astute group of drones has identified a massive new [tbm_carbon_gas] and a means to access it.\n\nAlthough maintaining access will be costly, it will allow for the construction of new £district£$district_generator_plural$ that can provide much-needed energy for growth and security."
+ tbm.302_explot:0 "A valuable find."
+ tbm.302_sell:0 "Sell the energy rights and avoid any risk."
+ tbm.302_forbidden:0 "Oppose any new carbon-based development."
+
+
+ ### Reactor Events (boom!)
+
+ # 311. Fusion Reactor Goes Critical
+ tbm.311_name:0 "§Y[planet.GetName]§!: Fusion Reactor Goes Critical"
+ tbm.311_desc:0 "In the middle of the night on [planet.GetName], alarms at the §Y[reactor.GetName]§! were quickly followed by a scrambled attempt to evacuate first the facility and then the area  surrounding the soon-to-be-inevitable blast site.\n\nBefore anyone could escape, the reactor housing was breached and immolated the entire city in the light of several suns before extinguishing itself but a few milliseconds later.\n\nThe damage is extensive. The immediate region has been levelled, and millions are dead. Soon, surveyors and search parties equipped with radiation suits will be able to catalogue the full extent and begin repairs."
+ #tbm.311_desc_gestalt:0 "REPLACE_ME"
+
+ # 312. Cold Fusion Leak
+ tbm.312_name:0 "§Y[planet.GetName]§!: Cold Fusion Leak"
+ tbm.312_desc:0 "The vast §Y[reactor.GetName]§! of [planet.GetName[, previously thought impregnable, have turned out not to be. Nobody is quite sure how long radioactive waste has been leaking into the surrounding watershed, but it seems to have been happening for a while.\n\nThe breach has become so large that it can no longer be safely contained, leaving the surrounding region uninhabitable for at least a generation as previously gentle rivers and lakes boil away in a plume of superheated effluent.\n\nNeedless to say, the reactor itself is gone. Soon, safety inspectors will make a ruling on exactly how far downstream the damage extends. Nobody is expecting good news."
+ tbm.312_desc_gestalt:0 "The vast §Y[reactor.GetName]§! of [planet.GetName[, previously thought impregnable, have turned out not to be. Analysts aren't sure how long radioactive waste has been leaking into the surrounding watershed, but it seems to have been happening for a while.\n\nThe breach has become so large that it can no longer be safely contained, leaving the surrounding region uninhabitable for several generations as previously gentle rivers and lakes boil away in a plume of superheated effluent.\n\nNeedless to say, the reactor itself is gone. Soon, a ruling can be made on exactly how far downstream the damage extends, but such a study is unlikely to bring good news.""
+
+ # 313. Antimatter Core Breach
+ tbm.313_name:0 "§Y[planet.GetName]§!: Antimatter Core Breach"
+ tbm.313_desc:0 "For years, our colonies have been powered by quiet, safe antimatter power, with the inherently unstable reacion secreted away behind several feet of plasteel and insulating fields. A breach was a purely theoretical occurrence used mostly to frighten first-year physics students with the specter of especially onerous safety protocols.\n\nAfter all, the sheer scale of destruction involved in an antimatter explosion doesn't bear a practical approach. Now, however, several continents have been practically eradicated by the mere shockwaves of the explosion at the §Y[reactor.GetName]§!. Moreover, the blast has sent unstable antimatter into low orbit, and pilots as far out as the system's hyperlane entry are complaining about dangerous readings. Neither can any ship get close enough to contain these rogue particles, and thanks to the inherent efficiency of antimatter, it may be decades before the reactions burn out and weeks before the aftershocks subside and more practical safety protocols developed."
+ tbm.313_desc_gestalt:0 "For years, our growth has been powered by quiet, safe antimatter power, with the inherently unstable reacion secreted away behind several feet of plasteel and insulating fields. A breach was a purely theoretical occurrence, studied aimlessly for the development of extraneous safety prototcols.\n\nAfter all, the sheer scale of destruction involved in an antimatter explosion doesn't bear a practical approach. Now, however, several continents have been practically eradicated by the mere shockwaves of the explosion at the §Y[reactor.GetName]§!. Moreover, the blast has sent unstable antimatter into low orbit, and no ship can get close enough to contain these rogue particles. Thanks to the inherent efficiency of antimatter, it may be decades before the reactions burn out and weeks before the aftershocks subside and more practical safety protocols can be developed."
+
+ # 314. Reactor Warning Signs
+ tbm.314_name:0 "Antimatter Aftereffects Subside"
+ tbm.314_desc:0 "Although it may be years before [owner.GetScientistPlural] understand the full extent of the damage caused to subspace by the antimatter explosion, such questions are at last academic, and vessels can once again safely traverse the system without delays or detours.\n\nThe [owner.GetName] has been dealt a significant reminder about the dangers of the technology that makes fast space travel possible."
+ tbm.314_tooltip:0 "The turbulence affecting [this.GetName] and its surrounding subspace should now subside."
+ tbm.315_name:0 "§Y[planet.GetName]§!: [reactor.GetName] Warning Signs"
+ tbm.315_desc:0 "Previously thought to be a pinnacle in clean and safe energy generation, frantic £job_technician_plural£ on [planet.GetName] have been scrambling to explain unexpected energy spikes and stability dips at the [planet.GetPlanetMoon]'s §Y[reactor.GetName]§!.\n\nAfter a hasty evacuation, specialists at the complex were able to get the reactor under control. Though life has returned to normal, those not complaining about an overabundance of caution are concerned what might happen should the §Y[reactor.GetName]§! experience further problems."
+ tbm.315_desc_gestalt:0 "Previously thought to be a pinnacle in clean and safe energy generation, frantic £job_maintenance_drone_plural£ on [planet.GetName] have been scrambling to correct unexpected energy spikes and stability dips at the [planet.GetPlanetMoon]'s §Y[reactor.GetName]§!.\n\nAfter a hasty evacuation, specialist units at the complex were able to get the reactor under control. The overabundance of caution has strained administrative resources, but is likely still preferable to the possibility of further problems."
